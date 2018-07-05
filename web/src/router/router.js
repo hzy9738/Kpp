@@ -136,11 +136,11 @@ export const appRouter = [
         component: Main,
         children: [
             {
-                path: 'kown',
+                path: 'enter',
                 icon: 'compose',
-                name: 'kown-content',
+                name: 'enter-content',
                 title: '知识点内容管理',
-                component: () => import('@/views/category/control/kown.vue')
+                component: () => import('@/views/content/enter/index.vue')
             },
         ]
     },
