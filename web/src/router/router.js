@@ -108,23 +108,17 @@ export const appRouter = [
         path: '/control',
         icon: 'social-buffer',
         name: 'type',
-        title: '类型和来源',
+        title: '类型',
         component: Main,
         children: [
             {
                 path: 'type',
                 icon: 'compose',
                 name: 'kown-type',
-                title: '知识点类型管理',
+                title: '类型',
                 component: () => import('@/views/ketype/type/index.vue')
             },
-            {
-                path: 'source',
-                icon: 'compose',
-                name: 'kown-source',
-                title: '知识点来源管理',
-                component: () => import('@/views/ketype/source/index.vue')
-            },
+
         ]
     },
 
@@ -136,10 +130,17 @@ export const appRouter = [
         component: Main,
         children: [
             {
+                path: 'source',
+                icon: 'compose',
+                name: 'kown-source',
+                title: '来源',
+                component: () => import('@/views/ketype/source/index.vue')
+            },
+            {
                 path: 'enter',
                 icon: 'compose',
                 name: 'enter-content',
-                title: '知识点内容管理',
+                title: '内容',
                 component: () => import('@/views/content/enter/index.vue')
             },
         ]

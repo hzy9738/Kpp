@@ -12,22 +12,20 @@ namespace App\Http\Validate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class TitleValidate
+class StandardValidate
 {
     public static function validate($request)
     {
         //验证
         $validator = Validator::make($request->all(), [
-            'title' => 'required|unique:title|max:30',
-            'level' => 'required',
-            'standard' => 'required',
+            'name' => 'required|unique:standard|max:30',
+            'type' => 'required'
         ], [
             'required' => ':attribute为必填',
             'unique'=>':attribute已存在,不可重复'
         ], [
             'name' => '知识点来源',
-            'level' => '上级目录',
-            'standard' => '所属类型',
+            'type' => '知识类型',
         ]);
 
         if ($validator->fails()) {
@@ -52,17 +50,15 @@ class TitleValidate
             'name' => [
                 'required',
                 'max:30',
-                 Rule::unique('title')->ignore($request->id),
+                 Rule::unique('standard')->ignore($request->id),
             ],
-            'level' => 'required',
-            'standard' => 'required',
+            'type' => 'required'
         ], [
             'required' => ':attribute为必填',
             'unique'=>':attribute已存在,不可重复'
         ], [
             'name' => '知识点来源',
-            'level' => '上级目录',
-            'standard' => '所属类型',
+            'type' => '知识类型',
         ]);
 
         if ($validator->fails()) {

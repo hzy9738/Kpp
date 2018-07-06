@@ -10,9 +10,7 @@ class TitleController extends Controller
 {
     public function getLists()
     {
-        $data = validateData(
-            Title::orderBy('id','desc')->with('types')->paginate(10)
-        );
+        $data = Title::lists();
         return responseJson($data);
     }
 
@@ -37,6 +35,20 @@ class TitleController extends Controller
     public function deleteTitle(Title $title){
         $data = validateData(
             $title->delete()
+        );
+        return responseJson($data);
+    }
+
+    public function getContent(Title $title){
+        $data = validateData(
+            $title->load('detail')
+        );
+        return responseJson($data);
+    }
+
+    public function getTags(Title $title){
+        $data = validateData(
+            $title->load('tags')
         );
         return responseJson($data);
     }

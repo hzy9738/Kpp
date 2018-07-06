@@ -12,20 +12,20 @@ namespace App\Http\Validate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class TitleValidate
+class ContentValidate
 {
     public static function validate($request)
     {
         //验证
         $validator = Validator::make($request->all(), [
-            'title' => 'required|unique:title|max:30',
-            'level' => 'required',
-            'standard' => 'required',
+            'content' => 'required|unique:content|max:5000',
+            'category_id' => 'required',
+            'title_id' => 'required',
         ], [
             'required' => ':attribute为必填',
             'unique'=>':attribute已存在,不可重复'
         ], [
-            'name' => '知识点来源',
+            'content' => '章节内容',
             'level' => '上级目录',
             'standard' => '所属类型',
         ]);
@@ -49,10 +49,10 @@ class TitleValidate
     {
         //验证
         $validator = Validator::make($request->all(), [
-            'name' => [
+            'content' => [
                 'required',
-                'max:30',
-                 Rule::unique('title')->ignore($request->id),
+                'max:5000',
+                 Rule::unique('content')->ignore($request->id),
             ],
             'level' => 'required',
             'standard' => 'required',

@@ -3,22 +3,29 @@
 namespace App\Model;
 
 
+use App\Http\Validate\TitleValidate;
 use Illuminate\Support\Facades\Log;
+
 
 class Title extends Model
 {
     protected $table = 'title';
 
-    public function types()
-    {
-        return $this->belongsTo(Kptype::class, 'type_id', 'id');
+    public static function lists(){
+        $data = validateData(
+            self::orderBy('id')->where('pid',0)->with('children')->get()
+        );
+        return $data;
     }
 
-    public static function addTitle($request)
+
+    public static  function addTitle($request)
     {
         $data = [
-            'name' => $request->input('name'),
-            'type_id' => $request->input('type'),
+            'title' => $request->input('title'),
+            'pid' => $request->input('id'),
+            'level' => $request->input('level'),
+            'standard_id' => $request->input('standard'),
         ];
         $data = validateData(
             self::create($data)
@@ -26,19 +33,20 @@ class Title extends Model
         return $data;
     }
 
-    public static function updateTitle($request)
+    public function children()
     {
-        $data = [
-            'name' => $request->input('name'),
-            'type_id' => $request->input('type'),
-        ];
-        $model =  self::find(  $request->input('id') );
-
-        $data = validateData(
-            $model->update($data)
-        );
-
-        return $data;
+        return $this->hasMany(Title::class, 'pid', 'id')
+            ->with('children');
     }
 
+    public function detail()
+    {
+        return $this->belongsTo(Content::class,'id','title_id');
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class,'title_tag','tag_id','title_id');
+    }
 }
+

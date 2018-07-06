@@ -120,7 +120,7 @@
             addNode(name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        this.JAjax.postJson('titles/add', this.formData, (res) => {
+                        this.JAjax.postJson('standard/add', this.formData, (res) => {
                             if (res.code) {
                                 this.$Message.success('添加成功');
                                 this.afresh_list();
@@ -150,7 +150,7 @@
             updateNode(name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        this.JAjax.postJson('titles/update',this.formData, (res) => {
+                        this.JAjax.postJson('standard/update',this.formData, (res) => {
                             if (res.code) {
                                 this.$Message.success('修改成功');
                                 this.afresh_list();
@@ -187,7 +187,7 @@
                 let postdata = {};
                 postdata.page = this.page;
                 postdata.pageSize = this.pageSize;
-                this.JAjax.postJson('titles/lists', postdata, (res) => {
+                this.JAjax.postJson('standard/lists', postdata, (res) => {
                     this.dataList = res.data.data || [];
                     this.total = res.data.total;
                     this.pageSize = res.data.per_page;
