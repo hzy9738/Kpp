@@ -35,7 +35,7 @@ Route::prefix('kptypes')->group(function () {
 
 //规范名
 Route::prefix('standard')->group(function () {
-//    Route::any('/','KptypeController@getLists');
+    Route::any('/','StandardController@lists');
     Route::any('lists','StandardController@getLists');
     Route::post('add','StandardController@addStandard');
     Route::post('update','StandardController@updateStandard');
@@ -46,6 +46,7 @@ Route::prefix('standard')->group(function () {
 //章节
 Route::prefix('title')->group(function () {
 //    Route::any('/','KptypeController@getLists');
+    Route::any('create','TitleController@createTitle');
     Route::any('lists','TitleController@getLists');
     Route::post('add','TitleController@addTitle');
     Route::post('update','TitleController@updateTitle');
@@ -57,7 +58,7 @@ Route::prefix('title')->group(function () {
 
 
 
-//来源
+//分词
 Route::prefix('word')->group(function () {
 //    Route::any('/','KptypeController@getLists');
     Route::any('tags','WordController@getTags');
@@ -67,7 +68,7 @@ Route::prefix('word')->group(function () {
 //标签
 Route::prefix('content')->group(function () {
 //    Route::any('/','KptypeController@getLists');
-    Route::any('save','TagController@saveContent');
+    Route::any('save','ContentController@saveContent');
 
 });
 

@@ -8,9 +8,14 @@ use Illuminate\Http\Request;
 
 class TitleController extends Controller
 {
-    public function getLists()
+    public function createTitle(Request $request){
+        $data = Title::createTitle($request);
+        return responseJson($data);
+    }
+
+    public function getLists(Request $request)
     {
-        $data = Title::lists();
+        $data = Title::lists($request);
         return responseJson($data);
     }
 
@@ -33,10 +38,8 @@ class TitleController extends Controller
 
 
     public function deleteTitle(Title $title){
-        $data = validateData(
-            $title->delete()
-        );
-        return responseJson($data);
+        $result = Title::deleteTitle($title);
+        return responseJson($result);
     }
 
     public function getContent(Title $title){

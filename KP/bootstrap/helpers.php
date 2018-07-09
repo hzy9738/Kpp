@@ -24,3 +24,8 @@ function validateData($action)
         ];
     }
 }
+
+function ddJson($data){
+    return response()->json($data);
+}
+

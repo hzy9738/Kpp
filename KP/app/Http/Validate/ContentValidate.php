@@ -19,15 +19,16 @@ class ContentValidate
         //验证
         $validator = Validator::make($request->all(), [
             'content' => 'required|unique:content|max:5000',
-            'category_id' => 'required',
-            'title_id' => 'required',
+//            'category_id' => 'required',
+            'title' => 'required',
+            'tags'=>'required'
         ], [
             'required' => ':attribute为必填',
             'unique'=>':attribute已存在,不可重复'
         ], [
             'content' => '章节内容',
-            'level' => '上级目录',
-            'standard' => '所属类型',
+            'tags' => '标签',
+            'title' => '章节',
         ]);
 
         if ($validator->fails()) {

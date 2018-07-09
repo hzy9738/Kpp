@@ -101,6 +101,7 @@
                             props: Object.assign({}, this.buttonProps, {
                                 icon: 'ios-plus-empty',
                                 type: 'success',
+                                size: 'small'
                             }),
                             style: {
                                 marginRight: '8px'
@@ -116,6 +117,7 @@
                             props: Object.assign({}, this.buttonProps, {
                                 icon: 'ios-minus-empty',
                                 type: 'error',
+                                size: 'small',
                                 disabled: data.pid === 0 ? true : false
                             }),
                             style: {
@@ -132,6 +134,7 @@
                             props: Object.assign({}, this.buttonProps, {
                                 icon: 'arrow-right-a',
                                 type: 'info',
+                                size: 'small'
                             }),
                             style: {
                                 marginRight: '-20px'
@@ -146,9 +149,10 @@
                 ]);
             },
             append(data) {
-                if(this.styles[-1]){
+                if(this.styles[-1] && this.styles[-1] !== -1){
                     return
                 }
+                // console.log( this.styles)
                 this.$set(data, 'expand', 1)
                 this.children = data.children || {};
                 this.data = data
@@ -158,7 +162,8 @@
                     id: -1,
                     children: [],
                 });
-                this.styles[-1] = 1;
+                this.styles[-1] = 1
+
             },
             inputStyle (data){
                 this.styles[data.id] = 1
@@ -170,6 +175,7 @@
             },
 
             addNode() {
+
                 let data = this.data
                 let children = this.children
 
@@ -193,32 +199,41 @@
                             type: res.data.type
                         });
                         this.$set(data, 'children', children);
-                        this.formData.name = '',
-                        this.styles.splice(-1);
+                        this.formData.name = ''
+                        this.styles[-1] = -1
                     }
                 });
             },
             confirm(root, node, data) {
-                this.$Modal.confirm({
-                    title: '提示',
-                    content: '<p>确认删除吗？</p><p></p>',
-                    onOk: () => {
-                        this.JAjax.postJson('categories/delete/category/' + data.id, {}, (res) => {
-                            if (res.code) {
-                                const parentKey = root.find(el => el === node).parent;
-                                const parent = root.find(el => el.nodeKey === parentKey).node;
-                                const index = parent.children.indexOf(data);
-                                parent.children.splice(index, 1);
-                                this.$Message.success('删除成功');
-                            }
-                        });
 
-                    },
-                });
+                if(data.id === -1){
+                    const parentKey = root.find(el => el === node).parent;
+                    const parent = root.find(el => el.nodeKey === parentKey).node;
+                    const index = parent.children.indexOf(data);
+                    parent.children.splice(index, 1);
+                }else {
+                    this.$Modal.confirm({
+                        title: '提示',
+                        content: '<p>确认删除吗？</p><p></p>',
+                        onOk: () => {
+                            this.JAjax.postJson('title/delete/' + data.id, {}, (res) => {
+                                if (res.code) {
+                                    const parentKey = root.find(el => el === node).parent;
+                                    const parent = root.find(el => el.nodeKey === parentKey).node;
+                                    const index = parent.children.indexOf(data);
+                                    parent.children.splice(index, 1);
+                                    this.$Message.success('删除成功');
+                                }
+                            });
+
+                        },
+                    });
+                }
             },
             detail(root, node, data) {
                 this.$emit('detail', data.id)
             }
+
         },
 
         watch: {
