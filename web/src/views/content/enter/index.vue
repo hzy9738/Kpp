@@ -80,23 +80,31 @@
 
                     <Row class="margin-top-8" v-for="(sentenceData ,index) in sentenceDatas">
                         <Col span="24">
-                            <Icon type="plus-circled" style="cursor: pointer;color: red;float: left;margin-top: 7px"></Icon>
-                            <Input v-model="sentenceData.sentence" placeholder="Enter something..." style="width: 300px;float: left;margin:0 10px"></Input>
-                            <Icon type="plus-circled" style="cursor: pointer;color: #00a854;float: left;margin-top: 7px"></Icon>
-                            <Button type="primary" shape="circle"  size="small" style="float: left;margin:4px 10px 0 10px">分词</Button>
-                            <Cascader :data="knowledges" v-model="sentenceData.knowledge" style="width: 230px;float: left;margin:0 10px" placeholder="请选择知识点分类" ></Cascader>
-                            <Cascader :data="models" v-model="sentenceData.model" style="width: 230px;float: left;margin:0 10px" placeholder="请选择标准分类" ></Cascader>
+                            <Icon type="minus-circled"
+                                  style="cursor: pointer;color: red;float: left;margin-top: 7px"></Icon>
+                            <Input v-model="sentenceData.sentence" placeholder="Enter something..."
+                                   style="width: 400px;float: left;margin:0 10px"></Input>
+                            <Icon type="plus-circled"
+                                  style="cursor: pointer;color: #00a854;float: left;margin-top: 7px"></Icon>
+                            <Button type="primary" shape="circle" size="small"
+                                    style="float: left;margin:4px 10px 0 10px">分词
+                            </Button>
+                            <Cascader :data="knowledges" v-model="sentenceData.knowledge"
+                                      style="width: 230px;float: left;margin:0 10px" placeholder="请选择知识点分类"></Cascader>
+                            <Cascader :data="models" v-model="sentenceData.model"
+                                      style="width: 230px;float: left;margin:0 10px" placeholder="请选择标准分类"></Cascader>
                         </Col>
                         <Col span="24">
                             <div style="padding: 10px 40px">
-                                <Tag v-for="item in tags" :key="item" :name="item" closable @on-close="handleClose2" style="margin:5px 10px">{{ item }}</Tag>
+                                <Tag v-for="item in tags" :key="item" :name="item" closable @on-close="handleClose2"
+                                     style="margin:5px 10px">{{ item }}
+                                </Tag>
                             </div>
                         </Col>
                         <Col span="24">
                             <hr>
                         </Col>
                     </Row>
-
 
 
                 </Card>
@@ -135,8 +143,8 @@
                         {required: true, message: '请输入目录名称', trigger: 'blur'},
                     ],
                 },
-                knowledges:[],
-                models:[],
+                knowledges: [],
+                models: [],
                 dataList: [],
                 content: '',
                 tags: [],
@@ -149,10 +157,28 @@
                 createModel: false,
                 sentenceDatas: [
                     {
-                        sentence:'',
-                        knowledge:[],
-                        model:[],
-                        tags:[]
+                        sentence: '',
+                        knowledge: [],
+                        model: [],
+                        tags: []
+                    },
+                    {
+                        sentence: '',
+                        knowledge: [],
+                        model: [],
+                        tags: []
+                    },
+                    {
+                        sentence: '',
+                        knowledge: [],
+                        model: [],
+                        tags: []
+                    },
+                    {
+                        sentence: '',
+                        knowledge: [],
+                        model: [],
+                        tags: []
                     },
                 ]
             }
@@ -262,16 +288,38 @@
 
             },
             getlist() {
-                let postdata = [];
+                let postdata = {};
                 this.JAjax.postJson('title/lists', postdata, (res) => {
                     this.dataList = res.data || [];
                 });
             },
-            getKnowledges(){
-
+            getKnowledges() {
+                this.JAjax.postJson('categories/pages', {}, (res) => {
+                    this.knowledges = res.data || [];
+                    this._kownForm(this.knowledges)
+                });
             },
-            getModel(){
-
+            getModel() {
+                this.JAjax.postJson('categories/models', {}, (res) => {
+                    this.models = res.data || [];
+                    this._modelForm(this.models)
+                });
+            },
+            _modelForm(data) {
+                data.forEach(t => {
+                    t.children = t.model_child || []
+                    t.value = t.id || ''
+                    t.label = t.title || ''
+                    this._modelForm(t.children)
+                })
+            },
+            _kownForm(data) {
+                data.forEach(t => {
+                    t.children = t.page_child || []
+                    t.value = t.id || ''
+                    t.label = t.title || ''
+                    this._kownForm(t.children)
+                })
             },
             afresh_list() {
                 this.getlist();
@@ -281,6 +329,8 @@
         mounted() {
             this.getlist();
             this.getSource();
+            this.getModel();
+            this.getKnowledges();
 
         }
     };
