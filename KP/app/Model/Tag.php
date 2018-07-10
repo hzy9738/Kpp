@@ -10,20 +10,18 @@ class Tag extends Model
     protected $table = 'tag';
 
 
-    public static function saveTags($tags){
-        $time = time();
+    public static function saveTags($time,$tags,$sentenceIds){
         $data = [];
-        foreach ($tags as $key => $tag){
-            $data[$key]['tag'] = $tag;
-            $data[$key]['createtime'] = $time;
-        }
+            foreach ($tags as $key => $tagArray){
+                foreach ($tagArray as $tag){
+                    $data['tag'] = $tag;
+                    $data['createtime'] = $time;
+                    $tag = self::updateOrCreate(['tag'=>$tag],$data);
+                    SentenceTag::saveTitleSentences($tag->id,$sentenceIds[$key]);
+                }
+            }
 
-        try{
-            self::insert($data);
-        }catch (Exception $e) {
-            self::where('createtime',$time)->delete();
-        }
-        return $time;
+        return 1;
     }
 
 

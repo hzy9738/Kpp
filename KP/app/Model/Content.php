@@ -17,14 +17,15 @@ class Content extends Model
             'content' => $request->input('content'),
             'category_id' => $request->input('category',1),
             'title_id' => $request->input('title'),
-            'user_id' => $request->input('user',1),
         ];
-        $tags = $request->input('tags',[]);
-        $title = $request->input('title',0);
+        $titleId =   $request->input('title');
+        $sentences = $request->input('sentences',[]);
+
         $result = validateData(
-            self::updateOrCreate($update,$data),
-            $createtime = Tag::saveTags($tags),
-            TitleTag::saveTitleTags($title,$createtime)
+            $content = self::updateOrCreate($update,$data),
+            Sentence::saveSentences($sentences,$titleId,$content->id)
+//            $createtime = Tag::saveTags($tags),
+//            TitleTag::saveTitleTags($title,$createtime)
         );
         return $result;
     }

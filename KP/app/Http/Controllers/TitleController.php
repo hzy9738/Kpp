@@ -55,4 +55,9 @@ class TitleController extends Controller
         );
         return responseJson($data);
     }
+
+    public function getSentences(Title $title){
+        $data = Title::getSentences($title);
+        return responseJson($data);
+    }
 }

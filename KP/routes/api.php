@@ -52,6 +52,7 @@ Route::prefix('title')->group(function () {
     Route::post('update','TitleController@updateTitle');
     Route::post('delete/{title}','TitleController@deleteTitle');
     Route::any('content/{title}','TitleController@getContent');
+    Route::any('sentences/{title}','TitleController@getSentences');
     Route::any('tags/{title}','TitleController@getTags');
 
 });

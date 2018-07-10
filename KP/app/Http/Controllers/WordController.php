@@ -34,7 +34,7 @@ class WordController extends Controller
 
         $content = $request->input('content','');
 
-        $tags = JiebaAnalyse::extractTags($content, 40);
+        $tags = JiebaAnalyse::extractTags($content, 10);
 
         foreach ($tags as $key => $tag){
             $data[] = $key;

@@ -145,6 +145,24 @@ export const appRouter = [
             },
         ]
     },
+
+    {
+        path: '/search',
+        icon: 'social-buffer',
+        name: 'search',
+        title: '查询',
+        component: Main,
+        children: [
+            {
+                path: 'index',
+                icon: 'search',
+                name: 'search-index',
+                title: '查询',
+                component: () => import('@/views/search/index/index.vue')
+            },
+
+        ]
+    },
     //
     // {
     //     path: '/data',

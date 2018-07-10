@@ -13,28 +13,45 @@
                         <Icon type="cube"></Icon>
                         <span>章节目录</span>
                     </p>
-                    <Select v-model="source"
-                            filterable
-                            remote
-                            :remote-method="remoteMethod"
-                            :loading="loading1"
-                            @on-change="selectSource"
-                            style="top: 10px;position: absolute;left: 200px;width: 300px">
-                        <Option v-for="(option, index) in sources" :value="option.value" :key="index">{{option.label}}
-                        </Option>
-
-                    </Select>
-
+                    <!--<Select v-model="source"-->
+                            <!--filterable-->
+                            <!--remote-->
+                            <!--:remote-method="remoteMethod"-->
+                            <!--:loading="loading1"-->
+                            <!--@on-change="selectSource"-->
+                            <!--style="top: 10px;position: absolute;left: 200px;width: 300px">-->
+                        <!--<Option v-for="(option, index) in sources" :value="option.value" :key="index">{{option.label}}-->
+                        <!--</Option>-->
+                    <!--</Select>-->
+                    <Button  style="top: 10px;position: absolute;left: 400px;"  shape="circle" icon="reply" @click="goBackList" v-if="!sourceOrListShow"></Button>
                     <Row class="margin-top-8">
-                        <Button type="info" style="margin-left: 10px" @click="createTitle" v-if="dataList.length === 0">
+                        <Button type="info" style="margin-left: 10px" @click="createTitle" v-if="!sourceOrListShow && dataList.length === 0">
                             创建章节
                         </Button>
 
+                       <div v-if="sourceOrListShow">
+                           <source-table
+                                   refs="table1"
+                                   v-model="sourceList"
+                                   :columns-list="columns1"
+                                   @editShow="editShow"
+                                   class="margin-bottom-10">
+                               >
+                           </source-table>
+                           <Row class="center">
+                               <Page :total="total" show-total @on-change="changePage" :page-size="pageSize"
+                                     :page-size-opts="pageSizeOpts" show-elevator
+                                     @on-page-size-change="changeSize"></Page>
+                           </Row>
+                       </div>
+
+
                         <can-edit-table
-                                v-if="dataList.length !== 0"
+                                v-if="!sourceOrListShow && dataList.length !== 0"
                                 refs="table1"
                                 :dataList="dataList"
                                 @detail="detail"
+                                @dataListNode="dataListNode"
                                 class="margin-bottom-10">
                         </can-edit-table>
                     </Row>
@@ -80,23 +97,26 @@
 
                     <Row class="margin-top-8" v-for="(sentenceData ,index) in sentenceDatas">
                         <Col span="24">
-                            <Icon type="minus-circled"
-                                  style="cursor: pointer;color: red;float: left;margin-top: 7px"></Icon>
-                            <Input v-model="sentenceData.sentence" placeholder="Enter something..."
-                                   style="width: 400px;float: left;margin:0 10px"></Input>
-                            <Icon type="plus-circled"
-                                  style="cursor: pointer;color: #00a854;float: left;margin-top: 7px"></Icon>
-                            <Button type="primary" shape="circle" size="small"
+                            <i class="ivu-icon ivu-icon-minus-circled" @click="removeSentence(index)"
+                               style="cursor: pointer;color: red;float: left;margin-top: 7px"></i>
+                            <i-input v-model="sentenceData.sentence" placeholder="Enter something..."
+                                   style="width: 400px;float: left;margin:0 10px"></i-input>
+                            <i class="ivu-icon ivu-icon-plus-circled" @click="appendSentence(index)"
+                               style="cursor: pointer;color: #00a854;float: left;margin-top: 7px"></i>
+                            <Button type="primary" shape="circle" size="small" @click="getWordBySentence(index)"
                                     style="float: left;margin:4px 10px 0 10px">分词
                             </Button>
-                            <Cascader :data="knowledges" v-model="sentenceData.knowledge"
-                                      style="width: 230px;float: left;margin:0 10px" placeholder="请选择知识点分类"></Cascader>
-                            <Cascader :data="models" v-model="sentenceData.model"
-                                      style="width: 230px;float: left;margin:0 10px" placeholder="请选择标准分类"></Cascader>
+                            <Cascader :data="knowledges" v-model="sentenceData.knowledge" change-on-select
+                                      style="width: 200px;float: left;margin:0 10px" placeholder="请选择知识点分类"></Cascader>
+                            <Cascader :data="models" v-model="sentenceData.model" change-on-select
+                                      style="width: 240px;float: left;margin:0 10px" placeholder="请选择标准分类"></Cascader>
+                            <Input v-model="sentenceData.user" placeholder="姓名"
+                                   style="width: 80px;float: left"></Input>
                         </Col>
                         <Col span="24">
                             <div style="padding: 10px 40px">
-                                <Tag v-for="item in tags" :key="item" :name="item" closable @on-close="handleClose2"
+                                <Tag v-for="item in sentenceData.tags" :key="item" :name="item" closable
+                                     @on-close="handleClose2(index,item)"
                                      style="margin:5px 10px">{{ item }}
                                 </Tag>
                             </div>
@@ -126,15 +146,25 @@
 
 <script>
     import canEditTable from './components/canEditTable.vue';
+    import sourceTable from './components/source-table.vue';
+    import * as table from './data/search';
 
 
     export default {
         name: 'searchable-table',
         components: {
             canEditTable,
+            sourceTable
         },
         data() {
             return {
+                columns1: table.columns1, // 表头
+                sourceList:[],// 查询结果
+                pageSize: 20, // 每页多少条
+                total: 0, // 总共多少条数据
+                status: null, // 课程状态
+                page: 1, // 当前页码
+                pageSizeOpts: [20, 25, 30, 40, 50],
                 formData: {
                     title: '',
                 },
@@ -160,30 +190,42 @@
                         sentence: '',
                         knowledge: [],
                         model: [],
-                        tags: []
+                        tags: [],
+                        user: ""
                     },
-                    {
-                        sentence: '',
-                        knowledge: [],
-                        model: [],
-                        tags: []
-                    },
-                    {
-                        sentence: '',
-                        knowledge: [],
-                        model: [],
-                        tags: []
-                    },
-                    {
-                        sentence: '',
-                        knowledge: [],
-                        model: [],
-                        tags: []
-                    },
-                ]
+                ],
+                sourceOrListShow:true,
             }
         },
         methods: {
+            getWordBySentence(index) {
+                let content = this.sentenceDatas[index].sentence
+                if (content !== '') {
+                    this.JAjax.postJson('word/tags', {content: content}, (res) => {
+                        this.$set(this.sentenceDatas[index], 'tags', res.data)
+                    });
+                } else {
+                    this.$set(this.sentenceDatas[index], 'tags', [])
+                }
+            },
+            handleClose2(index, name) {
+                const key = this.sentenceDatas[index].tags.indexOf(name);
+                this.sentenceDatas[index].tags.splice(key, 1);
+            },
+            removeSentence(index) {
+                if (this.sentenceDatas.length >= 2) {
+                    this.sentenceDatas.splice(index, 1)
+                }
+            },
+            appendSentence() {
+                let array = {
+                    sentence: '',
+                    knowledge: [],
+                    model: [],
+                    tags: []
+                }
+                this.sentenceDatas.push(array)
+            },
             createNode() {
                 let formData = {
                     title: this.formData.title,
@@ -214,7 +256,6 @@
             },
             createTitle() {
                 this.createModel = true
-
             },
             remoteMethod(query) {
                 if (query !== '') {
@@ -245,16 +286,27 @@
                 });
             },
             contentKeyup() {
-                if (this.title_id === '') {
+                let a = true
+                if (a && this.title_id === '') {
+                    a = false
                     this.$Message.error('请选择章节目录')
                     this.content = ""
                 }
             },
             saveContent() {
+                let a = false
+                this.sentenceDatas.forEach(t => {
+                    if (t.sentence === '' || t.knowledge.length === 0 || t.model.length === 0 || t.user === "") {
+                        a = true
+                    }
+                })
+                if (a) {
+                    return this.$Message.error("简述未填写完整")
+                }
                 let formData = {
                     content: this.content,
                     title: this.title_id,
-                    tags: this.tags
+                    sentences: this.sentenceDatas
                 }
                 if (this.title_id === '') {
                     // this.$Message.error('请选择章节目录')
@@ -264,25 +316,31 @@
                     this.$Message.success("保存成功")
                 });
             },
-            handleClose2(event, name) {
-                const index = this.tags.indexOf(name);
-                this.tags.splice(index, 1);
-            },
-            getTag() {
-                this.JAjax.postJson('word/tags', {content: this.content}, (res) => {
-                    this.tags = res.data
-                });
-            },
+
             detail(id) {
                 this.JAjax.postJson('title/content/' + id, {}, (res) => {
                     this.content = res.data.detail ? res.data.detail.content : '';
                     this.title_id = res.data.id
                 });
-                this.JAjax.postJson('title/tags/' + id, {}, (res) => {
-                    let data = res.data.tags || [];
-                    this.tags = [];
-                    data.forEach(t => {
-                        this.tags.push(t.tag)
+                this.JAjax.postJson('title/sentences/' + id, {}, (res) => {
+                    let data = res.data || [];
+                    this.sentenceDatas = [
+                        {
+
+                        }
+                    ]
+                    data.sentences.forEach((t,index)=>{
+
+                        this.$set(this.sentenceDatas,index,{})
+                        // console.log(t.page_id.join(","))
+                        let model  = t.model_id.split(",")
+                        let page  = t.page_id.split(",")
+
+                        this.$set(this.sentenceDatas[index],'sentence',t.sentence)
+                        this.$set(this.sentenceDatas[index],'user',t.user)
+                        this.$set(this.sentenceDatas[index],'model', model.map(t=>  Number(t) ) )
+                        this.$set(this.sentenceDatas[index],'knowledge',  page.map(t=>  Number(t) ) )
+                        this.$set(this.sentenceDatas[index],'tags',t.tags.map(t=>t.tag))
                     })
                 });
 
@@ -321,17 +379,47 @@
                     this._kownForm(t.children)
                 })
             },
+            getSourceList(){
+                let postdata = {};
+                postdata.page = this.page;
+                postdata.pageSize = this.pageSize;
+                this.JAjax.postJson('standard/lists', postdata, (res) => {
+                    this.sourceList = res.data.data || [];
+                    this.total = res.data.total;
+                    this.pageSize = res.data.per_page;
+                });
+            },
+            changePage(page) {
+                this.page = page;
+                this.getSourceList();
+            },
+            changeSize(size) {
+                this.pageSize = size;
+                this.getSourceList();
+            },
+            editShow(data){
+                this.JAjax.postJson('title/lists', {id: data.id}, (res) => {
+                    this.dataList = res.data || [];
+                    this.source = data.id
+                    this.sourceOrListShow = false
+                });
+            },
+            goBackList(){
+                this.sourceOrListShow = true
+            },
             afresh_list() {
                 this.getlist();
             },
-
+            dataListNode(){
+               this.dataList =[]
+            }
         },
         mounted() {
-            this.getlist();
+            // this.getlist();
             this.getSource();
+            this.getSourceList();
             this.getModel();
             this.getKnowledges();
-
         }
     };
 </script>

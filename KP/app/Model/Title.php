@@ -63,9 +63,9 @@ class Title extends Model
         return $this->belongsTo(Content::class,'id','title_id');
     }
 
-    public function tags()
+    public function sentences()
     {
-        return $this->belongsToMany(Tag::class,'title_tag','title_id','tag_id');
+        return $this->hasMany(Sentence::class,'title_id','id');
     }
 
 
@@ -87,6 +87,13 @@ class Title extends Model
             self::_getIds($item,$ids);
         }
         return $ids;
+    }
+
+    public static  function getSentences($title){
+
+        $data = $title->load('sentences.tags');
+
+        return validateData($data);
     }
 }
 
