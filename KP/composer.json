@@ -6,10 +6,13 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "algolia/algoliasearch-client-php": "^1.27",
         "fideloper/proxy": "~3.3",
         "fukuball/jieba-php": "^0.33.0",
         "laravel/framework": "5.5.*",
+        "laravel/scout": "^4.0",
         "laravel/tinker": "~1.0",
+        "maatwebsite/excel": "~2.1.0",
         "overtrue/laravel-lang": "~3.0"
     },
     "require-dev": {

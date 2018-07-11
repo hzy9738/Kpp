@@ -66,7 +66,7 @@ Route::prefix('word')->group(function () {
 
 });
 
-//标签
+//内容
 Route::prefix('content')->group(function () {
 //    Route::any('/','KptypeController@getLists');
     Route::any('save','ContentController@saveContent');
@@ -78,5 +78,20 @@ Route::prefix('content')->group(function () {
 Route::prefix('tag')->group(function () {
 //    Route::any('/','KptypeController@getLists');
     Route::any('save','TagController@saveTags');
+
+});
+
+
+//标签
+Route::prefix('search')->group(function () {
+//    Route::any('/','KptypeController@getLists');
+    Route::any('category','SearchController@category');
+
+});
+
+//标签
+Route::prefix('excel')->group(function () {
+//    Route::any('/','KptypeController@getLists');
+    Route::any('export','ExcelController@excelExport');
 
 });

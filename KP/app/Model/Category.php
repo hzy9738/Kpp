@@ -2,18 +2,64 @@
 
 namespace App\Model;
 
+use Laravel\Scout\Searchable;
+
+
 class Category extends Model
 {
+
+    use Searchable;
+
     protected $table = 'category';
 
     public $timestamps = false;
+
+    // scout  start
+
+
+    public function searchableAs()
+    {
+        return 'category_index';
+    }
+
+
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        // Customize array...
+
+        return $array;
+    }
+
+
+
+
+
+
+
+
+    // end
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static function lists()
     {
         $data = validateData(
             self::orderBy('id')
                 ->select('id', 'pid', 'type', "name as title", 'status')
-                ->get()
+                ->pluck('title','id')
         );
         return $data;
     }
