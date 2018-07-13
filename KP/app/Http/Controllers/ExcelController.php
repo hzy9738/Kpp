@@ -14,13 +14,13 @@ class ExcelController extends Controller
     {
         $type = $request->input('type', 'keyword');
         $keyword = $request->input('keyword', '');
-        if ($type !== 'keyword') {
+        if ($type == 'category') {
             $keyword = explode(',', $keyword);
             $array = self::keywordFormdata($keyword);
         }
         $pageSize = $request->input('pageSize', 10);
 
-        if ($type !== 'keyword') {
+        if ($type == 'category') {
             $data = validateData(
                 Tag::orderBy('tag.id', 'desc')
                     ->leftJoin('sentence_tag', 'sentence_tag.tag_id', 'tag.id')
@@ -34,7 +34,23 @@ class ExcelController extends Controller
                     ->select('tag.id', 'tag', 'sentence', 'content', 'sentence.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
                     ->paginate($pageSize)
             );
-        }else{
+        }elseif ($type == 'content') {
+            $data = validateData(
+                Tag::orderBy('tag.id', 'desc')
+                    ->leftJoin('sentence_tag', 'sentence_tag.tag_id', 'tag.id')
+                    ->leftJoin('sentence', 'sentence_tag.sentence_id', 'sentence.id')
+                    ->leftJoin('content', 'sentence.content_id', 'content.id')
+                    ->leftJoin('title', 'content.title_id', 'title.id')
+                    ->leftJoin('standard', 'title.standard_id', 'standard.id')
+                    ->leftJoin('kptype', 'standard.type_id', 'kptype.id')
+                    ->whereNotNull('sentence.sentence')
+                    ->where('content.content', 'like', "%{$keyword}%")
+                    ->select('tag.id', 'tag', 'sentence', 'content', 'sentence.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
+                    ->paginate($pageSize)
+            );
+        }
+
+        else{
             $data = validateData(
                 Tag::orderBy('tag.id', 'desc')
                     ->leftJoin('sentence_tag', 'sentence_tag.tag_id', 'tag.id')
