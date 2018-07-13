@@ -24,10 +24,12 @@
                         <Button type="success" style="float: left;margin: 0 20px" @click="onSearch">搜索</Button>
 
 
-                        <Button type="ghost" size="small" shape="circle" icon="shuffle" @click="changeType"
+                        <Button type="ghost" size="small" shape="circle" @click="changeType"
                                 style="float: left;margin: 5px 20px">切换搜索方式
+                            <Icon type="shuffle"></Icon>
+                            <span style="color: #00a050">{{ types[type] }}</span>
                         </Button>
-                        <Tag color="green" style="float: left;margin-left: 20px;margin-top: 5px;">{{ type }}</Tag>
+
 
                         <!--<Input v-model="search.content" placeholder="全文检索"-->
                         <!--style="width: 300px;float: left;margin-left: 50px" @on-enter="onContent"></Input>-->
@@ -73,6 +75,11 @@
         },
         data() {
             return {
+                types: {
+                    category: '标准查询',
+                    keyword: '关键字查询',
+                    content: '全文检索',
+                },
                 type: "category",
                 columns1: table.columns1, // 表头
                 dataList: [],// 查询结果
@@ -91,8 +98,15 @@
         methods: {
             exportExcel() {
 
-                if (this.search.data.length !== 0 || this.search.keyword !== '') {
-                    let param = this.type === 'keyword' ? this.search.keyword : this.search.data
+                if (this.search.data.length !== 0 || this.search.keyword !== '' || this.search.content !== '') {
+                    let param = ""
+                    if (this.type === 'category') {
+                        param = this.search.data;
+                    } else if (this.type === 'keyword') {
+                        param = this.search.keyword;
+                    } else {
+                        param = this.search.content;
+                    }
                     window.open('/api/excel/export?keyword=' + param + '&pageSize=' + this.pageSize + '&type=' + this.type)
                 }
             },
