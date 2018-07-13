@@ -29,7 +29,7 @@ class StandardController extends Controller
     public function addStandard(Request $request)
     {
         $result = StandardValidate::validate($request);
-        if ($result['msg']) {
+        if($result['msg'] === config('code.success')){
             $result = Standard::addStandard($request);
         }
         return responseJson($result);
@@ -38,7 +38,7 @@ class StandardController extends Controller
     public function updateStandard(Request $request)
     {
         $result = StandardValidate::update($request);
-        if ($result['msg']) {
+        if($result['msg'] === config('code.success')){
             $result = Standard::updateStandard($request);
         }
         return responseJson($result);
@@ -47,9 +47,13 @@ class StandardController extends Controller
 
     public function deleteStandard(Standard $standard)
     {
-        $data = validateData(
-            $standard->delete()
-        );
-        return responseJson($data);
+        $result = StandardValidate::validateDelete($standard->id);
+        return responseJson($result);
+        if($result['msg'] === config('code.success')){
+            $result = validateData(
+                $standard->delete()
+            );
+        }
+        return responseJson($result);
     }
 }

@@ -9,6 +9,7 @@
 namespace App\Http\Validate;
 
 
+use App\Model\Title;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -74,6 +75,23 @@ class StandardValidate
         ];
 
 
+    }
+
+
+    public static function validateDelete($id){
+        $count = Title::where('standard_id',$id)->count();
+        if ($count > 0) {
+            return [
+                'msg' => config('code.error'),
+                'data' => '',
+                'message'=> '存在已录入的内容，无法删除'
+            ];
+        }
+
+        return [
+            'msg' => config('code.success'),
+            'data' => 'success'
+        ];
     }
 
 }

@@ -22,4 +22,8 @@ class KptypeController extends Controller
         );
         return responseJson($data);
     }
+
+    public function addType(Request $request){
+
+    }
 }

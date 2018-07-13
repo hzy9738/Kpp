@@ -14,7 +14,12 @@
                     <span>类型管理</span>
                 </p>
 
-
+                <!--<Button style="top: 10px;position: absolute;right: 20px"-->
+                        <!--class="button" type="info" shape="circle"-->
+                        <!--@click="createType"-->
+                <!--&gt;-->
+                    <!--添加-->
+                <!--</Button>-->
                 <Row class="margin-top-10">
                     <can-edit-table
                             refs="table1"
@@ -32,6 +37,17 @@
             </Card>
             </Col>
         </Row>
+        <Modal
+                v-model="createShow"
+                title="添加类型"
+                @on-ok="createNode('formData')"
+                :loading="loading">
+            <Form :model="formData" :label-width="100" :rules="formInline" ref="formData">
+                <FormItem label="分类：" prop="name">
+                    <Input v-model="formData.name" type="text" placeholder="请输入类型名称" style="width: 80%"></Input>
+                </FormItem>
+            </Form>
+        </Modal>
     </div>
 </template>
 
@@ -46,14 +62,16 @@
             canEditTable,
         },
         data () {
-            const valideDate = (rule, value, callback) => {
-                if (Date.parse(value) < Date.parse(this.date.startTime)) {
-                    callback(new Error('结束时间应该大于开始时间'));
-                } else {
-                    callback();
-                }
-            };
+
             return {
+                formData: {
+                    name: '',
+                },
+                formInline: {
+                    name: [
+                        {required: true, message: '请输入知识点分类', trigger: 'blur'},
+                    ],
+                },
                 columns1: table.columns1, // 表头
                 dataList: [], // 查询结果
                 pageSize: 20, // 每页多少条
@@ -61,12 +79,43 @@
                 status: null, // 课程状态
                 page: 1, // 当前页码
                 pageSizeOpts: [20, 25, 30, 40, 50],
-
+                createShow: false,
+                loading: false
 
             };
         },
         methods: {
+            createType(){
+                this.createShow = true
+            },
+            createNode(name) {
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        let formData = {
+                            id: 0,
+                            name: this.formData.name,
+                            type: 'page'
+                        }
 
+                        this.JAjax.postJson('type/add', formData, (res) => {
+                            if(res.code){
+                                this.$Message.success('添加成功');
+                                this.afresh_list()
+                                this.formData.name = ''
+                            }
+                        });
+                        setTimeout(() => {
+                            this.show = false;
+                        }, 500);
+                    } else {
+                        this.loading = false;
+                        setTimeout(() => {
+                            this.loading = true;
+                        }, 100);
+                        this.$Message.error('请检查您输入的信息');
+                    }
+                })
+            },
             changePage (page) {
                 this.page = page;
                 this.getlist();

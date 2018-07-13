@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Validate\CategoryValidate;
 use App\Model\Category;
+use App\Model\Sentence;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -31,7 +32,7 @@ class CategoryController extends Controller
     public function addModel(Request $request)
     {
         $result = CategoryValidate::validate($request);
-        if($result['msg']){
+        if($result['msg'] === config('code.success')){
             $result = Category::addModel($request);
         }
         return responseJson($result);
@@ -40,7 +41,7 @@ class CategoryController extends Controller
     public function addPage(Request $request)
     {
         $result = CategoryValidate::validate($request);
-        if($result['msg']){
+        if($result['msg'] === config('code.success')){
             $result = Category::addPage($request);
         }
         return responseJson($result);
@@ -48,7 +49,10 @@ class CategoryController extends Controller
 
     public function deleteCategory(Category $category)
     {
-        $result = Category::deleteCategory($category);
+        $result = CategoryValidate::validateDelete($category->id);
+        if($result['msg'] === config('code.success')){
+            $result = Category::deleteCategory($category);
+        }
         return responseJson($result);
     }
 }

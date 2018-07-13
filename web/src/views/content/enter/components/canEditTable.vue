@@ -20,6 +20,11 @@
 </template>
 
 <script>
+    import $ from 'jquery'
+
+    function saveValue(value) {
+        $('.inputSpan').val(value)
+    }
 
 
     export default {
@@ -40,11 +45,12 @@
                 },
                 show: false,
                 loading: true,
-                title:'',
-                styles:[],
+                title: '',
+                styles: [],
                 data: {},
                 children: {},
-                button : []
+                button: [],
+                pid: 0
             };
         },
 
@@ -59,36 +65,39 @@
                     }
                 }, [
                     h('span', [
-                        h(this.styles[data.id] ? "Button" :'Icon', {
+                        h(this.styles[data.id] ? "Button" : 'Icon', {
                             props: {
-                                type: this.styles[data.id] ?  'primary' : 'ios-paper-outline',
+                                type: this.styles[data.id] ? 'primary' : 'ios-paper-outline',
                                 size: this.styles[data.id] ? 'small' : ''
                             },
                             on: {
                                 click: () => {
-                                   this.addNode(data.id)
+                                    this.addNode(data.id)
                                 },
                             },
                             style: {
                                 marginRight: '8px'
                             }
-                        },this.styles[data.id] ? '保存' :''),
-                        h( this.styles[data.id] ? 'input' :'span', {
-                            style: {
-                                width: '250px',
-                                height: '30px'
-                            },
-                            on: {
-                                input: function (event) {
-                                    self.title = event.target.value
+                        }, this.styles[data.id] ? '保存' : ''),
+                        h(this.styles[data.id] === 1 ? 'input' : 'span', {
+                                style: {
+                                    width: '250px',
+                                    height: '30px'
                                 },
-                                dblclick: () => {
-                                    this.inputStyle(data)
-                                },
-                            },
+                                class:"inputSpan",
+                                on: {
 
-                        },
-                           data.title
+                                    input: function (event) {
+                                        self.title = event.target.value
+                                    },
+                                    dblclick: (event) => {
+                                        // event.target.className = "inputSpan"
+                                        this.inputStyle(data, event)
+                                    },
+                                },
+
+                            },
+                            data.title
                         )
                     ]),
                     h('span', {
@@ -134,7 +143,7 @@
                         h('Button', {
                             props: Object.assign({}, this.buttonProps, {
                                 icon: 'arrow-right-a',
-                                type: this.button[data.id] ?  'info' : 'default' ,
+                                type: this.button[data.id] ? 'info' : 'default',
                                 size: 'small'
                             }),
                             style: {
@@ -150,24 +159,29 @@
                 ]);
             },
             append(data) {
-                if(this.styles[-1] && this.styles[-1] !== -1){
-                    return
+                if (this.styles.length === 0 && this.styles.indexOf(1) === -1) {
+                    this.$set(data, 'expand', 1)
+                    this.children = data.children || {};
+                    this.data = data
+                    this.children.push({
+                        title: '双击输入目录名',
+                        expand: true,
+                        id: 0,
+                        pid: data.id,
+                        children: [],
+                    });
+                    this.$set(this.styles, 0, 1)
+                    this.pid = data.id
                 }
-                // console.log( this.styles)
-                this.$set(data, 'expand', 1)
-                this.children = data.children || {};
-                this.data = data
-                this.children.push({
-                    title: '双击输入目录名',
-                    expand: true,
-                    id: -1,
-                    children: [],
-                });
-                this.styles[-1] = 1
-
             },
-            inputStyle (data){
-                this.styles[data.id] = 1
+            inputStyle(data, event) {
+                if (!this.styles[0] && this.styles.indexOf(1) === -1) {
+                    this.$set(this.styles,data.id,1)
+                    setTimeout(() => {
+                        saveValue(data.title,this);
+                    }, 200);
+                    this.title = data.title
+                }
             },
 
 
@@ -180,9 +194,7 @@
                 let data = this.data
                 let children = this.children
 
-
-
-                if(this.title !== ''){
+                if (this.title !== '') {
                     let formData = {
                         id: data.id,
                         title: this.title,
@@ -193,42 +205,46 @@
                     this.JAjax.postJson(url, formData, (res) => {
                         if (res.code) {
                             this.$Message.success('添加成功');
-                            this.children.splice(this.children.length-1);
+                            this.children.splice(this.children.length - 1);
                             this.children.push({
                                 title: res.data.title,
                                 expand: true,
                                 id: res.data.id,
+                                pid: this.pid,
+                                standard_id: data.standard_id,
+                                level: data.level + 1,
                                 children: [],
                                 type: res.data.type
                             });
                             this.$set(data, 'children', children);
                             this.formData.name = ''
-                            this.styles[-1] = -1
+                            this.styles.splice(0, 1)
                         }
                     });
                 }
             },
             confirm(root, node, data) {
 
-                if(data.id === -1){
+                if (data.id === 0) {
                     const parentKey = root.find(el => el === node).parent;
                     const parent = root.find(el => el.nodeKey === parentKey).node;
                     const index = parent.children.indexOf(data);
                     parent.children.splice(index, 1);
-                }else {
+                    this.styles.splice(0, 1)
+                } else {
                     this.$Modal.confirm({
                         title: '提示',
                         content: '<p>确认删除吗？</p><p></p>',
                         onOk: () => {
                             this.JAjax.postJson('title/delete/' + data.id, {}, (res) => {
                                 if (res.code) {
-                                    if(data.pid != 0){
+                                    if (data.pid != 0) {
                                         const parentKey = root.find(el => el === node).parent;
                                         const parent = root.find(el => el.nodeKey === parentKey).node;
                                         const index = parent.children.indexOf(data);
                                         parent.children.splice(index, 1);
-                                    }else {
-                                        this.$emit('dataListNode',1)
+                                    } else {
+                                        this.$emit('dataListNode', 1)
                                     }
                                     this.$Message.success('删除成功');
                                 }
@@ -240,7 +256,7 @@
             },
             detail(root, node, data) {
                 this.button = [];
-                this.$set(this.button,data.id,true)
+                this.$set(this.button, data.id, true)
                 this.$emit('detail', data.id)
             }
 

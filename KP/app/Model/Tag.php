@@ -4,10 +4,38 @@ namespace App\Model;
 
 
 use Illuminate\Support\Facades\Log;
+use Laravel\Scout\Searchable;
 
 class Tag extends Model
 {
     protected $table = 'tag';
+
+//    use Searchable;
+
+//    public function searchableAs()
+//    {
+//        return 'tag';
+//    }
+//
+//
+//
+//    public function toSearchableArray()
+//    {
+//        $array = $this->toArray();
+//
+//        // Customize array...
+//
+//        return $array;
+//    }
+
+
+
+
+
+
+
+
+
 
 
     public static function saveTags($time,$tags,$sentenceIds){

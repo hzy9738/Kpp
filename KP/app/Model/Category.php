@@ -8,7 +8,7 @@ use Laravel\Scout\Searchable;
 class Category extends Model
 {
 
-    use Searchable;
+//    use Searchable;
 
     protected $table = 'category';
 
@@ -17,21 +17,27 @@ class Category extends Model
     // scout  start
 
 
-    public function searchableAs()
-    {
-        return 'category_index';
-    }
-
-
-
-    public function toSearchableArray()
-    {
-        $array = $this->toArray();
-
-        // Customize array...
-
-        return $array;
-    }
+//    public function searchableAs()
+//    {
+//        return 'category_index';
+//    }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//    public function toSearchableArray()
+//    {
+//        $array = $this->toArray();
+//
+//        // Customize array...
+//
+//        return $array;
+//    }
 
 
 
@@ -169,4 +175,5 @@ class Category extends Model
         }
         return $ids;
     }
+
 }

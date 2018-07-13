@@ -19,6 +19,9 @@ class Excel
                 $sheet->fromArray($data);
                 $sheet->row(1,$row);
                 $sheet->setWidth($width);
+                $sheet->cells("A1:L1", function($cells) {
+                    $cells->setBackground('#00aa00');
+                });
             });
 
         })->export('xlsx');

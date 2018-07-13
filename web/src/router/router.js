@@ -154,7 +154,7 @@ export const appRouter = [
         component: Main,
         children: [
             {
-                path: 'index',
+                path: "kkp/:type",
                 icon: 'search',
                 name: 'search-index',
                 title: '查询',

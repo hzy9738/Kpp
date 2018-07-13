@@ -22,7 +22,7 @@ class TitleController extends Controller
     public function addTitle(Request $request)
     {
         $result = TitleValidate::validate($request);
-        if($result['msg']){
+        if($result['msg'] === config('code.success')){
             $result = Title::addTitle($request);
         }
         return responseJson($result);
@@ -30,7 +30,7 @@ class TitleController extends Controller
 
     public function updateTitle(Request $request){
         $result = TitleValidate::update($request);
-        if($result['msg']){
+        if($result['msg'] === config('code.success')){
             $result = Title::updateTitle($request);
         }
         return responseJson($result);

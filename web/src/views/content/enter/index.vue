@@ -256,6 +256,7 @@
             },
             createTitle() {
                 this.createModel = true
+
             },
             remoteMethod(query) {
                 if (query !== '') {
@@ -402,6 +403,7 @@
                     this.dataList = res.data || [];
                     this.source = data.id
                     this.sourceOrListShow = false
+                    this.formData.title = data.name
                 });
             },
             goBackList(){

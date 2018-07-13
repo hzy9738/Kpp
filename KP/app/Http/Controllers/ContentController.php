@@ -10,7 +10,7 @@ class ContentController extends Controller
 {
     public function saveContent(Request $request){
         $result =  ContentValidate::validate($request);
-        if($result['msg']){
+        if($result['msg'] === config('code.success')){
             $result = Content::saveContent($request);
         }
         return responseJson($result);

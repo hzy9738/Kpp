@@ -18,7 +18,7 @@ class TitleValidate
     {
         //验证
         $validator = Validator::make($request->all(), [
-            'title' => 'required|unique:title|max:30',
+            'title' => 'required|max:30',
             'level' => 'required',
             'standard' => 'required',
         ], [
@@ -52,7 +52,6 @@ class TitleValidate
             'name' => [
                 'required',
                 'max:30',
-                 Rule::unique('title')->ignore($request->id),
             ],
             'level' => 'required',
             'standard' => 'required',

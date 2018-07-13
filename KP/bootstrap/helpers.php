@@ -6,6 +6,7 @@ function responseJson($data)
     $res = new stdClass();
     $res->code = $data['msg'];
     $res->data = $data['data'];
+    $res->message = isset($data['message']) ? $data['message'] : '';
     return response()->json($res);
 }
 

@@ -26,10 +26,10 @@ class Sentence extends Model
         try {
             self::where('content_id', $content_id)->delete();
             if (self::insert($data)) {
-                $sentenceIds = self::where('content_id', $content_id)->orderBy('id','asc')->pluck('id');
-                 if(count($sentenceIds) == count($tags)){
-                     Tag::saveTags($time, $tags, $sentenceIds);
-                 }
+                $sentenceIds = self::where('content_id', $content_id)->orderBy('id', 'asc')->pluck('id');
+                if (count($sentenceIds) == count($tags)) {
+                    Tag::saveTags($time, $tags, $sentenceIds);
+                }
             }
 
         } catch (Exception $e) {
@@ -39,9 +39,26 @@ class Sentence extends Model
     }
 
 
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'sentence_tag', 'sentence_id', 'tag_id');
+    }
 
 
-    public function tags(){
-        return $this->belongsToMany(Tag::class,'sentence_tag','sentence_id','tag_id');
+    public static function getCategory()
+    {
+        $pages = self::orderBy('id')->pluck('page_id');
+        $model = self::orderBy('id')->pluck('model_id');
+        $categroy = [];
+        foreach ($pages as $item){
+            $array = explode(',',$item);
+            $categroy = array_merge($categroy,$array);
+        }
+        foreach ($model as $item){
+            $array = explode(',',$item);
+            $categroy = array_merge($categroy,$array);
+        }
+        $categroy = array_unique($categroy);
+        return $categroy;
     }
 }

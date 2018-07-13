@@ -31,6 +31,9 @@ Route::prefix('categories')->group(function () {
 Route::prefix('kptypes')->group(function () {
     Route::any('/','KptypeController@lists');
     Route::any('lists','KptypeController@getLists');
+    Route::any('add','KptypeController@addType');
+    Route::any('update','KptypeController@updateType');
+    Route::any('delete','KptypeController@deleteType');
 });
 
 //规范名
@@ -86,12 +89,20 @@ Route::prefix('tag')->group(function () {
 Route::prefix('search')->group(function () {
 //    Route::any('/','KptypeController@getLists');
     Route::any('category','SearchController@category');
+    Route::any('keyword','SearchController@keyword');
+    Route::any('content','SearchController@content');
 
+
+
+
+//    Route::any('scout','SearchController@scout');
+//    Route::any('mysql','SearchController@mysql');
 });
 
 //标签
 Route::prefix('excel')->group(function () {
 //    Route::any('/','KptypeController@getLists');
     Route::any('export','ExcelController@excelExport');
+    Route::any('export/keyword','ExcelController@excelKeywordExport');
 
 });

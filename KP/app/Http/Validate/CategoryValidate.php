@@ -9,6 +9,7 @@
 namespace App\Http\Validate;
 
 
+use App\Model\Sentence;
 use Illuminate\Support\Facades\Validator;
 
 class CategoryValidate
@@ -40,5 +41,20 @@ class CategoryValidate
 
     }
 
+    public static function validateDelete($id){
+        $ids = Sentence::getCategory();
+        if (in_array($id,$ids)) {
+            return [
+                'msg' => config('code.error'),
+                'data' => '',
+                'message'=> '存在相关联的简述，无法删除'
+            ];
+        }
+
+        return [
+            'msg' => config('code.success'),
+            'data' => 'success'
+        ];
+    }
 
 }

@@ -89,7 +89,7 @@
                             props: Object.assign({}, this.buttonProps, {
                                 icon: 'ios-minus-empty',
                                 type: 'error',
-                                disabled: data.pid === 0 ? true: false
+                                // disabled: data.pid === 0 ? true: false
                             }),
 
                             on: {
@@ -158,10 +158,18 @@
                     onOk: () => {
                         this.JAjax.postJson('categories/delete/category/'+data.id,{}, (res) => {
                             if (res.code) {
-                                const parentKey = root.find(el => el === node).parent;
-                                const parent = root.find(el => el.nodeKey === parentKey).node;
-                                const index = parent.children.indexOf(data);
-                                parent.children.splice(index, 1);
+                                if(data.pid === 0){
+                                    this.dataList.forEach((t,index)=>{
+                                        if(data.id === t.id){
+                                            this.dataList.splice(index,1)
+                                        }
+                                    })
+                                }else {
+                                    const parentKey = root.find(el => el === node).parent;
+                                    const parent = root.find(el => el.nodeKey === parentKey).node;
+                                    const index = parent.children.indexOf(data);
+                                    parent.children.splice(index, 1);
+                                }
                                 this.$Message.success('删除成功');
                             }
                         });

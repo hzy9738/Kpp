@@ -15,12 +15,22 @@
                     </p>
 
                     <Row class="margin-top-8">
-                        <Cascader :data="models" v-model="search.data" change-on-select
+                        <Cascader :data="models" v-model="search.data" change-on-select v-if='type==="category"'
                                   style="width: 300px;float: left" placeholder="请选择标准分类"></Cascader>
+                        <Input v-model="search.keyword" placeholder="请输入Tag关键词" style="width: 300px;float: left"
+                               v-if='type==="keyword"' @on-enter="onSearch"></Input>
+                        <Input v-model="search.content" placeholder="全文检索" v-if='type==="content"'
+                               style="width: 300px;float: left" @on-enter="onSearch"></Input>
                         <Button type="success" style="float: left;margin: 0 20px" @click="onSearch">搜索</Button>
-                        <Button type="ghost" size="small" shape="circle" icon="shuffle"
+
+
+                        <Button type="ghost" size="small" shape="circle" icon="shuffle" @click="changeType"
                                 style="float: left;margin: 5px 20px">切换搜索方式
                         </Button>
+                        <Tag color="green" style="float: left;margin-left: 20px;margin-top: 5px;">{{ type }}</Tag>
+
+                        <!--<Input v-model="search.content" placeholder="全文检索"-->
+                        <!--style="width: 300px;float: left;margin-left: 50px" @on-enter="onContent"></Input>-->
                     </Row>
                 </Card>
 
@@ -31,12 +41,15 @@
                                 v-model="dataList"
                                 :columns-list="columns1"
                                 @afresh_list="afresh_list"
-                                @exportExcel="exportExcel"
                                 class="margin-bottom-10">
                         </can-edit-table>
                         <Row class="center">
+                            <Button type="primary" size="large" @click="exportExcel" style="float: left">
+                                <Icon type="ios-download-outline"></Icon>
+                                导出当页数据
+                            </Button>
                             <Page :total="total" show-total @on-change="changePage" :page-size="pageSize"
-                                  :page-size-opts="pageSizeOpts" show-sizer show-elevator
+                                  :page-size-opts="pageSizeOpts" show-sizer show-elevator style="margin-left: -200px"
                                   @on-page-size-change="changeSize"></Page>
                         </Row>
                     </Row>
@@ -60,6 +73,7 @@
         },
         data() {
             return {
+                type: "category",
                 columns1: table.columns1, // 表头
                 dataList: [],// 查询结果
                 pageSize: 10, // 每页多少条
@@ -68,28 +82,56 @@
                 page: 1, // 当前页码
                 pageSizeOpts: [10, 20, 50, 80, 100],
                 search: {
-                    data: []
+                    data: [],
+                    keyword: ''
                 },
                 models: []
             }
         },
         methods: {
             exportExcel() {
-                if (this.search.data !== '') {
-                    window.open('/api/excel/export?keyword=' + this.search.data)
+
+                if (this.search.data.length !== 0 || this.search.keyword !== '') {
+                    let param = this.type === 'keyword' ? this.search.keyword : this.search.data
+                    window.open('/api/excel/export?keyword=' + param + '&pageSize=' + this.pageSize + '&type=' + this.type)
                 }
             },
+            onContent() {
+                this.type = 'content'
+                this.onSearch()
+            },
             onSearch() {
-                let postdata = {};
-                postdata.page = this.page;
-                postdata.pageSize = this.pageSize;
-                postdata.keyword = this.search.data
-                this.JAjax.postJson('search/category', postdata, (res) => {
-                    // console.log(res.data.data)
-                    this.dataList = res.data.data || [];
-                    this.total = res.data.total;
-                    this.pageSize = res.data.per_page;
-                });
+                if (this.search.data.length !== 0 || this.search.keyword !== '' || this.search.content !== '') {
+                    console.log(this.type)
+                    let postdata = {};
+                    postdata.page = this.page;
+                    postdata.pageSize = this.pageSize;
+                    if (this.type === 'category') {
+                        postdata.keyword = this.search.data
+                        this.JAjax.postJson('search/category', postdata, (res) => {
+                            // console.log(res.data.data)
+                            this.dataList = res.data.data || [];
+                            this.total = res.data.total;
+                            this.pageSize = res.data.per_page;
+                        });
+                    } else if (this.type === 'keyword') {
+                        postdata.keyword = this.search.keyword
+                        this.JAjax.postJson('search/keyword', postdata, (res) => {
+                            // console.log(res.data.data)
+                            this.dataList = res.data.data || [];
+                            this.total = res.data.total;
+                            this.pageSize = res.data.per_page;
+                        });
+                    } else {
+                        postdata.keyword = this.search.content
+                        this.JAjax.postJson('search/content', postdata, (res) => {
+                            // console.log(res.data.data)
+                            this.dataList = res.data.data || [];
+                            this.total = res.data.total;
+                            this.pageSize = res.data.per_page;
+                        });
+                    }
+                }
             },
 
             getModel() {
@@ -117,10 +159,41 @@
             afresh_list() {
                 this.getModel()
             },
+            changeType() {
+                if (this.type === 'category') {
+                    this.type = 'keyword'
+                } else if (this.type === 'keyword') {
+                    this.type = 'content'
+                } else {
+                    this.type = 'category'
+                }
+                this.$router.push({
+                    name: 'search-index',
+                    params: {
+                        type: this.type
+                    }
+                });
+
+            },
+            getType() {
+                this.type = this.$route.params.type
+            }
         },
         mounted() {
             this.getModel()
+            this.type = this.$route.params.type ? this.$route.params.type : this.type
+            this.$router.push({
+                name: 'search-index',
+                params: {
+                    type: this.type
+                }
+            });
+            // this.getType()
+        },
+        updated() {
+            this.getType()
         }
+
     };
 </script>
 <style>

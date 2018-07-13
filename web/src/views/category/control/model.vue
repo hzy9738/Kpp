@@ -13,6 +13,12 @@
                     <Icon type="cube"></Icon>
                     <span>标准分类</span>
                 </p>
+                <Button style="top: 10px;position: absolute;right: 20px"
+                        class="button" type="info" shape="circle"
+                        @click="createPage"
+                >
+                    添加
+                </Button>
                 <Row class="margin-top-10">
                     <can-edit-table
                             refs="table1"
@@ -23,6 +29,17 @@
             </Card>
             </Col>
         </Row>
+        <Modal
+                v-model="createShow"
+                title="添加标准分类"
+                @on-ok="createNode('formData')"
+                :loading="loading">
+            <Form :model="formData" :label-width="100" :rules="formInline" ref="formData">
+                <FormItem label="分类：" prop="name">
+                    <Input v-model="formData.name" type="text" placeholder="请输入标准分类" style="width: 80%"></Input>
+                </FormItem>
+            </Form>
+        </Modal>
     </div>
 </template>
 
@@ -37,11 +54,51 @@
         },
         data () {
             return {
-                dataList:[]
-
+                formData: {
+                    name: '',
+                },
+                formInline: {
+                    name: [
+                        {required: true, message: '请输入标准分类', trigger: 'blur'},
+                    ],
+                },
+                dataList: [],
+                createShow: false,
+                loading: false
             };
         },
         methods: {
+            createPage(){
+                this.createShow = true
+            },
+            createNode(name) {
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        let formData = {
+                            id: 0,
+                            name: this.formData.name,
+                            type: 'default'
+                        }
+                        let url = 'categories/add/model'
+                        this.JAjax.postJson(url, formData, (res) => {
+                            if(res.code){
+                                this.$Message.success('添加成功');
+                                this.afresh_list()
+                                this.formData.name = ''
+                            }
+                        });
+                        setTimeout(() => {
+                            this.show = false;
+                        }, 500);
+                    } else {
+                        this.loading = false;
+                        setTimeout(() => {
+                            this.loading = true;
+                        }, 100);
+                        this.$Message.error('请检查您输入的信息');
+                    }
+                })
+            },
             getlist () {
                 let postdata = [];
                 this.JAjax.postJson('categories/models', postdata, (res) => {
