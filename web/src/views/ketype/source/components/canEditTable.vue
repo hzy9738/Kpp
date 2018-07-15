@@ -94,7 +94,7 @@
             on: {
                 'on-ok': () => {
                     console.log('删除：', currentRow);
-                    vm.JAjax.postJson('standard/delete/' + currentRow.id, {}, res => {
+                    vm.JAjax.postJson('standard/delete', {id:currentRow.id}, res => {
                         vm.$Message.success('删除成功');
                         vm.$emit('afresh_list', 'data');
                     });

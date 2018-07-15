@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>docapi文档</title>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                                                            <li><a href="#5b4af7f7d1079" class="text-muted">接口文档</a></li>
+                                                                                <li><a href="#5b4af7f7d1ad4" class="nav-mitem">分类合集</a></li>
+                                                                                <li><a href="#5b4af7f7d352c" class="nav-mitem">标准分类</a></li>
+                                                                                <li><a href="#5b4af7f7d4369" class="nav-mitem">知识点分类</a></li>
+                                                                                <li><a href="#5b4af7f7d4fcc" class="nav-mitem">添加标准分类</a></li>
+                                                                                <li><a href="#5b4af7f7d5c20" class="nav-mitem">添加知识点分类</a></li>
+                                                                                <li><a href="#5b4af7f7d69da" class="nav-mitem">删除分类</a></li>
+                                                                                <li><a href="#5b4af7f7d77af" class="nav-mitem">类型列表</a></li>
+                                                                                <li><a href="#5b4af7f7d845d" class="nav-mitem">类型分页列表</a></li>
+                                                                                <li><a href="#5b4af7f7d918d" class="nav-mitem">规范列表</a></li>
+                                                                                <li><a href="#5b4af7f7d9def" class="nav-mitem">规范分类分页</a></li>
+                                                                                <li><a href="#5b4af7f7da9e1" class="nav-mitem">添加规范</a></li>
+                                                                                <li><a href="#5b4af7f7db67a" class="nav-mitem">修改规范</a></li>
+                                                                                <li><a href="#5b4af7f7dc408" class="nav-mitem">删除规范</a></li>
+                                                                                <li><a href="#5b4af7f7dd149" class="nav-mitem">创建章节</a></li>
+                                                                                <li><a href="#5b4af7f7ddeee" class="nav-mitem">章节列表</a></li>
+                                                                                <li><a href="#5b4af7f7deab8" class="nav-mitem">添加子章节</a></li>
+                                                                                <li><a href="#5b4af7f7df90f" class="nav-mitem">删除章节</a></li>
+                                                                                <li><a href="#5b4af7f7e065e" class="nav-mitem">章节详情内容</a></li>
+                                                                                <li><a href="#5b4af7f7e12e3" class="nav-mitem">章节简述</a></li>
+                                                                                <li><a href="#5b4af7f7e1f09" class="nav-mitem">章节Tag</a></li>
+                                                                                <li><a href="#5b4af7f7e2c2f" class="nav-mitem">未命名的接口</a></li>
+                                                                                <li><a href="#5b4af7f7e3974" class="nav-mitem">未命名的接口</a></li>
+                                                                                <li><a href="#5b4af7f7e486f" class="nav-mitem">未命名的接口</a></li>
+                                                                                <li><a href="#5b4af7f7e53a3" class="nav-mitem">未命名的接口</a></li>
+                                                                                <li><a href="#5b4af7f7e6126" class="nav-mitem">未命名的接口</a></li>
+                                                                                <li><a href="#5b4af7f7e6ed1" class="nav-mitem">未命名的接口</a></li>
+                                                </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                                                <h1 class="page-header" id="5b4af7f7d1079">接口文档</h1>
+                                                                                                                            <h4 class="sub-header" id="5b4af7f7d1ad4">分类合集 <a href="tests/5b4af7f7d1ad4.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/categories</p>
+                            <blockquote>
+                                <p>分类合集接口，包括标准和知识点</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                            <tr><td colspan="2">不需要参数</td></tr>
+                                                                    </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+      data{
+          id: title
+      }
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7d352c">标准分类 <a href="tests/5b4af7f7d352c.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/categories/models</p>
+                            <blockquote>
+                                <p>标准分类接口</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                            <tr><td colspan="2">不需要参数</td></tr>
+                                                                    </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+   data{
+     &quot;code&quot;:1,
+      data{
+           id:&quot;标准分类id&quot;,
+           pid:&quot;父id&quot;,
+           title: &quot;标准分类名称&quot;
+           type: &quot;分类类型&quot;
+           status: &quot;状态&quot;
+           model_child: : [
+                {
+                   id:&quot;标准分类id&quot;,
+                   pid:&quot;父id&quot;,
+                   title: &quot;标准分类名称&quot;
+                   type: &quot;分类类型&quot;
+                   status: &quot;状态&quot;
+                   model_child: : []
+              }
+           ]
+      }
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7d4369">知识点分类 <a href="tests/5b4af7f7d4369.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/categories/pages</p>
+                            <blockquote>
+                                <p>知识点分类接口</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                            <tr><td colspan="2">不需要参数</td></tr>
+                                                                    </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+   data{
+     &quot;code&quot;:1,
+      data{
+           id:&quot;知识点分类id&quot;,
+           pid:&quot;父id&quot;,
+           title: &quot;知识点分类名称&quot;
+           type: &quot;分类类型&quot;
+           status: &quot;状态&quot;
+           model_child: : [
+              {
+                   id:&quot;知识点分类id&quot;,
+                   pid:&quot;父id&quot;,
+                   title: &quot;知识点分类名称&quot;
+                   type: &quot;分类类型&quot;
+                   status: &quot;状态&quot;
+                   model_child: : []
+              }
+        ]
+      }
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7d4fcc">添加标准分类 <a href="tests/5b4af7f7d4fcc.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/categories/add/model</p>
+                            <blockquote>
+                                <p>添加标准分类</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                                                                    <tr>
+                                            <td>name</td>
+                                            <td>分类名称</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>id</td>
+                                            <td>父级id</td>
+                                        </tr>
+                                                                                                            </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:{
+           &quot;pid&quot;:&quot;1&quot;,
+           &quot;name&quot;:&quot;文档&quot;,
+           &quot;type&quot;:&quot;default&quot;,
+           &quot;status&quot;:&quot;normal&quot;,
+           &quot;createtime&quot;:1531634276,
+           &quot;updatetime&quot;:1531634276,
+           &quot;id&quot;:159
+     },
+    &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7d5c20">添加知识点分类 <a href="tests/5b4af7f7d5c20.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/categories/add/page</p>
+                            <blockquote>
+                                <p>添加知识点分类</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                                                                    <tr>
+                                            <td>name</td>
+                                            <td>分类名称</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>id</td>
+                                            <td>父级id</td>
+                                        </tr>
+                                                                                                            </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:{
+           &quot;pid&quot;:&quot;1&quot;,
+           &quot;name&quot;:&quot;文档&quot;,
+           &quot;type&quot;:&quot;page&quot;,
+           &quot;status&quot;:&quot;normal&quot;,
+           &quot;createtime&quot;:1531634276,
+           &quot;updatetime&quot;:1531634276,
+           &quot;id&quot;:159
+     },
+    &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7d69da">删除分类 <a href="tests/5b4af7f7d69da.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/categories/delete/category</p>
+                            <blockquote>
+                                <p>删除分类</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                                                                    <tr>
+                                            <td>id</td>
+                                            <td>分类id</td>
+                                        </tr>
+                                                                                                            </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:1,
+     &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7d77af">类型列表 <a href="tests/5b4af7f7d77af.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/kptypes</p>
+                            <blockquote>
+                                <p>类型列表</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                            <tr><td colspan="2">不需要参数</td></tr>
+                                                                    </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:[
+       {
+           &quot;id&quot;:1,
+           &quot;name&quot;:&quot;强制规范&quot;,
+           &quot;weigh&quot;:10,
+           &quot;status&quot;:&quot;1&quot;
+        },
+        ...
+ ],
+     &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7d845d">类型分页列表 <a href="tests/5b4af7f7d845d.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/kptypes/lists</p>
+                            <blockquote>
+                                <p>类型列表分页</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                                                                    <tr>
+                                            <td>page</td>
+                                            <td>页码 （默认1）</td>
+                                        </tr>
+                                                                                                            </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:[
+       {
+        &quot;current_page&quot;:1,
+              &quot;data&quot;:[
+                  {
+                      &quot;id&quot;:1,
+                      &quot;name&quot;:&quot;强制规范&quot;,
+                      &quot;weigh&quot;:10,
+                      &quot;status&quot;:&quot;1&quot;
+                   },
+                  ...
+               ],
+          &quot;first_page_url&quot;:&quot;http://kp.com/api/kptypes/lists?page=1&quot;,
+          &quot;from&quot;:1,
+          &quot;last_page&quot;:1,
+          &quot;last_page_url&quot;:&quot;http://kp.com/api/kptypes/lists?page=1&quot;,
+          &quot;next_page_url&quot;:null,
+          &quot;path&quot;:&quot;http://kp.com/api/kptypes/lists&quot;,
+          &quot;per_page&quot;:15,
+          &quot;prev_page_url&quot;:null,
+          &quot;to&quot;:6,
+          &quot;total&quot;:6
+      }
+ ],
+     &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7d918d">规范列表 <a href="tests/5b4af7f7d918d.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/standard</p>
+                            <blockquote>
+                                <p>规范列表</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                            <tr><td colspan="2">不需要参数</td></tr>
+                                                                    </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:{
+          [
+           &quot;id&quot;:21,
+           &quot;type_id&quot;:2,
+           &quot;name&quot;:&quot;综合医院建筑设计规范&quot;,
+           &quot;types&quot;:{
+           &quot;id&quot;:2,
+           &quot;name&quot;:&quot;国家规范&quot;,
+           &quot;weigh&quot;:6,
+           &quot;status&quot;:&quot;1&quot;
+            }
+      ],
+      ...
+      },
+     &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7d9def">规范分类分页 <a href="tests/5b4af7f7d9def.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/standard/lists</p>
+                            <blockquote>
+                                <p>删除分类</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                                                                    <tr>
+                                            <td>page</td>
+                                            <td>页码 （默认1）</td>
+                                        </tr>
+                                                                                                            </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:{
+          &quot;current_page&quot;:1,
+          &quot;data&quot;:[
+              {
+                &quot;id&quot;:21,
+                &quot;type_id&quot;:2,
+                &quot;name&quot;:&quot;综合医院建筑设计规范&quot;,
+                &quot;types&quot;:{
+                &quot;id&quot;:2,
+                &quot;name&quot;:&quot;国家规范&quot;,
+                &quot;weigh&quot;:6,
+                &quot;status&quot;:&quot;1&quot;
+             }
+           ...
+           }
+           ],
+        &quot;first_page_url&quot;:&quot;http://kp.com/api/standard/lists?page=1&quot;,
+        &quot;from&quot;:1,
+        &quot;last_page&quot;:1,
+        &quot;last_page_url&quot;:&quot;http://kp.com/api/standard/lists?page=1&quot;,
+        &quot;next_page_url&quot;:null,
+        &quot;path&quot;:&quot;http://kp.com/api/standard/lists&quot;,
+        &quot;per_page&quot;:10,
+        &quot;prev_page_url&quot;:null,
+        &quot;to&quot;:10,
+        &quot;total&quot;:10
+      },
+     &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7da9e1">添加规范 <a href="tests/5b4af7f7da9e1.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/standard/add</p>
+                            <blockquote>
+                                <p>添加规范 （规范 === 知识点来源）</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                                                                    <tr>
+                                            <td>name</td>
+                                            <td>规范名称</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>type</td>
+                                            <td>类型ID</td>
+                                        </tr>
+                                                                                                            </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:{
+          ...
+      },
+     &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7db67a">修改规范 <a href="tests/5b4af7f7db67a.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/standard/update</p>
+                            <blockquote>
+                                <p>修改规范 （规范 === 知识点来源）</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                                                                    <tr>
+                                            <td>id</td>
+                                            <td>规范ID</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>name</td>
+                                            <td>规范名称</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>type</td>
+                                            <td>类型ID</td>
+                                        </tr>
+                                                                                                            </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:{
+          ...
+      },
+     &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7dc408">删除规范 <a href="tests/5b4af7f7dc408.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/standard/delete</p>
+                            <blockquote>
+                                <p>删除规范 （规范 === 知识点来源）</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                                                                    <tr>
+                                            <td>id</td>
+                                            <td>规范ID</td>
+                                        </tr>
+                                                                                                            </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:{
+          ...
+      },
+     &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7dd149">创建章节 <a href="tests/5b4af7f7dd149.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/title/create</p>
+                            <blockquote>
+                                <p>创建章节</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                                                                    <tr>
+                                            <td>standard</td>
+                                            <td>规范ID</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>title</td>
+                                            <td>章节名称</td>
+                                        </tr>
+                                                                                                            </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:{
+          ...
+      },
+     &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7ddeee">章节列表 <a href="tests/5b4af7f7ddeee.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/title/lists</p>
+                            <blockquote>
+                                <p>章节列表</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                                                                    <tr>
+                                            <td>id</td>
+                                            <td>规范ID</td>
+                                        </tr>
+                                                                                                            </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:{
+          ...
+      },
+     &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7deab8">添加子章节 <a href="tests/5b4af7f7deab8.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/title/add</p>
+                            <blockquote>
+                                <p>章节列表</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                                                                    <tr>
+                                            <td>title</td>
+                                            <td>章节名称</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>id</td>
+                                            <td>上级章节ID</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>level</td>
+                                            <td>章节层级</td>
+                                        </tr>
+                                                                                <tr>
+                                            <td>standard</td>
+                                            <td>规范ID</td>
+                                        </tr>
+                                                                                                            </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:{
+          ...
+      },
+     &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7df90f">删除章节 <a href="tests/5b4af7f7df90f.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/title/delete</p>
+                            <blockquote>
+                                <p>删除章节</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                                                                    <tr>
+                                            <td>id</td>
+                                            <td>章节ID</td>
+                                        </tr>
+                                                                                                            </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:{
+          ...
+      },
+     &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7e065e">章节详情内容 <a href="tests/5b4af7f7e065e.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/title/content</p>
+                            <blockquote>
+                                <p>章节详情内容</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                                                                    <tr>
+                                            <td>id</td>
+                                            <td>章节ID</td>
+                                        </tr>
+                                                                                                            </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:{
+          ...
+      },
+     &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7e12e3">章节简述 <a href="tests/5b4af7f7e12e3.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/title/sentences</p>
+                            <blockquote>
+                                <p>获取相关的章节简述</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                                                                    <tr>
+                                            <td>id</td>
+                                            <td>章节ID</td>
+                                        </tr>
+                                                                                                            </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:{
+          ...
+      },
+     &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7e1f09">章节Tag <a href="tests/5b4af7f7e1f09.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/title/tags</p>
+                            <blockquote>
+                                <p>获取相关的章节Tag</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                                                                    <tr>
+                                            <td>id</td>
+                                            <td>章节ID</td>
+                                        </tr>
+                                                                                                            </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>通用格式:{&quot;code&quot;:响应码,&quot;message&quot;:&quot;错误描述&quot;,&quot;data&quot;:{}}
+  data{
+     &quot;code&quot;:1,
+     &quot;data&quot;:{
+          ...
+      },
+     &quot;message&quot;:&quot;success&quot;
+ }</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7e2c2f">未命名的接口 <a href="tests/5b4af7f7e2c2f.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/word/tags</p>
+                            <blockquote>
+                                <p>没有描述</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                            <tr><td colspan="2">不需要参数</td></tr>
+                                                                    </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>没有返回值描述</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7e3974">未命名的接口 <a href="tests/5b4af7f7e3974.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/content/save</p>
+                            <blockquote>
+                                <p>没有描述</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                            <tr><td colspan="2">不需要参数</td></tr>
+                                                                    </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>没有返回值描述</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7e486f">未命名的接口 <a href="tests/5b4af7f7e486f.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/search/category</p>
+                            <blockquote>
+                                <p>没有描述</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                            <tr><td colspan="2">不需要参数</td></tr>
+                                                                    </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>没有返回值描述</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7e53a3">未命名的接口 <a href="tests/5b4af7f7e53a3.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/search/keyword</p>
+                            <blockquote>
+                                <p>没有描述</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                            <tr><td colspan="2">不需要参数</td></tr>
+                                                                    </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>没有返回值描述</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7e6126">未命名的接口 <a href="tests/5b4af7f7e6126.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>POST api/search/content</p>
+                            <blockquote>
+                                <p>没有描述</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                            <tr><td colspan="2">不需要参数</td></tr>
+                                                                    </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>没有返回值描述</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                                                                                                <h4 class="sub-header" id="5b4af7f7e6ed1">未命名的接口 <a href="tests/5b4af7f7e6ed1.html">使用测试工具</a></h4>
+                        <div class="table-responsive">
+                            <p>GET api/excel/export</p>
+                            <blockquote>
+                                <p>没有描述</p>
+                            </blockquote>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">参数列表</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>参数名</th>
+                                        <th>参数描述</th>
+                                    </tr>
+                                                                            <tr><td colspan="2">不需要参数</td></tr>
+                                                                    </table>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">返回值描述</div>
+                                <div class="panel-body">
+                                    <pre>没有返回值描述</pre>
+                                </div>
+                            </div>
+                        </div>
+                                                        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

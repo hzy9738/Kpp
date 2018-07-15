@@ -156,7 +156,7 @@
                     title: '提示',
                     content: '<p>确认删除吗？</p><p></p>',
                     onOk: () => {
-                        this.JAjax.postJson('categories/delete/category/'+data.id,{}, (res) => {
+                        this.JAjax.postJson('categories/delete/category',{id:data.id}, (res) => {
                             if (res.code) {
                                 if(data.pid === 0){
                                     this.dataList.forEach((t,index)=>{

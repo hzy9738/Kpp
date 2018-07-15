@@ -14,50 +14,6 @@ class Category extends Model
 
     public $timestamps = false;
 
-    // scout  start
-
-
-//    public function searchableAs()
-//    {
-//        return 'category_index';
-//    }
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//    public function toSearchableArray()
-//    {
-//        $array = $this->toArray();
-//
-//        // Customize array...
-//
-//        return $array;
-//    }
-
-
-
-
-
-
-
-
-    // end
-
-
-
-
-
-
-
-
-
-
-
 
 
     public static function lists()
@@ -130,7 +86,7 @@ class Category extends Model
         $data = [
             'pid' => $request->input('id'),
             'name' => $request->input('name') ,
-            'type' => $request->input('type'),
+            'type' => $request->input('type','default'),
             'status' => 'normal',
             'createtime' => time(),
             'updatetime' =>  time(),
@@ -146,7 +102,7 @@ class Category extends Model
         $data = [
             'pid' => $request->input('id'),
             'name' => $request->input('name') ,
-            'type' => $request->input('type'),
+            'type' => $request->input('type','page'),
             'status' => 'normal',
             'createtime' => time(),
             'updatetime' =>  time(),

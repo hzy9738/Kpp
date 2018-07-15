@@ -236,7 +236,7 @@
                         title: '提示',
                         content: '<p>确认删除吗？</p><p></p>',
                         onOk: () => {
-                            this.JAjax.postJson('title/delete/' + data.id, {}, (res) => {
+                            this.JAjax.postJson('title/delete', {id:data.id}, (res) => {
                                 if (res.code) {
                                     if (data.pid != 0) {
                                         const parentKey = root.find(el => el === node).parent;

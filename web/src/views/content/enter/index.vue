@@ -319,11 +319,11 @@
             },
 
             detail(id) {
-                this.JAjax.postJson('title/content/' + id, {}, (res) => {
+                this.JAjax.postJson('title/content', {id: id}, (res) => {
                     this.content = res.data.detail ? res.data.detail.content : '';
                     this.title_id = res.data.id
                 });
-                this.JAjax.postJson('title/sentences/' + id, {}, (res) => {
+                this.JAjax.postJson('title/sentences', {id: id}, (res) => {
                     let data = res.data || [];
                     this.sentenceDatas = [
                         {

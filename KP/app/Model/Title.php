@@ -70,9 +70,10 @@ class Title extends Model
 
 
 
-    public static function deleteTitle($title){
+    public static function deleteTitle($id){
+        $title = self::find($id);
         $ids = [];
-        $ids[] = $title->id;
+        $ids[] = $id;
         $data = $title->load('children');
         self::_getIds($data,$ids);
         $result = validateData(

@@ -20,10 +20,12 @@ class CategoryValidate
         $validator = Validator::make($request->all(), [
 
             'name' => 'required|max:10',
+            'id' => 'required'
         ], [
             'required' => ':attribute为必填',
         ], [
             'name' => '子标准名称',
+            'id' => '父级ID',
         ]);
 
         if ($validator->fails()) {

@@ -19,44 +19,44 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //分类
 Route::prefix('categories')->group(function () {
-    Route::any('/','CategoryController@lists');
-    Route::any('models','CategoryController@models');
-    Route::any('pages','CategoryController@pages');
-    Route::any('add/model','CategoryController@addModel');
-    Route::any('add/page','CategoryController@addPage');
-    Route::any('delete/category/{category}','CategoryController@deleteCategory');
+    Route::post('/','CategoryController@lists');
+    Route::post('models','CategoryController@models');
+    Route::post('pages','CategoryController@pages');
+    Route::post('add/model','CategoryController@addModel');
+    Route::post('add/page','CategoryController@addPage');
+    Route::post('delete/category','CategoryController@deleteCategory');
 });
 
 //类型
 Route::prefix('kptypes')->group(function () {
-    Route::any('/','KptypeController@lists');
-    Route::any('lists','KptypeController@getLists');
-    Route::any('add','KptypeController@addType');
-    Route::any('update','KptypeController@updateType');
-    Route::any('delete','KptypeController@deleteType');
+    Route::post('/','KptypeController@lists');
+    Route::post('lists','KptypeController@getLists');
+//    Route::post('add','KptypeController@addType');
+//    Route::any('update','KptypeController@updateType');
+//    Route::any('delete','KptypeController@deleteType');
 });
 
 //规范名
 Route::prefix('standard')->group(function () {
-    Route::any('/','StandardController@lists');
-    Route::any('lists','StandardController@getLists');
+    Route::post('/','StandardController@lists');
+    Route::post('lists','StandardController@getLists');
     Route::post('add','StandardController@addStandard');
     Route::post('update','StandardController@updateStandard');
-    Route::post('delete/{standard}','StandardController@deleteStandard');
+    Route::post('delete','StandardController@deleteStandard');
 
 });
 
 //章节
 Route::prefix('title')->group(function () {
 //    Route::any('/','KptypeController@getLists');
-    Route::any('create','TitleController@createTitle');
-    Route::any('lists','TitleController@getLists');
+    Route::post('create','TitleController@createTitle');
+    Route::post('lists','TitleController@getLists');
     Route::post('add','TitleController@addTitle');
-    Route::post('update','TitleController@updateTitle');
-    Route::post('delete/{title}','TitleController@deleteTitle');
-    Route::any('content/{title}','TitleController@getContent');
-    Route::any('sentences/{title}','TitleController@getSentences');
-    Route::any('tags/{title}','TitleController@getTags');
+//    Route::post('update','TitleController@updateTitle');
+    Route::post('delete','TitleController@deleteTitle');
+    Route::post('content','TitleController@getContent');
+    Route::post('sentences','TitleController@getSentences');
+    Route::post('tags','TitleController@getTags');
 
 });
 
@@ -65,14 +65,14 @@ Route::prefix('title')->group(function () {
 //分词
 Route::prefix('word')->group(function () {
 //    Route::any('/','KptypeController@getLists');
-    Route::any('tags','WordController@getTags');
+    Route::post('tags','WordController@getTags');
 
 });
 
 //内容
 Route::prefix('content')->group(function () {
 //    Route::any('/','KptypeController@getLists');
-    Route::any('save','ContentController@saveContent');
+    Route::post('save','ContentController@saveContent');
 
 });
 
@@ -80,7 +80,7 @@ Route::prefix('content')->group(function () {
 //标签
 Route::prefix('tag')->group(function () {
 //    Route::any('/','KptypeController@getLists');
-    Route::any('save','TagController@saveTags');
+//    Route::any('save','TagController@saveTags');
 
 });
 
@@ -88,9 +88,9 @@ Route::prefix('tag')->group(function () {
 //标签
 Route::prefix('search')->group(function () {
 //    Route::any('/','KptypeController@getLists');
-    Route::any('category','SearchController@category');
-    Route::any('keyword','SearchController@keyword');
-    Route::any('content','SearchController@content');
+    Route::post('category','SearchController@category');
+    Route::post('keyword','SearchController@keyword');
+    Route::post('content','SearchController@content');
 
 
 
@@ -102,7 +102,7 @@ Route::prefix('search')->group(function () {
 //标签
 Route::prefix('excel')->group(function () {
 //    Route::any('/','KptypeController@getLists');
-    Route::any('export','ExcelController@excelExport');
-    Route::any('export/keyword','ExcelController@excelKeywordExport');
+    Route::get('export','ExcelController@excelExport');
+//    Route::any('export/keyword','ExcelController@excelKeywordExport');
 
 });

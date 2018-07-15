@@ -16,12 +16,14 @@ function validateData($action)
     try {
         return [
             'msg' => config('code.success'),
-            'data' => $action
+            'data' => $action,
+            "message" => 'success'
         ];
     } catch (Exception $e) {
         return [
             'msg' => config('code.error'),
-            'data' => $e
+            'data' => $e,
+            "message" => 'error'
         ];
     }
 }

@@ -183,6 +183,7 @@ return [
 
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
+        Apidoc\ApiDocServiceProvider::class
     ],
 
     /*

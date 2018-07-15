@@ -14,20 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="router.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/router/router.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3588">
-              <caret line="156" column="34" selection-start-line="156" selection-start-column="34" selection-end-line="156" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/search/index/index.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="103" column="49" lean-forward="true" selection-start-line="103" selection-start-column="49" selection-end-line="103" selection-end-column="49" />
+            <state relative-caret-position="437">
+              <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
               <folding>
                 <element signature="n#style#0;n#Cascader#0;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#Input#0;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -43,10 +34,40 @@
         </entry>
       </file>
       <file leaf-file-name="canEditTable.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/views/category/control/components/canEditTable.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="353">
+              <caret line="158" column="62" lean-forward="true" selection-start-line="158" selection-start-column="62" selection-end-line="158" selection-end-column="62" />
+              <folding>
+                <element signature="n#style#0;n#Input#0;n#FormItem#0;n#Form#0;n#Modal#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="source-table.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/views/search/keword/components/source-table.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="256">
+              <caret line="95" column="23" lean-forward="true" selection-start-line="95" selection-start-column="23" selection-end-line="95" selection-end-column="23" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="source-table.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/views/content/enter/components/source-table.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="402">
+              <caret line="99" column="25" lean-forward="true" selection-start-line="99" selection-start-column="25" selection-end-line="99" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="canEditTable.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/search/index/components/canEditTable.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="230">
-              <caret line="10" column="8" lean-forward="true" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+              <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -55,7 +76,7 @@
         <entry file="file://$PROJECT_DIR$/src/views/category/control/kown.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1564">
-              <caret line="68" column="30" lean-forward="true" selection-start-line="67" selection-start-column="15" selection-end-line="68" selection-end-column="30" />
+              <caret line="68" column="30" selection-start-line="67" selection-start-column="15" selection-end-line="68" selection-end-column="30" />
               <folding>
                 <element signature="n#style#0;n#Button#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#Input#0;n#FormItem#0;n#Form#0;n#Modal#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -67,17 +88,17 @@
       <file leaf-file-name="canEditTable.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/content/enter/components/canEditTable.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="181" column="26" selection-start-line="181" selection-start-column="26" selection-end-line="181" selection-end-column="26" />
+            <state relative-caret-position="278">
+              <caret line="237" column="37" lean-forward="true" selection-start-line="237" selection-start-column="37" selection-end-line="237" selection-end-column="37" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.vue" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/views/content/enter/index.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="531">
-              <caret line="246" column="32" lean-forward="true" selection-start-line="244" selection-start-column="22" selection-end-line="246" selection-end-column="32" />
+            <state relative-caret-position="378">
+              <caret line="320" column="24" lean-forward="true" selection-start-line="320" selection-start-column="24" selection-end-line="320" selection-end-column="24" />
               <folding>
                 <element signature="n#style#0;n#Button#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#Button#0;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -97,7 +118,7 @@
       <file leaf-file-name="index.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/ketype/type/index.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
+            <state relative-caret-position="667">
               <caret line="29" column="37" lean-forward="true" selection-start-line="29" selection-start-column="37" selection-end-line="29" selection-end-column="37" />
               <folding>
                 <element signature="n#style#0;n#Input#0;n#FormItem#0;n#Form#0;n#Modal#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -129,6 +150,11 @@
       <find>addNode</find>
       <find>append</find>
       <find>-1</find>
+      <find>delete/category</find>
+      <find>standard/delete</find>
+      <find>currentRow.id</find>
+      <find>title/delete</find>
+      <find>title/sentences</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -155,21 +181,22 @@
         <option value="$PROJECT_DIR$/src/views/ketype/source/data/search.js" />
         <option value="$PROJECT_DIR$/src/views/ketype/source/index.vue" />
         <option value="$PROJECT_DIR$/src/views/Main.vue" />
-        <option value="$PROJECT_DIR$/src/views/content/enter/components/source-table.vue" />
         <option value="$PROJECT_DIR$/src/views/search/index.vue" />
         <option value="$PROJECT_DIR$/src/views/note/month/index.vue" />
-        <option value="$PROJECT_DIR$/src/views/ketype/source/components/canEditTable.vue" />
         <option value="$PROJECT_DIR$/src/views/search/index/data/search.js" />
         <option value="$PROJECT_DIR$/src/views/search/index/components/canEditTable.vue" />
         <option value="$PROJECT_DIR$/src/router/router.js" />
         <option value="$PROJECT_DIR$/src/views/category/control/kown.vue" />
         <option value="$PROJECT_DIR$/src/views/category/control/model.vue" />
-        <option value="$PROJECT_DIR$/src/views/category/control/components/canEditTable.vue" />
         <option value="$PROJECT_DIR$/src/views/content/enter/data/search.js" />
         <option value="$PROJECT_DIR$/src/views/ketype/type/index.vue" />
-        <option value="$PROJECT_DIR$/src/views/content/enter/index.vue" />
-        <option value="$PROJECT_DIR$/src/views/content/enter/components/canEditTable.vue" />
         <option value="$PROJECT_DIR$/src/views/search/index/index.vue" />
+        <option value="$PROJECT_DIR$/src/views/category/control/components/canEditTable.vue" />
+        <option value="$PROJECT_DIR$/src/views/search/keword/components/source-table.vue" />
+        <option value="$PROJECT_DIR$/src/views/content/enter/components/source-table.vue" />
+        <option value="$PROJECT_DIR$/src/views/ketype/source/components/canEditTable.vue" />
+        <option value="$PROJECT_DIR$/src/views/content/enter/components/canEditTable.vue" />
+        <option value="$PROJECT_DIR$/src/views/content/enter/index.vue" />
       </list>
     </option>
   </component>
@@ -198,7 +225,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -300,6 +326,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -360,12 +387,13 @@
       <workItem from="1531183375219" duration="23103000" />
       <workItem from="1531268534938" duration="20813000" />
       <workItem from="1531355456716" duration="20458000" />
-      <workItem from="1531442273767" duration="16246000" />
+      <workItem from="1531442273767" duration="16502000" />
+      <workItem from="1531630138960" duration="3069000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="175254000" />
+    <option name="totallyTimeSpent" value="178579000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
@@ -375,10 +403,11 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32890365" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32890365" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="TypeScript" order="9" />
@@ -388,7 +417,6 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -403,7 +431,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/views/category/model/data/search.js" />
     <entry file="file://$PROJECT_DIR$/src/libs/util.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-23">
@@ -508,9 +535,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="23">
           <caret line="42" column="52" selection-start-line="42" selection-start-column="52" selection-end-line="42" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -525,13 +549,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4968">
           <caret line="217" column="8" selection-start-line="217" selection-start-column="8" selection-end-line="217" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/ketype/source/components/canEditTable.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="131" column="17" selection-start-line="131" selection-start-column="17" selection-end-line="131" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -570,16 +587,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/category/control/components/canEditTable.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="353">
-          <caret line="152" column="14" lean-forward="true" selection-start-line="152" selection-start-column="14" selection-end-line="152" selection-end-column="14" />
-          <folding>
-            <element signature="n#style#0;n#Input#0;n#FormItem#0;n#Form#0;n#Modal#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/content/enter/data/search.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
@@ -615,7 +622,7 @@
     <entry file="file://$PROJECT_DIR$/src/views/category/control/kown.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1564">
-          <caret line="68" column="30" lean-forward="true" selection-start-line="67" selection-start-column="15" selection-end-line="68" selection-end-column="30" />
+          <caret line="68" column="30" selection-start-line="67" selection-start-column="15" selection-end-line="68" selection-end-column="30" />
           <folding>
             <element signature="n#style#0;n#Button#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#Input#0;n#FormItem#0;n#Form#0;n#Modal#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -625,18 +632,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/ketype/type/index.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
+        <state relative-caret-position="667">
           <caret line="29" column="37" lean-forward="true" selection-start-line="29" selection-start-column="37" selection-end-line="29" selection-end-column="37" />
           <folding>
             <element signature="n#style#0;n#Input#0;n#FormItem#0;n#Form#0;n#Modal#0;n#div#0;n#template#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/content/enter/components/source-table.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1587">
-          <caret line="70" column="38" selection-start-line="70" selection-start-column="30" selection-end-line="70" selection-end-column="38" />
         </state>
       </provider>
     </entry>
@@ -647,10 +647,72 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/search/index/components/canEditTable.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/search/index/index.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
+          <folding>
+            <element signature="n#style#0;n#Cascader#0;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#Input#0;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#Input#1;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#Button#0;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#Button#1;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#Button#1;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#Button#0;n#Row#0;n#Row#0;n#Card#1;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#Page#0;n#Row#0;n#Row#0;n#Card#1;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/category/control/components/canEditTable.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="353">
+          <caret line="158" column="62" lean-forward="true" selection-start-line="158" selection-start-column="62" selection-end-line="158" selection-end-column="62" />
+          <folding>
+            <element signature="n#style#0;n#Input#0;n#FormItem#0;n#Form#0;n#Modal#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/search/keword/components/source-table.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="95" column="23" lean-forward="true" selection-start-line="95" selection-start-column="23" selection-end-line="95" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/ketype/source/components/canEditTable.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="331">
+          <caret line="45" column="57" lean-forward="true" selection-start-line="45" selection-start-column="57" selection-end-line="45" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/content/enter/components/source-table.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="402">
+          <caret line="99" column="25" lean-forward="true" selection-start-line="99" selection-start-column="25" selection-end-line="99" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/content/enter/components/canEditTable.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="237" column="37" lean-forward="true" selection-start-line="237" selection-start-column="37" selection-end-line="237" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/content/enter/index.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="531">
-          <caret line="246" column="32" lean-forward="true" selection-start-line="244" selection-start-column="22" selection-end-line="246" selection-end-column="32" />
+        <state relative-caret-position="378">
+          <caret line="320" column="24" lean-forward="true" selection-start-line="320" selection-start-column="24" selection-end-line="320" selection-end-column="24" />
           <folding>
             <element signature="n#style#0;n#Button#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#Button#0;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -662,37 +724,6 @@
             <element signature="n#style#0;n#Input#0;n#Col#0;n#Row#3;n#Card#0;n#Col#1;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#Col#1;n#Row#3;n#Card#0;n#Col#1;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#Tag#0;n#div#0;n#Col#1;n#Row#3;n#Card#0;n#Col#1;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/content/enter/components/canEditTable.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="181" column="26" selection-start-line="181" selection-start-column="26" selection-end-line="181" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/search/index/components/canEditTable.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="10" column="8" lean-forward="true" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/search/index/index.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="103" column="49" lean-forward="true" selection-start-line="103" selection-start-column="49" selection-end-line="103" selection-end-column="49" />
-          <folding>
-            <element signature="n#style#0;n#Cascader#0;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#Input#0;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#Input#1;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#Button#0;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#Button#1;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#Button#1;n#Row#0;n#Card#0;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#Button#0;n#Row#0;n#Row#0;n#Card#1;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#Page#0;n#Row#0;n#Row#0;n#Card#1;n#Col#0;n#Row#0;n#div#0;n#template#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
