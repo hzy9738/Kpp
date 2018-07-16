@@ -10,6 +10,24 @@ use Illuminate\Http\Request;
 
 class ExcelController extends Controller
 {
+
+
+
+    /**
+     * @Name Excel表格导出
+     * @Description Excel表格导出接口
+     * @Param type:  搜索方式 keyword->Tag搜索  category->标准类型  content->全文搜索
+     * @Param keyword:  Tag or 标准 or 内容关键字 
+     * @Response 通用格式:{"code":响应码,"message":"错误描述","data":{}}
+     *  data{
+     *     "code":1,
+     *     "data":{
+     *          ...
+     *      },
+     *     "message":"success"
+     * }
+     */
+
     public function excelExport(Request $request)
     {
         $type = $request->input('type', 'keyword');

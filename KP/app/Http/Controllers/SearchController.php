@@ -10,6 +10,22 @@ use Illuminate\Support\Facades\App;
 
 class SearchController extends Controller
 {
+
+    /**
+     * @Name 关键词Tag搜索
+     * @Description 关键词Tag搜索接口
+     * @Param keyword:  关键词Tag
+     * @Param page:  页码（默认1）
+     * @Param pageSize:  每页条数（默认10）
+     * @Response 通用格式:{"code":响应码,"message":"错误描述","data":{}}
+     *  data{
+     *     "code":1,
+     *     "data":{
+     *          ...
+     *      },
+     *     "message":"success"
+     * }
+     */
     public function keyword(Request $request)
     {
         $keyword = $request->input('keyword');
@@ -30,7 +46,21 @@ class SearchController extends Controller
         return responseJson($data);
     }
 
-
+    /**
+     * @Name 标准分类搜索
+     * @Description 标准分类搜索接口
+     * @Param keyword:  标准分类
+     * @Param page:  页码（默认1）
+     * @Param pageSize:  每页条数（默认10）
+     * @Response 通用格式:{"code":响应码,"message":"错误描述","data":{}}
+     *  data{
+     *     "code":1,
+     *     "data":{
+     *          ...
+     *      },
+     *     "message":"success"
+     * }
+     */
     public function category(Request $request)
     {
         $keyword = $request->input('keyword');
@@ -52,7 +82,6 @@ class SearchController extends Controller
         return responseJson($data);
     }
 
-
     public static function keywordFormdata($keyword)
     {
         $array = [];
@@ -66,6 +95,22 @@ class SearchController extends Controller
         return $array;
     }
 
+
+    /**
+     * @Name 全文搜索
+     * @Description 全文搜索接口
+     * @Param keyword: 章节内容关键字
+     * @Param page:  页码（默认1）
+     * @Param pageSize:  每页条数（默认10）
+     * @Response 通用格式:{"code":响应码,"message":"错误描述","data":{}}
+     *  data{
+     *     "code":1,
+     *     "data":{
+     *          ...
+     *      },
+     *     "message":"success"
+     * }
+     */
     public function content(Request $request){
         $keyword = $request->input('keyword');
         $pageSize = $request->input('pageSize', 10);

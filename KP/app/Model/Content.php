@@ -15,7 +15,7 @@ class Content extends Model
         ];
         $data = [
             'content' => $request->input('content'),
-            'category_id' => $request->input('category',1),
+//            'category_id' => $request->input('category',1),
             'title_id' => $request->input('title'),
         ];
         $titleId =   $request->input('title');

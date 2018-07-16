@@ -28,6 +28,20 @@ class WordController extends Controller
         JiebaAnalyse::init();
     }
 
+
+    /**
+     * @Name 分词
+     * @Description 分词接口
+     * @Param content:  章节内容
+     * @Response 通用格式:{"code":响应码,"message":"错误描述","data":{}}
+     *  data{
+     *     "code":1,
+     *     "data":{
+     *          ...
+     *      },
+     *     "message":"success"
+     * }
+     */
     public function getTags(Request $request)
     {
 
