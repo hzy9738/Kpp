@@ -40,7 +40,7 @@ class SearchController extends Controller
                 ->leftJoin('kptype', 'standard.type_id', 'kptype.id')
                 ->whereNotNull('sentence.sentence')
                 ->where('tag.tag', 'like', "%{$keyword}%")
-                ->select('tag.id', 'tag', 'sentence', 'content', 'sentence.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
+                ->select('tag.id','sentence.id as sentence_id', 'tag', 'sentence', 'content', 'sentence.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
                 ->paginate($pageSize)
         );
         return responseJson($data);
@@ -76,7 +76,7 @@ class SearchController extends Controller
                 ->leftJoin('kptype', 'standard.type_id', 'kptype.id')
                 ->whereNotNull('sentence.sentence')
                 ->whereIn('sentence.model_id', $array)
-                ->select('tag.id', 'tag', 'sentence', 'content', 'sentence.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
+                ->select('tag.id','sentence.id as sentence_id', 'tag', 'sentence', 'content', 'sentence.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
                 ->paginate($pageSize)
         );
         return responseJson($data);
@@ -124,7 +124,7 @@ class SearchController extends Controller
                 ->leftJoin('kptype', 'standard.type_id', 'kptype.id')
                 ->whereNotNull('sentence.sentence')
                 ->where('content.content', 'like', "%{$keyword}%")
-                ->select('tag.id', 'tag', 'sentence', 'content', 'sentence.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
+                ->select('tag.id', 'sentence.id as sentence_id','tag', 'sentence', 'content', 'sentence.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
                 ->paginate($pageSize)
         );
         return responseJson($data);

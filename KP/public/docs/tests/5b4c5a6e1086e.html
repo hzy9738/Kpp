@@ -16,13 +16,13 @@
     <div class="row">
         <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 main">
             <h1 class="page-header">接口测试工具<a href="/docs/index.html" style="font-size: 20px">返回文档页面</a></h1>
-            <h4 class="sub-header">Excel表格导出</h4>
+            <h4 class="sub-header">修改章节</h4>
             <div class="table-responsive">
-                <input type="hidden" id="url" value="/api/excel/export"/>
-                <input type="hidden" id="method" value="GET"/>
-                <p>GET api/excel/export</p>
+                <input type="hidden" id="url" value="/api/title/update"/>
+                <input type="hidden" id="method" value="POST"/>
+                <p>POST api/title/update</p>
                 <blockquote>
-                    <p>Excel表格导出接口</p>
+                    <p>修改章节接口</p>
                 </blockquote>
 
 
@@ -34,16 +34,16 @@
                         </thead>
                         <tbody>
                                                                                     <tr>
-                                    <td><span class="pointer" title="参数type描述"
+                                    <td><span class="pointer" title="参数title描述"
                                               data-container="body" data-toggle="popover" data-placement="top"
-                                              data-content="搜索方式 keyword-&gt;Tag搜索  category-&gt;标准类型  content-&gt;全文搜索">type</span></td>
-                                    <td><input type="text" class="form-control param" name="type" value="String" placeholder="填入参数值"></td>
+                                              data-content="章节名称">title</span></td>
+                                    <td><input type="text" class="form-control param" name="title" value="" placeholder="填入参数值"></td>
                                 </tr>
                                                             <tr>
-                                    <td><span class="pointer" title="参数keyword描述"
+                                    <td><span class="pointer" title="参数id描述"
                                               data-container="body" data-toggle="popover" data-placement="top"
-                                              data-content="Tag or 标准 or 内容关键字">keyword</span></td>
-                                    <td><input type="text" class="form-control param" name="keyword" value="String" placeholder="填入参数值"></td>
+                                              data-content="章节ID">id</span></td>
+                                    <td><input type="text" class="form-control param" name="id" value="" placeholder="填入参数值"></td>
                                 </tr>
                                                                             </tbody>
                     </table>

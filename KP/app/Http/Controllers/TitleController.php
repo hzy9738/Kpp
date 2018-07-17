@@ -68,7 +68,20 @@ class TitleController extends Controller
         }
         return responseJson($result);
     }
-
+    /**
+     * @Name 修改章节
+     * @Description 修改章节接口
+     * @Param title:   章节名称
+     * @Param id:  章节ID
+     * @Response 通用格式:{"code":响应码,"message":"错误描述","data":{}}
+     *  data{
+     *     "code":1,
+     *     "data":{
+     *          ...
+     *      },
+     *     "message":"success"
+     * }
+     */
     public function updateTitle(Request $request){
         $result = TitleValidate::update($request);
         if($result['msg'] === config('code.success')){

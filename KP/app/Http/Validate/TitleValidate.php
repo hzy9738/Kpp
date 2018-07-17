@@ -49,19 +49,17 @@ class TitleValidate
     {
         //验证
         $validator = Validator::make($request->all(), [
-            'name' => [
+            'title' => [
                 'required',
                 'max:30',
             ],
-            'level' => 'required',
-            'standard' => 'required',
+            'id' => 'required',
         ], [
             'required' => ':attribute为必填',
             'unique'=>':attribute已存在,不可重复'
         ], [
-            'name' => '知识点来源',
-            'level' => '上级目录',
-            'standard' => '所属类型',
+            'name' => '章节名称',
+            'id' =>   '章节ID',
         ]);
 
         if ($validator->fails()) {

@@ -22,11 +22,13 @@
 <script>
     import $ from 'jquery'
 
-    function saveValue(value) {
-        $('.inputSpan').val(value)
+    function saveValue(value,className) {
+        $('input.'+className).val(value)
     }
 
-
+    function saveSpanText(value,className) {
+        $('span'+className).text(value)
+    }
     export default {
         name: 'canEditTable',
         props: {
@@ -43,9 +45,11 @@
                         {required: true, message: '请输入目录名称', trigger: 'blur'},
                     ],
                 },
+                updateOrCreate:false,
                 show: false,
                 loading: true,
                 title: '',
+                titleId: '',
                 styles: [],
                 data: {},
                 children: {},
@@ -84,14 +88,13 @@
                                     width: '250px',
                                     height: '30px'
                                 },
-                                class:"inputSpan",
+                                class:"inputSpan"+data.id,
                                 on: {
-
                                     input: function (event) {
                                         self.title = event.target.value
                                     },
                                     dblclick: (event) => {
-                                        // event.target.className = "inputSpan"
+                                        this.updateOrCreate = true
                                         this.inputStyle(data, event)
                                     },
                                 },
@@ -118,6 +121,7 @@
                             },
                             on: {
                                 click: () => {
+                                    this.updateOrCreate = false
                                     this.append(data)
                                 }
                             }
@@ -176,9 +180,10 @@
             },
             inputStyle(data, event) {
                 if (!this.styles[0] && this.styles.indexOf(1) === -1) {
+                    this.titleId = data.id
                     this.$set(this.styles,data.id,1)
                     setTimeout(() => {
-                        saveValue(data.title,this);
+                        saveValue(data.title,'inputSpan'+this.titleId);
                     }, 200);
                     this.title = data.title
                 }
@@ -195,30 +200,54 @@
                 let children = this.children
 
                 if (this.title !== '') {
-                    let formData = {
-                        id: data.id,
-                        title: this.title,
-                        level: data.level + 1,
-                        standard: data.standard_id,
+                    let formData = {}
+                    let url = ''
+                    if(this.updateOrCreate){
+                        formData = {
+                            id: this.titleId,
+                            title: this.title,
+                        }
+                         url = "title/update"
+                    }else {
+                         url = "title/add"
+                        formData = {
+                            id: data.id,
+                            title: this.title,
+                            level: data.level + 1,
+                            standard: data.standard_id,
+                        }
                     }
-                    let url = "title/add"
                     this.JAjax.postJson(url, formData, (res) => {
                         if (res.code) {
-                            this.$Message.success('添加成功');
-                            this.children.splice(this.children.length - 1);
-                            this.children.push({
-                                title: res.data.title,
-                                expand: true,
-                                id: res.data.id,
-                                pid: this.pid,
-                                standard_id: data.standard_id,
-                                level: data.level + 1,
-                                children: [],
-                                type: res.data.type
-                            });
-                            this.$set(data, 'children', children);
-                            this.formData.name = ''
-                            this.styles.splice(0, 1)
+                            let $message = this.updateOrCreate ? '修改成功' : '添加成功'
+                            this.$Message.success($message);
+
+                            if(this.updateOrCreate){
+                                let className = '.inputSpan'+this.titleId
+
+                                console.log(this.title)
+                                this.styles.splice(this.titleId, 1)
+                                setTimeout(() => {
+                                    saveSpanText(this.title,className)
+                                }, 200);
+                            }else {
+                                this.children.splice(this.children.length - 1);
+                                this.children.push({
+                                    title: res.data.title,
+                                    expand: true,
+                                    id: res.data.id,
+                                    pid: this.pid,
+                                    standard_id: data.standard_id,
+                                    level: data.level + 1,
+                                    children: [],
+                                    type: res.data.type
+                                });
+                                this.$set(data, 'children', children);
+                                this.formData.name = ''
+                                this.styles.splice(0, 1)
+                            }
+
+
                         }
                     });
                 }

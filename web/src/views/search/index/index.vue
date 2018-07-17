@@ -42,6 +42,7 @@
                                 refs="table1"
                                 v-model="dataList"
                                 :columns-list="columns1"
+                                @spliceExport="spliceExport"
                                 @afresh_list="afresh_list"
                                 class="margin-bottom-10">
                         </can-edit-table>
@@ -92,10 +93,16 @@
                     data: [],
                     keyword: ''
                 },
-                models: []
+                models: [],
+                splices: [],
+
             }
         },
         methods: {
+            spliceExport(data) {
+                this.splices.push(data)
+                console.log(this.splices)
+            },
             exportExcel() {
 
                 if (this.search.data.length !== 0 || this.search.keyword !== '' || this.search.content !== '') {
@@ -107,7 +114,7 @@
                     } else {
                         param = this.search.content;
                     }
-                    window.open('/api/excel/export?keyword=' + param + '&pageSize=' + this.pageSize + '&type=' + this.type)
+                    window.open('/api/excel/export?keyword=' + param + '&pageSize=' + this.pageSize + '&type=' + this.type+ '&splices='+ this.splices)
                 }
             },
             onContent() {
@@ -116,10 +123,10 @@
             },
             onSearch() {
                 if (this.search.data.length !== 0 || this.search.keyword !== '' || this.search.content !== '') {
-                    console.log(this.type)
                     let postdata = {};
                     postdata.page = this.page;
                     postdata.pageSize = this.pageSize;
+                    let index = 0
                     if (this.type === 'category') {
                         postdata.keyword = this.search.data
                         this.JAjax.postJson('search/category', postdata, (res) => {
@@ -127,6 +134,9 @@
                             this.dataList = res.data.data || [];
                             this.total = res.data.total;
                             this.pageSize = res.data.per_page;
+                            this.dataList.forEach((t)=>{
+                                t.index = index++
+                            })
                         });
                     } else if (this.type === 'keyword') {
                         postdata.keyword = this.search.keyword
@@ -135,6 +145,9 @@
                             this.dataList = res.data.data || [];
                             this.total = res.data.total;
                             this.pageSize = res.data.per_page;
+                            this.dataList.forEach((t)=>{
+                                t.index = index++
+                            })
                         });
                     } else {
                         postdata.keyword = this.search.content
@@ -143,8 +156,13 @@
                             this.dataList = res.data.data || [];
                             this.total = res.data.total;
                             this.pageSize = res.data.per_page;
+                            this.dataList.forEach((t)=>{
+                                t.index = index++
+                            })
                         });
                     }
+
+
                 }
             },
 

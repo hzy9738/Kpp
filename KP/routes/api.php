@@ -52,11 +52,11 @@ Route::prefix('title')->group(function () {
     Route::post('create','TitleController@createTitle');
     Route::post('lists','TitleController@getLists');
     Route::post('add','TitleController@addTitle');
-//    Route::post('update','TitleController@updateTitle');
+    Route::post('update','TitleController@updateTitle');
     Route::post('delete','TitleController@deleteTitle');
     Route::post('content','TitleController@getContent');
     Route::post('sentences','TitleController@getSentences');
-    Route::post('tags','TitleController@getTags');
+//    Route::post('tags','TitleController@getTags');
 
 });
 

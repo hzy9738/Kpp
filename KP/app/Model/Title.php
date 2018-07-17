@@ -23,6 +23,16 @@ class Title extends Model
         );
     }
 
+    public static function updateTitle($request){
+         $title = self::find($request->input('id',0));
+         $title->title = $request->input('title','');
+        return validateData(
+            $title->save()
+        );
+    }
+
+
+
     public static function lists($request){
         $id = $request->input('id');
         if(isset($id)){

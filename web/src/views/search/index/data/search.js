@@ -65,4 +65,11 @@ export const columns1 = [
         width: 100,
         align: 'center'
     },
+    {
+        key: 'handle',
+        width: 100,
+        title: '操作',
+        align: 'center',
+        handle: ['edit']
+    }
 ];

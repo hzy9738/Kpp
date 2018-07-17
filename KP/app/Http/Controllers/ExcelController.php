@@ -18,6 +18,7 @@ class ExcelController extends Controller
      * @Description Excel表格导出接口
      * @Param type:  搜索方式 keyword->Tag搜索  category->标准类型  content->全文搜索
      * @Param keyword:  Tag or 标准 or 内容关键字 
+     * @Param splices:  删除的行
      * @Response 通用格式:{"code":响应码,"message":"错误描述","data":{}}
      *  data{
      *     "code":1,
@@ -37,7 +38,9 @@ class ExcelController extends Controller
             $array = self::keywordFormdata($keyword);
         }
         $pageSize = $request->input('pageSize', 10);
-
+        $splices = $request->input('splices','');
+        $splices = explode(',',$splices);
+//        dd($splices);
         if ($type == 'category') {
             $data = validateData(
                 Tag::orderBy('tag.id', 'desc')
@@ -91,41 +94,43 @@ class ExcelController extends Controller
         }
         $exports = [];
         foreach ($data['data'] as $key => $item) {
-            $modelItem = '';
-            $pageItem = '';
-            if ($item->model_id != '') {
-                $models = explode(',', $item->model_id);
-                $modelItem = [];
-                foreach ($models as $model) {
-                    if(isset($category[$model])){
-                        $modelItem[] = $category[$model];
-                    }
-                }
-                $modelItem = implode(' / ', $modelItem);
-            }
-            if ($item->page_id != '') {
-                $pages = explode(',', $item->page_id);
-                $pageItem = [];
-                foreach ($pages as $page) {
-                    if(isset($category[$page])){
-                        $pageItem[] =$category[$page];
-                    }
-                }
-                $pageItem = implode(' / ', $pageItem);
-            }
+             if(!in_array($key,$splices)){
+                 $modelItem = '';
+                 $pageItem = '';
+                 if ($item->model_id != '') {
+                     $models = explode(',', $item->model_id);
+                     $modelItem = [];
+                     foreach ($models as $model) {
+                         if(isset($category[$model])){
+                             $modelItem[] = $category[$model];
+                         }
+                     }
+                     $modelItem = implode(' / ', $modelItem);
+                 }
+                 if ($item->page_id != '') {
+                     $pages = explode(',', $item->page_id);
+                     $pageItem = [];
+                     foreach ($pages as $page) {
+                         if(isset($category[$page])){
+                             $pageItem[] =$category[$page];
+                         }
+                     }
+                     $pageItem = implode(' / ', $pageItem);
+                 }
 
-            $exports[$key]['index'] = $key + 1;
-            $exports[$key]['tag'] = $item->tag;
-            $exports[$key]['sentence'] = $item->sentence;
-            $exports[$key]['content'] = $item->content;
-            $exports[$key]['standard'] = $item->standard;
-            $exports[$key]['modelItem'] = $modelItem;
-            $exports[$key]['pageItem'] = $pageItem;
-            $exports[$key]['user'] = $item->user;
-            $exports[$key]['type'] = $item->type;
-            $exports[$key]['kownId'] = '';
-            $exports[$key]['typeId'] = 23;
-            $exports[$key]['modelId'] = '';
+                 $exports[$key]['index'] = $key + 1;
+                 $exports[$key]['tag'] = $item->tag;
+                 $exports[$key]['sentence'] = $item->sentence;
+                 $exports[$key]['content'] = $item->content;
+                 $exports[$key]['standard'] = $item->standard;
+                 $exports[$key]['modelItem'] = $modelItem;
+                 $exports[$key]['pageItem'] = $pageItem;
+                 $exports[$key]['user'] = $item->user;
+                 $exports[$key]['type'] = $item->type;
+                 $exports[$key]['kownId'] = '';
+                 $exports[$key]['typeId'] = 23;
+                 $exports[$key]['modelId'] = '';
+             }
         }
 
         $width = [
