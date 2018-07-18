@@ -41,4 +41,8 @@ class Standard extends Model
         return $data;
     }
 
+    public static function deleteStandard($id){
+       self::where('id',$id)->delete();
+       Title::deleteTitlesByStandard($id);
+    }
 }

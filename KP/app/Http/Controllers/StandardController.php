@@ -6,6 +6,7 @@ use App\Http\Validate\StandardValidate;
 
 use App\Model\Standard;
 
+use App\Model\Title;
 use Illuminate\Http\Request;
 
 class StandardController extends Controller
@@ -152,9 +153,9 @@ class StandardController extends Controller
         $id = $request->input('id',0);
         $result = StandardValidate::validateDelete($id);
         if($result['msg'] === config('code.success')){
-            $standard = Standard::find($id);
+
             $result = validateData(
-                $standard->delete()
+                Standard::deleteStandard($id)
             );
         }
         return responseJson($result);

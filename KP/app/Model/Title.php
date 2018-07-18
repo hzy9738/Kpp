@@ -87,7 +87,17 @@ class Title extends Model
         $data = $title->load('children');
         self::_getIds($data,$ids);
         $result = validateData(
-            Title::whereIn('id',$ids)->delete()
+            Title::whereIn('id',$ids)->delete(),
+            Sentence::whereIn('title_id',$ids)->delete()
+        );
+        return $result;
+    }
+
+    public static function deleteTitlesByStandard($standardId){
+        $ids = Title::where('standard_id',$standardId)->pluck('id');
+        $result = validateData(
+            Title::where('standard_id',$standardId)->delete(),
+            Sentence::whereIn('title_id',$ids)->delete()
         );
         return $result;
     }
@@ -106,5 +116,7 @@ class Title extends Model
 
         return validateData($data);
     }
+
+
 }
 
