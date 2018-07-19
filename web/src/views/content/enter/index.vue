@@ -14,36 +14,42 @@
                         <span>章节目录</span>
                     </p>
                     <!--<Select v-model="source"-->
-                            <!--filterable-->
-                            <!--remote-->
-                            <!--:remote-method="remoteMethod"-->
-                            <!--:loading="loading1"-->
-                            <!--@on-change="selectSource"-->
-                            <!--style="top: 10px;position: absolute;left: 200px;width: 300px">-->
-                        <!--<Option v-for="(option, index) in sources" :value="option.value" :key="index">{{option.label}}-->
-                        <!--</Option>-->
+                    <!--filterable-->
+                    <!--remote-->
+                    <!--:remote-method="remoteMethod"-->
+                    <!--:loading="loading1"-->
+                    <!--@on-change="selectSource"-->
+                    <!--style="top: 10px;position: absolute;left: 200px;width: 300px">-->
+                    <!--<Option v-for="(option, index) in sources" :value="option.value" :key="index">{{option.label}}-->
+                    <!--</Option>-->
                     <!--</Select>-->
-                    <Button  style="top: 10px;position: absolute;left: 400px;"  shape="circle" icon="reply" @click="goBackList" v-if="!sourceOrListShow"></Button>
+                    <Button style="top: 10px;position: absolute;right: 20px" class="button" type="primary" shape="circle"
+                            v-if="sourceOrListShow" @click="standardAdd">添加</Button>
+                    <Button style="top: 10px;position: absolute;left: 400px;" shape="circle" icon="reply"
+                            @click="goBackList" v-if="!sourceOrListShow"></Button>
                     <Row class="margin-top-8">
-                        <Button type="info" style="margin-left: 10px" @click="createTitle" v-if="!sourceOrListShow && dataList.length === 0">
+                        <Button type="info" style="margin-left: 10px" @click="createTitle"
+                                v-if="!sourceOrListShow && dataList.length === 0">
                             创建章节
                         </Button>
 
-                       <div v-if="sourceOrListShow">
-                           <source-table
-                                   refs="table1"
-                                   v-model="sourceList"
-                                   :columns-list="columns1"
-                                   @editShow="editShow"
-                                   class="margin-bottom-10">
-                               >
-                           </source-table>
-                           <Row class="center">
-                               <Page :total="total" show-total @on-change="changePage" :page-size="pageSize"
-                                     :page-size-opts="pageSizeOpts" show-elevator
-                                     @on-page-size-change="changeSize"></Page>
-                           </Row>
-                       </div>
+                        <div v-if="sourceOrListShow">
+                            <source-table
+                                    refs="table1"
+                                    v-model="sourceList"
+                                    :columns-list="columns1"
+                                    @editShow="editShow"
+                                    @updateShow="updateShow"
+                                    @afresh_list="afresh_list"
+                                    class="margin-bottom-10">
+                                >
+                            </source-table>
+                            <Row class="center">
+                                <Page :total="total" show-total @on-change="changePage" :page-size="pageSize"
+                                      :page-size-opts="pageSizeOpts" show-elevator
+                                      @on-page-size-change="changeSize"></Page>
+                            </Row>
+                        </div>
 
 
                         <can-edit-table
@@ -94,35 +100,42 @@
                             <span>简述</span>
                         </Col>
                     </Row>
-
+                    <Row class="margin-top-8">
+                    </Row>
                     <Row class="margin-top-8" v-for="(sentenceData ,index) in sentenceDatas">
                         <Col span="24">
                             <i class="ivu-icon ivu-icon-minus-circled" @click="removeSentence(index)"
                                style="cursor: pointer;color: red;float: left;margin-top: 7px"></i>
                             <i-input v-model="sentenceData.sentence" placeholder="Enter something..."
-                                   style="width: 400px;float: left;margin:0 10px"></i-input>
+                                     style="width: 400px;float: left;margin:0 10px"></i-input>
                             <i class="ivu-icon ivu-icon-plus-circled" @click="appendSentence(index)"
                                style="cursor: pointer;color: #00a854;float: left;margin-top: 7px"></i>
                             <Button type="primary" shape="circle" size="small" @click="getWordBySentence(index)"
-                                    style="float: left;margin:4px 10px 0 10px">分词
+                                    style="float: left;margin:4px 10px 0 30px">分词
                             </Button>
-                            <Cascader :data="knowledges" v-model="sentenceData.knowledge" change-on-select
-                                      style="width: 200px;float: left;margin:0 10px" placeholder="请选择知识点分类"></Cascader>
-                            <Cascader :data="models" v-model="sentenceData.model" change-on-select
-                                      style="width: 240px;float: left;margin:0 10px" placeholder="请选择标准分类"></Cascader>
-                            <Input v-model="sentenceData.user" placeholder="姓名"
-                                   style="width: 80px;float: left"></Input>
-                        </Col>
-                        <Col span="24">
-                            <div style="padding: 10px 40px">
-                                <Tag v-for="item in sentenceData.tags" :key="item" :name="item" closable
-                                     @on-close="handleClose2(index,item)"
-                                     style="margin:5px 10px">{{ item }}
-                                </Tag>
+
+                            <div :class="'tag'+index">
+                                <Tag v-for="(item,key) in sentenceData.tags"  type="border" closable color="yellow"  @on-close="handleClose2(index, item)" checkable  style="margin:5px 5px">{{ item }}</Tag>
                             </div>
+
+                        </Col>
+                        <Col span="24" class="margin-top-8" style="margin-left: 12px;margin-bottom: 12px">
+                            <Cascader :data="knowledges" v-model="sentenceData.knowledge" change-on-select
+                                      style="width: 30%;float: left;margin:0 10px" placeholder="请选择知识点分类"></Cascader>
+                            <Cascader :data="models" v-model="sentenceData.model" change-on-select
+                                      style="width: 30%;float: left;margin:0 10px" placeholder="请选择标准分类"></Cascader>
+                            <Select v-model="sentenceData.type"  style="width: 20%;float: left">
+                                <Option v-for="item in types" :value="item.id" :key="item.id" placeholder="请选择类型">{{ item.name
+                                    }}
+                                </Option>
+                            </Select>
+                        </Col>
+                        <Col span="24" class="margin-top-8" style="margin-left: 12px;margin-bottom: 12px">
+                              <span>搜索关键</span><i-switch v-model="sentenceData.import" @on-change="change"></i-switch>
                         </Col>
                         <Col span="24">
                             <hr>
+
                         </Col>
                     </Row>
 
@@ -140,6 +153,20 @@
                     </FormItem>
                 </Form>
             </Modal>
+            <Modal
+                    v-model="standardShow"
+                    title="添加知识点来源"
+                    @on-ok="addStandard('standardData')"
+                    :loading="loading">
+                <Form :model="standardData" :label-width="100" :rules="standardline" ref="standardData">
+                    <FormItem label="知识点来源：" prop="name">
+                        <Input v-model="standardData.name" type="text" placeholder="请输入子分类" style="width: 80%"></Input>
+                    </FormItem>
+                    <FormItem label="收集人：" prop="user">
+                        <Input v-model="standardData.user" type="text" placeholder="收集人" style="width: 80%"></Input>
+                    </FormItem>
+                </Form>
+            </Modal>
         </Row>
     </div>
 </template>
@@ -148,7 +175,14 @@
     import canEditTable from './components/canEditTable.vue';
     import sourceTable from './components/source-table.vue';
     import * as table from './data/search';
+    import $  from 'jquery';
 
+
+    function checkTagJqery(vm,className) {
+        let tags = $(className).find('.ivu-tag-checked>span').html()
+
+        console.log(tags)
+    }
 
     export default {
         name: 'searchable-table',
@@ -158,8 +192,21 @@
         },
         data() {
             return {
+                standardShow:false,
+                standardData:{
+                    name: '',
+                    user: '',
+                },
+                standardline: {
+                    name: [
+                        {required: true, message: '请输入知识点来源', trigger: 'blur'},
+                    ],
+                    user: [
+                        {required: true, message: '请输入收集人', trigger: 'blur'},
+                    ],
+                },
                 columns1: table.columns1, // 表头
-                sourceList:[],// 查询结果
+                sourceList: [],// 查询结果
                 pageSize: 20, // 每页多少条
                 total: 0, // 总共多少条数据
                 status: null, // 课程状态
@@ -173,6 +220,7 @@
                         {required: true, message: '请输入目录名称', trigger: 'blur'},
                     ],
                 },
+                standardPost:true,
                 knowledges: [],
                 models: [],
                 dataList: [],
@@ -191,13 +239,65 @@
                         knowledge: [],
                         model: [],
                         tags: [],
-                        user: ""
+                        type: [],
+                        import: 0,
                     },
                 ],
-                sourceOrListShow:true,
+                sourceOrListShow: true,
+
+                types: {},
+
             }
         },
         methods: {
+            change (status) {
+                this.$Message.info('开关状态：' + status);
+            },
+            updateShow(data){
+                this.standardPost = false
+                this.standardData.id = data.id
+                this.standardData.name = data.name
+                this.standardData.user = data.user
+                this.standardShow = true
+            },
+            addStandard(name){
+                this.$refs[name].validate((valid) => {
+                    if (valid) {
+                        if(this.standardPost){
+                            this.JAjax.postJson('standard/add', this.standardData, (res) => {
+                                if (res.code) {
+                                    this.$Message.success('添加成功');
+                                    this.afresh_list();
+                                    this.standardData = {}
+                                }
+                            });
+                        }else {
+                            this.JAjax.postJson('standard/update', this.standardData, (res) => {
+                                if (res.code) {
+                                    this.$Message.success('修改成功');
+                                    this.afresh_list();
+                                    this.standardData = {}
+                                }
+                            });
+                        }
+                        setTimeout(() => {
+                            this.standardShow = false
+                        }, 500);
+                    } else {
+                        this.loading = false;
+                        setTimeout(() => {
+                            this.standardShow = true
+                            this.loading = true;
+                        }, 100);
+                        this.$Message.error('请检查您输入的信息');
+                    }
+                })
+
+            },
+            standardAdd(){
+                this.standardPost = true
+                this.standardShow = true
+            },
             getWordBySentence(index) {
                 let content = this.sentenceDatas[index].sentence
                 if (content !== '') {
@@ -297,7 +397,7 @@
             saveContent() {
                 let a = false
                 this.sentenceDatas.forEach(t => {
-                    if (t.sentence === '' || t.knowledge.length === 0 || t.model.length === 0 || t.user === "") {
+                    if (t.sentence === '' || t.knowledge.length === 0 || t.model.length === 0 || t.type === "") {
                         a = true
                     }
                 })
@@ -313,6 +413,7 @@
                     // this.$Message.error('请选择章节目录')
                     return
                 }
+
                 this.JAjax.postJson('content/save', formData, (res) => {
                     this.$Message.success("保存成功")
                 });
@@ -326,22 +427,20 @@
                 this.JAjax.postJson('title/sentences', {id: id}, (res) => {
                     let data = res.data || [];
                     this.sentenceDatas = [
-                        {
-
-                        }
+                        {}
                     ]
-                    data.sentences.forEach((t,index)=>{
+                    data.sentences.forEach((t, index) => {
 
-                        this.$set(this.sentenceDatas,index,{})
+                        this.$set(this.sentenceDatas, index, {})
                         // console.log(t.page_id.join(","))
-                        let model  = t.model_id.split(",")
-                        let page  = t.page_id.split(",")
+                        let model = t.model_id.split(",")
+                        let page = t.page_id.split(",")
 
-                        this.$set(this.sentenceDatas[index],'sentence',t.sentence)
-                        this.$set(this.sentenceDatas[index],'user',t.user)
-                        this.$set(this.sentenceDatas[index],'model', model.map(t=>  Number(t) ) )
-                        this.$set(this.sentenceDatas[index],'knowledge',  page.map(t=>  Number(t) ) )
-                        this.$set(this.sentenceDatas[index],'tags',t.tags.map(t=>t.tag))
+                        this.$set(this.sentenceDatas[index], 'sentence', t.sentence)
+                        this.$set(this.sentenceDatas[index], 'type', t.type)
+                        this.$set(this.sentenceDatas[index], 'model', model.map(t => Number(t)))
+                        this.$set(this.sentenceDatas[index], 'knowledge', page.map(t => Number(t)))
+                        this.$set(this.sentenceDatas[index], 'tags', t.tags.map(t => t.tag))
                     })
                 });
 
@@ -380,7 +479,7 @@
                     this._kownForm(t.children)
                 })
             },
-            getSourceList(){
+            getSourceList() {
                 let postdata = {};
                 postdata.page = this.page;
                 postdata.pageSize = this.pageSize;
@@ -398,7 +497,7 @@
                 this.pageSize = size;
                 this.getSourceList();
             },
-            editShow(data){
+            editShow(data) {
                 this.JAjax.postJson('title/lists', {id: data.id}, (res) => {
                     this.dataList = res.data || [];
                     this.source = data.id
@@ -406,18 +505,25 @@
                     this.formData.title = data.name
                 });
             },
-            goBackList(){
+            getType() {
+                this.JAjax.postJson('kptypes', {}, (res) => {
+                    this.types = res.data
+                });
+            },
+            goBackList() {
                 this.sourceOrListShow = true
             },
             afresh_list() {
                 this.getlist();
+                this.getSourceList();
             },
-            dataListNode(){
-               this.dataList =[]
+            dataListNode() {
+                this.dataList = []
             }
         },
         mounted() {
             // this.getlist();
+            this.getType();
             this.getSource();
             this.getSourceList();
             this.getModel();

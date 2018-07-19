@@ -20,19 +20,20 @@ class StandardValidate
         //验证
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:standard|max:30',
-            'type' => 'required'
+            'user' => 'required'
         ], [
             'required' => ':attribute为必填',
             'unique'=>':attribute已存在,不可重复'
         ], [
             'name' => '知识点来源',
-            'type' => '知识类型',
+            'user' => '收集人',
         ]);
 
         if ($validator->fails()) {
             return [
                 'msg' => config('code.error'),
-                'data' => $validator->errors()->first()
+                'data' => $validator->errors()->first(),
+                'message'=> $validator->errors()->first(),
             ];
         }
 
@@ -53,19 +54,20 @@ class StandardValidate
                 'max:30',
                  Rule::unique('standard')->ignore($request->id),
             ],
-            'type' => 'required'
+            'user' => 'required'
         ], [
             'required' => ':attribute为必填',
             'unique'=>':attribute已存在,不可重复'
         ], [
             'name' => '知识点来源',
-            'type' => '知识类型',
+            'user' => '收集人',
         ]);
 
         if ($validator->fails()) {
             return [
                 'msg' => config('code.error'),
-                'data' => $validator->errors()->first()
+                'data' => $validator->errors()->first(),
+                'message' => $validator->errors()->first(),
             ];
         }
 

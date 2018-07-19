@@ -16,6 +16,8 @@
                 </FormItem>
             </Form>
         </Modal>
+
+
     </div>
 </template>
 
@@ -45,6 +47,19 @@
                         {required: true, message: '请输入目录名称', trigger: 'blur'},
                     ],
                 },
+                standardShow:false,
+                standardData:{
+                    name: '',
+                    user: '',
+                },
+                standardline: {
+                    name: [
+                        {required: true, message: '请输入目录名称', trigger: 'blur'},
+                    ],
+                    user: [
+                        {required: true, message: '请输入目录名称', trigger: 'blur'},
+                    ],
+                },
                 updateOrCreate:false,
                 show: false,
                 loading: true,
@@ -65,7 +80,10 @@
                 return h('span', {
                     style: {
                         display: 'inline-block',
-                        width: '100%'
+                        width: '100%',
+                        padding:'2px  0 2px 2px ',
+                        borderRadius:'5px',
+                        border:'1px solid #999'
                     }
                 }, [
                     h('span', [
@@ -80,7 +98,8 @@
                                 },
                             },
                             style: {
-                                marginRight: '8px'
+                                marginRight: '8px',
+
                             }
                         }, this.styles[data.id] ? '保存' : ''),
                         h(this.styles[data.id] === 1 ? 'input' : 'span', {

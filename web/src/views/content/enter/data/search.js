@@ -7,9 +7,15 @@ export const columns1 = [
         align: 'center'
     },
     {
+        key: 'user',
+        title: '收集人',
+        align: 'center'
+    },
+    {
         key: 'handle',
         title: '操作',
         align: 'center',
+        minWidth: 50,
         handle: ['look']
     }
 ];

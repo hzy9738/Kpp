@@ -18,7 +18,7 @@ class Standard extends Model
     {
         $data = [
             'name' => $request->input('name'),
-            'type_id' => $request->input('type'),
+            'user' => $request->input('user',''),
         ];
         $data = validateData(
             self::create($data)
@@ -30,7 +30,7 @@ class Standard extends Model
     {
         $data = [
             'name' => $request->input('name'),
-            'type_id' => $request->input('type'),
+            'user' => $request->input('user'),
         ];
         $model =  self::find(  $request->input('id') );
 

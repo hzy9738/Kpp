@@ -31,7 +31,8 @@ class CategoryValidate
         if ($validator->fails()) {
             return [
                 'msg' => config('code.error'),
-                'data' => $validator->errors()->first()
+                'data' => $validator->errors()->first(),
+                'message'=> $validator->errors()->first(),
             ];
         }
 

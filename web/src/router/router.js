@@ -130,13 +130,6 @@ export const appRouter = [
         component: Main,
         children: [
             {
-                path: 'source',
-                icon: 'compose',
-                name: 'kown-source',
-                title: '来源',
-                component: () => import('@/views/ketype/source/index.vue')
-            },
-            {
                 path: 'enter',
                 icon: 'compose',
                 name: 'enter-content',

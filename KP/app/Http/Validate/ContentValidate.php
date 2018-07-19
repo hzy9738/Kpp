@@ -25,7 +25,7 @@ class ContentValidate
             'sentences' => 'required',
             'sentences.*.knowledge' => 'required',
             'sentences.*.model' => 'required',
-            'sentences.*.user' => 'required',
+            'sentences.*.type' => 'required',
             'title' => 'required',
         ], [
             'required' => ':attribute为必填',
@@ -37,7 +37,7 @@ class ContentValidate
             'title' => '章节',
             'sentences.*.knowledge' => '简述内容',
             'sentences.*.model' => '简述内容',
-            'sentences.*.user' => '简述内容',
+            'sentences.*.type' => '类型',
         ]);
 
         if ($validator->fails()) {

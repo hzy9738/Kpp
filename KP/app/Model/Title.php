@@ -68,10 +68,14 @@ class Title extends Model
             ->with('children');
     }
 
+
+
     public function detail()
     {
         return $this->belongsTo(Content::class,'id','title_id');
     }
+
+
 
     public function sentences()
     {

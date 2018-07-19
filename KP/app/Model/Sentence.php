@@ -19,7 +19,7 @@ class Sentence extends Model
             $data[$key]['model_id'] = implode(',', $sentence['model']);
             $data[$key]['content_id'] = $content_id;
             $data[$key]['title_id'] = $titleId;
-            $data[$key]['user'] = $sentence['user'];
+            $data[$key]['type'] = $sentence['type'];
             $data[$key]['createtime'] = $time;
             $tags[] = $sentence['tags'];
         }
