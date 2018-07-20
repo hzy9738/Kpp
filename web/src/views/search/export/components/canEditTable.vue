@@ -58,8 +58,7 @@
             refs: String,
             columnsList: Array,
             value: Array,
-            url: String,
-            category:{}
+            url: String
         },
         data () {
             return {
@@ -75,24 +74,11 @@
                    this.$emit('exportExcel')
             },
             init () {
-
+                this.getCategory()
 
                 let tableData = JSON.parse(JSON.stringify(this.value));
                 tableData.forEach(item => {
-                    let pages = item.page_id.split(',')
-                    pages = pages.map(t=>this.category[t])
-                    item.page = pages.join(' / ')
-
-                    let models = item.model_id.split(',')
-                    models = models.map(e=>this.category[e])
-                    item.model = models.join(' / ')
-
-                    item.content = (item.content)
-
-                    let tags = item.tags.map(item=>item.tag)
-                    item.tag = tags.join(',')
-
-                    item.typeId = 23
+                    item.typeId = item.type_id
                 });
                 this.thisTableData = tableData;
                 this.columnsList.forEach(item => {
@@ -108,7 +94,11 @@
                     }
                 });
             },
-
+            getCategory() {
+                this.JAjax.postJson('categories', {}, (res) => {
+                    this.category = res.data || []
+                });
+            }
         },
         watch: {
             value (data) {

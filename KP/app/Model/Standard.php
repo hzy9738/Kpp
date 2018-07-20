@@ -45,4 +45,36 @@ class Standard extends Model
        self::where('id',$id)->delete();
        Title::deleteTitlesByStandard($id);
     }
+
+    public function titles(){
+        return $this->hasMany(Title::class);
+    }
+
+
+    public static function watchStandard($id){
+          $data = self::where('id',$id)->with('titles.detail')->get();
+           $html= "";
+          self::_formStyle($data,$html);
+          return $html;
+    }
+
+    public static function _formStyle(&$data,&$html=''){
+            foreach ($data as $item){
+                $html .= "<h1 style='align-content: center'>".$item->name."</h1>";
+                self::_formData($item->titles,$html);
+            }
+    }
+    public static function _formData(&$data,&$html=''){
+        foreach ($data as $item){
+
+            $html .= "<h4 style='align-content: left;color: black'><strong>".$item->title."</strong></h4>";
+            if(isset($item->detail->content)){
+                $html .= "<p>".$item->detail->content."</p>";
+            }
+            if(isset($item->titles)){
+                self::_formData($item->titles,$html);
+            }
+        }
+
+    }
 }

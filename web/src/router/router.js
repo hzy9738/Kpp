@@ -138,7 +138,22 @@ export const appRouter = [
             },
         ]
     },
-
+    // {
+    //     path: '/book',
+    //     icon: 'social-buffer',
+    //     name: 'book',
+    //     title: '预览',
+    //     component: Main,
+    //     children: [
+    //         {
+    //             path: 'look',
+    //             icon: 'ios-book-outline',
+    //             name: 'look-book',
+    //             title: '预览',
+    //             component: () => import('@/views/content/look/index.vue')
+    //         },
+    //     ]
+    // },
     {
         path: '/search',
         icon: 'social-buffer',
@@ -152,6 +167,23 @@ export const appRouter = [
                 name: 'search-index',
                 title: '查询',
                 component: () => import('@/views/search/index/index.vue')
+            },
+
+        ]
+    },
+    {
+        path: '/export',
+        icon: 'social-buffer',
+        name: 'export',
+        title: '导出',
+        component: Main,
+        children: [
+            {
+                path: "excel",
+                icon: 'android-download',
+                name: 'excel-export',
+                title: '导出',
+                component: () => import('@/views/search/export/index.vue')
             },
 
         ]

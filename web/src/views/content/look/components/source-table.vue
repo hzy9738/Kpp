@@ -14,7 +14,7 @@
     import Cookies from 'js-cookie';
 
 
-    const commitButton = (vm, h, currentRow, index) => {
+    const editButton = (vm, h, currentRow, index) => {
         return h('Button', {
             props: {
                 type: currentRow.status === 2 ? 'default' :'info',
@@ -33,22 +33,11 @@
             on: {
                 'click': () => {
 
-                    console.log('提交审核：', currentRow);
-                    if (currentRow.status === 2) {
-                        vm.$Message.error('已提交，不能重复提交');
-                        return false;
-                    }
-                    if (currentRow.note_tasks_count !== currentRow.count) {
-                        vm.$Message.error('尚有未提交的项目/部门，无法提交审核');
-                        return false;
-                    }
-                    vm.JAjax.postJson('note/month/commit/' + currentRow.id, {}, res => {
-                        vm.$Message.success(res.message);
-                        vm.$emit('afresh_list', 'data');
-                    });
+                    console.log('修改：', currentRow);
+                    vm.$emit('updateShow', currentRow);
                 }
             }
-        }, (currentRow.status === 1 || currentRow.status === 2) ? '已提交' : '提交审核');
+        }, '修改');
     };
     const updateButton = (vm, h, currentRow, index) => {
         return h('Button', {
@@ -78,7 +67,7 @@
                     // });
                 }
             }
-        }, '编辑');
+        }, '预览');
     };
     const deleteButton = (vm, h, currentRow, index) => {
         return h('Poptip', {
@@ -90,7 +79,7 @@
             on: {
                 'on-ok': () => {
                     console.log('删除：', currentRow);
-                    vm.JAjax.postJson('standard/delete', {id:currentRow.id }, res => {
+                    vm.JAjax.postJson('standard/delete', {id:currentRow.id}, res => {
                         vm.$Message.success('删除成功');
                         vm.$emit('afresh_list', 'data');
                     });
@@ -143,10 +132,6 @@
             init () {
                 let tableData = JSON.parse(JSON.stringify(this.value));
                 tableData.forEach(item => {
-                    item.date = this.toMonth(item.date);
-                    item.commit = item.note_tasks_count + ' / ' + item.count;
-                    item.attribute =  this.attributes[item.status]
-                    item.type = item.types.name
                 });
                 this.thisTableData = tableData;
                 this.columnsList.forEach(item => {

@@ -11,55 +11,22 @@
                 <Card>
                     <p slot="title">
                         <Icon type="cube"></Icon>
-                        <span>Kkp查询</span>
+                        <span>结果集导出</span>
+                        <Dropdown  style="top: 10px;position: absolute;left: 200px" @on-click="searchName">
+                            <Button type="primary" >
+                                选择结果集
+                                <Icon type="arrow-down-b"></Icon>
+                            </Button>
+                            <DropdownMenu slot="list"  >
+                                <DropdownItem name="A">结果集 A</DropdownItem>
+                                <DropdownItem name="B">结果集 B</DropdownItem>
+                                <DropdownItem name="C">结果集 C</DropdownItem>
+                                <DropdownItem name="D">结果集 D</DropdownItem>
+                                <DropdownItem name="E">结果集 E</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
                     </p>
 
-                    <Row class="margin-top-8">
-                        <Cascader :data="models" v-model="search.data" change-on-select v-if='type==="category"'
-                                  style="width: 300px;float: left" placeholder="请选择标准分类"></Cascader>
-                        <Input v-model="search.keyword" placeholder="请输入Tag关键词" style="width: 300px;float: left"
-                               v-if='type==="keyword"' @on-enter="onSearch"></Input>
-                        <Input v-model="search.content" placeholder="全文检索" v-if='type==="content"'
-                               style="width: 300px;float: left" @on-enter="onSearch"></Input>
-                        <Button type="success" style="float: left;margin: 0 20px" @click="onSearch">搜索</Button>
-
-
-                        <Button type="ghost" size="small" shape="circle" @click="changeType"
-                                style="float: left;margin: 5px 20px">切换搜索方式
-                            <Icon type="shuffle"></Icon>
-                            <span style="color: #00a050">{{ types[type] }}</span>
-                        </Button>
-
-
-                        <Dropdown  style="float: right;width: 200px" @on-click="saveResult">
-                            <Button type="primary" >
-                                全部保存到临时结果集
-                                <Icon type="arrow-down-b"></Icon>
-                            </Button>
-                            <DropdownMenu slot="list"  >
-                                <DropdownItem name="A">结果集 A</DropdownItem>
-                                <DropdownItem name="B">结果集 B</DropdownItem>
-                                <DropdownItem name="C">结果集 C</DropdownItem>
-                                <DropdownItem name="D">结果集 D</DropdownItem>
-                                <DropdownItem name="E">结果集 E</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                        <Dropdown  style="float: right;width: 200px" @on-click="saveResult">
-                            <Button type="primary" >
-                                当页保存到临时结果集
-                                <Icon type="arrow-down-b"></Icon>
-                            </Button>
-                            <DropdownMenu slot="list"  >
-                                <DropdownItem name="A">结果集 A</DropdownItem>
-                                <DropdownItem name="B">结果集 B</DropdownItem>
-                                <DropdownItem name="C">结果集 C</DropdownItem>
-                                <DropdownItem name="D">结果集 D</DropdownItem>
-                                <DropdownItem name="E">结果集 E</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                        <!--<Input v-model="search.content" placeholder="全文检索"-->
-                        <!--style="width: 300px;float: left;margin-left: 50px" @on-enter="onContent"></Input>-->
-                    </Row>
                 </Card>
 
                 <Card>
@@ -68,16 +35,15 @@
                                 refs="table1"
                                 v-model="dataList"
                                 :columns-list="columns1"
-                                :category="category"
                                 @spliceExport="spliceExport"
                                 @afresh_list="afresh_list"
                                 class="margin-bottom-10">
                         </can-edit-table>
                         <Row class="center">
-                            <!--<Button type="primary" size="large" @click="exportExcel" style="float: left">-->
-                                <!--<Icon type="ios-download-outline"></Icon>-->
-                                <!--导出当页数据-->
-                            <!--</Button>-->
+                            <Button type="primary" size="large" @click="exportExcel" style="float: left">
+                                <Icon type="ios-download-outline"></Icon>
+                                导出所有数据
+                            </Button>
                             <Page :total="total" show-total @on-change="changePage" :page-size="pageSize"
                                   :page-size-opts="pageSizeOpts" show-sizer show-elevator style="margin-left: -200px"
                                   @on-page-size-change="changeSize"></Page>
@@ -122,56 +88,32 @@
                 },
                 models: [],
                 splices: [],
-                category:[]
+                category: [],
+                name:'A'
             }
         },
         methods: {
-            saveResult(name){
-                let postData = {}
-                this.dataList.forEach((item,index)=>{
-                    this.$set(postData,index,{})
-
-                    let pages = item.page_id.split(',')
-                    pages = pages.map(t=>this.category[t])
-                    let models = item.model_id.split(',')
-                    models = models.map(e=>this.category[e])
-                    let tags = item.tags.map(t=>t.tag)
-                    this.$set(postData[index],'user',item.user)
-                    this.$set(postData[index],'type',item.type)
-                    this.$set(postData[index],'standard',item.standard)
-                    this.$set(postData[index],'content',item.content)
-                    this.$set(postData[index],'sentence',item.sentence)
-                    this.$set(postData[index],'sentence_id',item.id)
-                    this.$set(postData[index],'page',pages.join(' / '))
-                    this.$set(postData[index],'model',models.join(' / '))
-                    this.$set(postData[index],'tag',tags.join(','))
-                    this.$set(postData[index],'name',name)
-                    this.$set(postData[index],'type_id',23)
-                    let  time =Math.round(new Date().getTime()/1000).toString()
-                    this.$set(postData[index],'createtime',time)
-
-
-                })
-                this.JAjax.postJson('result/save/page', postData, (res) => {
-                    this.$Message.success('保存成功');
+            searchName(name){
+                this.name = name
+                this.JAjax.postJson('search/result', {name:name}, (res) => {
+                    // console.log(res.data.data)
+                    this.dataList = res.data.data || [];
+                    this.total = res.data.total;
+                    this.pageSize = res.data.per_page;
+                    this.dataList.forEach((t)=>{
+                        t.index = index++
+                    })
                 });
             },
+
             spliceExport(data) {
                 this.splices.push(data)
                 console.log(this.splices)
             },
             exportExcel() {
 
-                if (this.search.data.length !== 0 || this.search.keyword !== '' || this.search.content !== '') {
-                    let param = ""
-                    if (this.type === 'category') {
-                        param = this.search.data;
-                    } else if (this.type === 'keyword') {
-                        param = this.search.keyword;
-                    } else {
-                        param = this.search.content;
-                    }
-                    window.open('/api/excel/export?keyword=' + param + '&pageSize=' + this.pageSize + '&type=' + this.type+ '&splices='+ this.splices)
+                if (this.dataList.length !== 0) {
+                    window.open('/api/excel/export?keyword=' + this.name + '&pageSize=' + this.pageSize+ '&type=result'  + '&splices='+ this.splices)
                 }
             },
             onContent() {
@@ -248,6 +190,11 @@
             afresh_list() {
                 this.getModel()
             },
+            getCategory() {
+                // this.JAjax.postJson('categories', {}, (res) => {
+                //     this.category = res.data || []
+                // });
+            },
             changeType() {
                 if (this.type === 'category') {
                     this.type = 'keyword'
@@ -264,30 +211,15 @@
                 });
 
             },
-            getType() {
-                this.type = this.$route.params.type
-            },
-            getCategorygetCategory() {
-                this.JAjax.postJson('categories', {}, (res) => {
-                    this.category = res.data || []
-                });
-            }
+
         },
         mounted() {
             this.getModel()
-            this.getCategorygetCategory()
+            this.getCategory()
             this.type = this.$route.params.type ? this.$route.params.type : this.type
-            this.$router.push({
-                name: 'search-index',
-                params: {
-                    type: this.type
-                }
-            });
-            // this.getType()
+
         },
-        updated() {
-            this.getType()
-        }
+
 
     };
 </script>

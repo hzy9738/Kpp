@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Category;
+use App\Model\Export;
 use App\Model\Sentence;
 use App\Model\Tag;
 use Illuminate\Http\Request;
@@ -31,18 +32,21 @@ class SearchController extends Controller
         $keyword = $request->input('keyword');
         $pageSize = $request->input('pageSize', 10);
         $data = validateData(
-            Tag::orderBy('tag.id', 'desc')
-                ->leftJoin('sentence_tag', 'sentence_tag.tag_id', 'tag.id')
-                ->leftJoin('sentence', 'sentence_tag.sentence_id', 'sentence.id')
-                ->leftJoin('content', 'sentence.content_id', 'content.id')
-                ->leftJoin('title', 'content.title_id', 'title.id')
-                ->leftJoin('standard', 'title.standard_id', 'standard.id')
-                ->leftJoin('kptype', 'standard.type_id', 'kptype.id')
-                ->whereNotNull('sentence.sentence')
-                ->where('tag.tag', 'like', "%{$keyword}%")
-                ->select('tag.id','sentence.id as sentence_id', 'tag', 'sentence', 'content', 'sentence.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
-                ->paginate($pageSize)
-        );
+
+
+        Sentence::orderBy('sentence.id', 'desc')
+            ->leftJoin('kptype', 'sentence.type', 'kptype.id')
+            ->leftJoin('content', 'sentence.content_id', 'content.id')
+            ->leftJoin('title', 'content.title_id', 'title.id')
+            ->leftJoin('standard', 'title.standard_id', 'standard.id')
+            ->with(['tags'=>function($query) use($keyword){
+                $query->where('tag', 'like', "%{$keyword}%");
+            }])
+            ->select('sentence.id', 'sentence', 'content', 'standard.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
+            ->whereNotNull('sentence.sentence')
+            ->where('sentence.import',1)
+            ->paginate($pageSize)
+    );
         return responseJson($data);
     }
 
@@ -67,17 +71,20 @@ class SearchController extends Controller
         $pageSize = $request->input('pageSize', 10);
         $array = self::keywordFormdata($keyword);
         $data = validateData(
-            Tag::orderBy('tag.id', 'desc')
-                ->leftJoin('sentence_tag', 'sentence_tag.tag_id', 'tag.id')
-                ->leftJoin('sentence', 'sentence_tag.sentence_id', 'sentence.id')
+
+
+            Sentence::orderBy('sentence.id', 'desc')
+                ->leftJoin('kptype', 'sentence.type', 'kptype.id')
                 ->leftJoin('content', 'sentence.content_id', 'content.id')
                 ->leftJoin('title', 'content.title_id', 'title.id')
                 ->leftJoin('standard', 'title.standard_id', 'standard.id')
-                ->leftJoin('kptype', 'standard.type_id', 'kptype.id')
+                ->with(['tags'=>function($query) use($keyword){}])
+                ->select('sentence.id', 'sentence', 'content', 'standard.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
                 ->whereNotNull('sentence.sentence')
+                ->where('sentence.import',1)
                 ->whereIn('sentence.model_id', $array)
-                ->select('tag.id','sentence.id as sentence_id', 'tag', 'sentence', 'content', 'sentence.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
                 ->paginate($pageSize)
+
         );
         return responseJson($data);
     }
@@ -115,18 +122,52 @@ class SearchController extends Controller
         $keyword = $request->input('keyword');
         $pageSize = $request->input('pageSize', 10);
         $data = validateData(
-            Tag::orderBy('tag.id', 'desc')
-                ->leftJoin('sentence_tag', 'sentence_tag.tag_id', 'tag.id')
-                ->leftJoin('sentence', 'sentence_tag.sentence_id', 'sentence.id')
+            Sentence::orderBy('sentence.id', 'desc')
+                ->leftJoin('kptype', 'sentence.type', 'kptype.id')
                 ->leftJoin('content', 'sentence.content_id', 'content.id')
                 ->leftJoin('title', 'content.title_id', 'title.id')
                 ->leftJoin('standard', 'title.standard_id', 'standard.id')
-                ->leftJoin('kptype', 'standard.type_id', 'kptype.id')
+                ->with(['tags'=>function($query) use($keyword){}])
+                ->select('sentence.id', 'sentence', 'content', 'standard.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
                 ->whereNotNull('sentence.sentence')
                 ->where('content.content', 'like', "%{$keyword}%")
-                ->select('tag.id', 'sentence.id as sentence_id','tag', 'sentence', 'content', 'sentence.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
+                ->where('sentence.import',1)
                 ->paginate($pageSize)
         );
         return responseJson($data);
+    }
+
+
+
+    /**
+     * @Name 获取结果集
+     * @Description 获取结果集接口
+     * @Param name: 结果集id
+     * @Response 通用格式:{"code":响应码,"message":"错误描述","data":{}}
+     *  data{
+     *     "code":1,
+     *     "data":{
+     *          ...
+     *      },
+     *     "message":"success"
+     * }
+     */
+    public function result(Request $request){
+        $name = $request->input('name');
+        $pageSize = $request->input('pageSize', 10);
+        $data = validateData(
+                Export::orderBy('id','desc')
+                    ->where('name',$name)
+                    ->select('name','tag','sentence','content','standard','model','page','user','type','sentence_id','kown_id','type_id','model_id')
+                    ->distinct()
+//                    ->groupBy('id','name','tag','sentence','content','standard','model','page','user','type','sentence_id','kown_id','type_id','model_id','createtime')
+                ->paginate($pageSize)
+        );
+        return responseJson($data);
+    }
+
+
+    public function savePageResult(Request $request){
+        return 1;
     }
 }

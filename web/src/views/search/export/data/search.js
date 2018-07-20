@@ -4,7 +4,7 @@ export const columns1 = [
         key: 'tag',
         title: 'tag',
         align: 'center',
-        width: 100
+        minWidth: 100
     },
 
     {
@@ -14,6 +14,7 @@ export const columns1 = [
         width: 200,
     },
     {
+        type:'html',
         key: 'content',
         title: '详细说明',
         ellipsis:true,
@@ -44,7 +45,7 @@ export const columns1 = [
     {
         key: 'type',
         title: '知识点类型',
-        width: 200,
+        width: 100,
         align: 'center'
     },
     {
@@ -65,4 +66,11 @@ export const columns1 = [
         width: 100,
         align: 'center'
     },
+    {
+        key: 'handle',
+        width: 100,
+        title: '操作',
+        align: 'center',
+        handle: ['edit']
+    }
 ];

@@ -14,7 +14,7 @@
     import Cookies from 'js-cookie';
 
 
-    const editButton = (vm, h, currentRow, index) => {
+    const commitButton = (vm, h, currentRow, index) => {
         return h('Button', {
             props: {
                 type: currentRow.status === 2 ? 'default' :'info',
@@ -33,11 +33,22 @@
             on: {
                 'click': () => {
 
-                    console.log('修改：', currentRow);
-                    vm.$emit('updateShow', currentRow);
+                    console.log('提交审核：', currentRow);
+                    if (currentRow.status === 2) {
+                        vm.$Message.error('已提交，不能重复提交');
+                        return false;
+                    }
+                    if (currentRow.note_tasks_count !== currentRow.count) {
+                        vm.$Message.error('尚有未提交的项目/部门，无法提交审核');
+                        return false;
+                    }
+                    vm.JAjax.postJson('note/month/commit/' + currentRow.id, {}, res => {
+                        vm.$Message.success(res.message);
+                        vm.$emit('afresh_list', 'data');
+                    });
                 }
             }
-        }, '修改');
+        }, (currentRow.status === 1 || currentRow.status === 2) ? '已提交' : '提交审核');
     };
     const updateButton = (vm, h, currentRow, index) => {
         return h('Button', {
@@ -69,38 +80,6 @@
             }
         }, '编辑');
     };
-
-    const lookButton = (vm, h, currentRow, index) => {
-        return h('Button', {
-            props: {
-                type: 'success',
-                size: 'small',
-
-            },
-            style: {
-                margin: '0 5px'
-            },
-            directives: [
-                {
-                    name: 'permission',
-                    value: ['note-month-update'],
-                }
-            ],
-            on: {
-                'click': () => {
-
-                    console.log('预览：', currentRow);
-                    window.open('/api/standard/watch?id='+currentRow.id)
-                    // vm.$router.push({
-                    //     name: 'update_task',
-                    //     query: {
-                    //         'date': currentRow.date,
-                    //     }
-                    // });
-                }
-            }
-        }, '预览');
-    };
     const deleteButton = (vm, h, currentRow, index) => {
         return h('Poptip', {
             props: {
@@ -111,7 +90,7 @@
             on: {
                 'on-ok': () => {
                     console.log('删除：', currentRow);
-                    vm.JAjax.postJson('standard/delete', {id:currentRow.id}, res => {
+                    vm.JAjax.postJson('/' + currentRow.id, {}, res => {
                         vm.$Message.success('删除成功');
                         vm.$emit('afresh_list', 'data');
                     });
@@ -164,6 +143,10 @@
             init () {
                 let tableData = JSON.parse(JSON.stringify(this.value));
                 tableData.forEach(item => {
+                    item.date = this.toMonth(item.date);
+                    item.commit = item.note_tasks_count + ' / ' + item.count;
+                    item.attribute =  this.attributes[item.status]
+                    item.type = item.types.name
                 });
                 this.thisTableData = tableData;
                 this.columnsList.forEach(item => {
@@ -174,9 +157,6 @@
 
 
                             btns.push(updateButton(this, h, currentRowData, param.index));
-                            btns.push(editButton(this, h, currentRowData, param.index));
-                            btns.push(lookButton(this, h, currentRowData, param.index));
-                            btns.push(deleteButton(this, h, currentRowData, param.index));
 
                             return h('div', btns);
                         };

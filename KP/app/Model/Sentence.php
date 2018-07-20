@@ -19,8 +19,9 @@ class Sentence extends Model
             $data[$key]['model_id'] = implode(',', $sentence['model']);
             $data[$key]['content_id'] = $content_id;
             $data[$key]['title_id'] = $titleId;
-            $data[$key]['type'] = $sentence['type'];
+            $data[$key]['import'] = isset($sentence['import']) ? (  $sentence['import'] ? 1 : 0  ): 0;
             $data[$key]['createtime'] = $time;
+            $data[$key]['type'] = $sentence['type'];
             $tags[] = $sentence['tags'];
         }
         try {

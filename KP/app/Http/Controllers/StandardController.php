@@ -160,4 +160,71 @@ class StandardController extends Controller
         }
         return responseJson($result);
     }
+
+
+
+
+
+    public function watchStandard(Request $request)
+    {
+        $id = $request->input('id');
+        $result = validateData(
+            Standard::watchStandard($id)
+        );
+
+        if($result['msg'] == 1){
+            $data = $result['data'];
+            $pdf = new \TCPDF();
+            // 设置文档信息
+            $pdf->SetCreator('Hello world');
+            $pdf->SetAuthor('dyk');
+            $pdf->SetTitle('TCPDF示例');
+            $pdf->SetSubject('TCPDF示例');
+            $pdf->SetKeywords('TCPDF, PDF, PHP');
+
+            // 设置页眉和页脚信息
+            $pdf->SetHeaderData('', 0, 'www.Bimeng.com', '彼盟科技！', [0, 64, 255], [0, 64, 128]);
+            $pdf->setFooterData([0, 64, 0], [0, 64, 128]);
+
+            // 设置页眉和页脚字体
+            $pdf->setHeaderFont(['stsongstdlight', '', '10']);
+            $pdf->setFooterFont(['helvetica', '', '8']);
+
+            // 设置默认等宽字体
+            $pdf->SetDefaultMonospacedFont('courier');
+
+            // 设置间距
+            $pdf->SetMargins(15, 15, 15);//页面间隔
+            $pdf->SetHeaderMargin(5);//页眉top间隔
+            $pdf->SetFooterMargin(10);//页脚bottom间隔
+
+            // 设置分页
+            $pdf->SetAutoPageBreak(true, 25);
+
+            // 设置自动换页
+            $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+            // 设置图像比例因子
+            $pdf->setImageScale(1.25);
+
+            // 设置默认字体构造子集模式
+            $pdf->setFontSubsetting(true);
+
+            // 设置字体 stsongstdlight支持中文
+            $pdf->SetFont('stsongstdlight', '', 14);
+
+            // 添加一页
+            $pdf->AddPage();
+
+            $pdf->Ln(5);//换行符
+
+            $html =  $data;
+
+            $pdf->writeHTML($html, true, false, true, false, '');
+            $pdf->Output('t.pdf', 'I');//I输出、D下载
+
+        }
+        return responseJson($result);
+
+    }
 }

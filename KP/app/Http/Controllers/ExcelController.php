@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Excel;
 use App\Model\Category;
+use App\Model\Export;
 use App\Model\Tag;
 use Illuminate\Http\Request;
 
@@ -40,6 +41,9 @@ class ExcelController extends Controller
         $pageSize = $request->input('pageSize', 10);
         $splices = $request->input('splices','');
         $splices = explode(',',$splices);
+         if(isset($splices[0])){
+             unset($splices[0]);
+         }
 //        dd($splices);
         if ($type == 'category') {
             $data = validateData(
@@ -71,7 +75,7 @@ class ExcelController extends Controller
             );
         }
 
-        else{
+        elseif ($type == 'keyword') {
             $data = validateData(
                 Tag::orderBy('tag.id', 'desc')
                     ->leftJoin('sentence_tag', 'sentence_tag.tag_id', 'tag.id')
@@ -86,6 +90,16 @@ class ExcelController extends Controller
                     ->paginate($pageSize)
             );
         }
+        elseif ($type == 'result') {
+            $data = validateData(
+            Export::orderBy('id','desc')
+                ->where('name',$keyword)
+                ->select('name','tag','sentence','content','standard','model','page','user','type','sentence_id','kown_id','type_id','model_id')
+                ->distinct()
+                ->paginate($pageSize)
+            );
+        }
+
 
         $category = Category::orderBy('id')->pluck('name', 'id');
 
@@ -93,49 +107,70 @@ class ExcelController extends Controller
             return false;
         }
         $exports = [];
-        foreach ($data['data'] as $key => $item) {
-             if(!in_array($key,$splices)){
-                 $modelItem = '';
-                 $pageItem = '';
-                 if ($item->model_id != '') {
-                     $models = explode(',', $item->model_id);
-                     $modelItem = [];
-                     foreach ($models as $model) {
-                         if(isset($category[$model])){
-                             $modelItem[] = $category[$model];
-                         }
-                     }
-                     $modelItem = implode(' / ', $modelItem);
-                 }
-                 if ($item->page_id != '') {
-                     $pages = explode(',', $item->page_id);
-                     $pageItem = [];
-                     foreach ($pages as $page) {
-                         if(isset($category[$page])){
-                             $pageItem[] =$category[$page];
-                         }
-                     }
-                     $pageItem = implode(' / ', $pageItem);
-                 }
+        if($type == 'result'){
 
-                 $exports[$key]['index'] = $key + 1;
-                 $exports[$key]['tag'] = $item->tag;
-                 $exports[$key]['sentence'] = $item->sentence;
-                 $exports[$key]['content'] = $item->content;
-                 $exports[$key]['standard'] = $item->standard;
-                 $exports[$key]['modelItem'] = $modelItem;
-                 $exports[$key]['pageItem'] = $pageItem;
-                 $exports[$key]['user'] = $item->user;
-                 $exports[$key]['type'] = $item->type;
-                 $exports[$key]['kownId'] = '';
-                 $exports[$key]['typeId'] = 23;
-                 $exports[$key]['modelId'] = '';
-             }
+            foreach ($data['data'] as $key => $item) {
+
+                if(!in_array($key,$splices)){
+                    $exports[$key]['index'] = $key + 1;
+                    $exports[$key]['tag'] = $item->tag;
+                    $exports[$key]['sentence'] = $item->sentence;
+                    $exports[$key]['content'] = $item->content;
+                    $exports[$key]['standard'] = $item->standard;
+                    $exports[$key]['modelItem'] =  $item->model;
+                    $exports[$key]['pageItem'] =  $item->page;
+                    $exports[$key]['user'] = $item->user;
+                    $exports[$key]['type'] = $item->type;
+                    $exports[$key]['kownId'] = '';
+                    $exports[$key]['typeId'] = 23;
+                    $exports[$key]['modelId'] = '';
+                  }
+            }
+        }else{
+            foreach ($data['data'] as $key => $item) {
+                if(!in_array(0,$splices)){
+                    $modelItem = '';
+                    $pageItem = '';
+                    if ($item->model_id != '') {
+                        $models = explode(',', $item->model_id);
+                        $modelItem = [];
+                        foreach ($models as $model) {
+                            if(isset($category[$model])){
+                                $modelItem[] = $category[$model];
+                            }
+                        }
+                        $modelItem = implode(' / ', $modelItem);
+                    }
+                    if ($item->page_id != '') {
+                        $pages = explode(',', $item->page_id);
+                        $pageItem = [];
+                        foreach ($pages as $page) {
+                            if(isset($category[$page])){
+                                $pageItem[] =$category[$page];
+                            }
+                        }
+                        $pageItem = implode(' / ', $pageItem);
+                    }
+
+                    $exports[$key]['index'] = $key + 1;
+                    $exports[$key]['tag'] = $item->tag;
+                    $exports[$key]['sentence'] = $item->sentence;
+                    $exports[$key]['content'] = $item->content;
+                    $exports[$key]['standard'] = $item->standard;
+                    $exports[$key]['modelItem'] = $modelItem;
+                    $exports[$key]['pageItem'] = $pageItem;
+                    $exports[$key]['user'] = $item->user;
+                    $exports[$key]['type'] = $item->type;
+                    $exports[$key]['kownId'] = '';
+                    $exports[$key]['typeId'] = 23;
+                    $exports[$key]['modelId'] = '';
+                }
+            }
         }
 
         $width = [
             'A' => 10,
-            'B' => 10,
+            'B' => 30,
             'C' => 40,
             'D' => 100,
             'E' => 30,

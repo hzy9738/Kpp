@@ -31,6 +31,7 @@ Route::prefix('categories')->group(function () {
 Route::prefix('kptypes')->group(function () {
     Route::post('/','KptypeController@lists');
     Route::post('lists','KptypeController@getLists');
+    Route::post('index/list','KptypeController@indexList');
 //    Route::post('add','KptypeController@addType');
 //    Route::any('update','KptypeController@updateType');
 //    Route::any('delete','KptypeController@deleteType');
@@ -43,7 +44,7 @@ Route::prefix('standard')->group(function () {
     Route::post('add','StandardController@addStandard');
     Route::post('update','StandardController@updateStandard');
     Route::post('delete','StandardController@deleteStandard');
-
+    Route::get('watch','StandardController@watchStandard');
 });
 
 //章节
@@ -85,7 +86,7 @@ Route::prefix('tag')->group(function () {
 });
 
 
-//标签
+//查找
 Route::prefix('search')->group(function () {
 //    Route::any('/','KptypeController@getLists');
     Route::post('category','SearchController@category');
@@ -93,10 +94,19 @@ Route::prefix('search')->group(function () {
     Route::post('content','SearchController@content');
 
 
+    Route::post('result','SearchController@result');
 
 
 //    Route::any('scout','SearchController@scout');
 //    Route::any('mysql','SearchController@mysql');
+});
+
+//结果集
+Route::prefix('result')->group(function () {
+//    Route::any('/','KptypeController@getLists');
+    Route::post('save/page','ResultController@savePage');
+//    Route::any('export/keyword','ExcelController@excelKeywordExport');
+
 });
 
 //标签

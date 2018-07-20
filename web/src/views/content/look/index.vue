@@ -23,8 +23,7 @@
                     <!--<Option v-for="(option, index) in sources" :value="option.value" :key="index">{{option.label}}-->
                     <!--</Option>-->
                     <!--</Select>-->
-                    <Button style="top: 10px;position: absolute;right: 20px" class="button" type="primary" shape="circle"
-                            v-if="sourceOrListShow" @click="standardAdd">添加</Button>
+
                     <Button style="top: 10px;position: absolute;left: 400px;" shape="circle" icon="reply"
                             @click="goBackList" v-if="!sourceOrListShow"></Button>
                     <Row class="margin-top-8">
@@ -70,43 +69,13 @@
                         <Icon type="document-text"></Icon>
                         <span>内容详情</span>
                     </p>
-                    <Button type="info" @click="saveContent" style="top: 10px;position: absolute;right: 50px;">保存
-                    </Button>
-                    <Row style="margin-top: -20px">
-                        <Col span="24">
 
-                                <Form :label-width="80">
-                                    <div class="article-link-con">
-                                        <transition name="fixed-link">
-                                            <FormItem v-show="showLink" label="固定链接">
-                                    <span>
-                                        <span key="pathfixedtext">{{ fixedLink }}</span><span key="pathText" v-if="!editLink">{{ articlePath }}</span>
-                                        <Input key="pathInput" v-model="articlePath" style="display:inline-block;width:auto"  v-else/>
-                                    </span>
-                                                <span style="float:right;">
-                                        <Button :type="editPathButtonType" @click="editArticlePath">{{ editPathButtonText }}</Button>
-                                    </span>
-                                            </FormItem>
-                                        </transition>
-                                    </div>
-                                </Form>
-                                <div class="margin-top-20">
-                                    <textarea id="articleEditor"></textarea>
-                                </div>
-
-
-                        </Col>
-
-
-
-
-
-                        <!--<Col span="6">-->
-                        <!--<Tag v-for="item in tags" :key="item" :name="item" closable @on-close="handleClose2"-->
-                        <!--style="margin:5px 10px">{{ item }}-->
-                        <!--</Tag>-->
-
-                        <!--</Col>-->
+                    <Row >
+                        <Col span="24" style="border: 1px solid #aaa;padding: 4px 10px;border-radius: 5px;min-height: 280px">
+                           <div  v-if="content!==''">
+                               <p v-html="content"></p>
+                           </div>
+                     </Col>
 
                     </Row>
 
@@ -125,38 +94,28 @@
                     </Row>
                     <Row class="margin-top-8">
                     </Row>
-                    <Row class="margin-top-8" v-for="(sentenceData ,index) in sentenceDatas">
+                    <Row class="margin-top-8" v-for="(sentenceData ,index) in sentenceDatas" v-if="sentenceDatas.length>0">
                         <Col span="24">
-                            <i class="ivu-icon ivu-icon-minus-circled" @click="removeSentence(index)"
-                               style="cursor: pointer;color: red;float: left;margin-top: 7px"></i>
-                            <i-input v-model="sentenceData.sentence" placeholder="Enter something..."
-                                     style="width: 400px;float: left;margin:0 10px"></i-input>
-                            <i class="ivu-icon ivu-icon-plus-circled" @click="appendSentence(index)"
-                               style="cursor: pointer;color: #00a854;float: left;margin-top: 7px"></i>
-                            <Button type="primary" shape="circle" size="small" @click="getWordBySentence(index)"
-                                    style="float: left;margin:4px 10px 0 30px">分词
-                            </Button>
+                            <span  style="float: left;margin:0 10px;font-size: 12px">简述 {{ index + 1}}：</span>
+                            <span  style="float: left;margin:0 10px;font-size: 12px;width: 400px">{{ sentenceData.sentence}}</span>
 
+                            <span  style="float: left;margin:0 10px;font-size: 12px">Tag：</span>
                             <div :class="'tag'+index">
-                                <Tag v-for="(item,key) in sentenceData.tags"  type="border" closable color="yellow"  @on-close="handleClose2(index, item)" checkable  style="margin:5px 5px">{{ item }}</Tag>
+                                <Tag v-for="(item,key) in sentenceData.tags" size="small" type="border"  color="yellow" style="margin-top:-5px">{{ item }}</Tag>
                             </div>
-
                         </Col>
-                        <Col span="24" class="margin-top-8" style="margin-left: 12px;margin-bottom: 12px">
-                            <Cascader :data="knowledges" v-model="sentenceData.knowledge" change-on-select
-                                      style="width: 30%;float: left;margin:0 10px" placeholder="请选择知识点分类"></Cascader>
-                            <Cascader :data="models" v-model="sentenceData.model" change-on-select
-                                      style="width: 30%;float: left;margin:0 10px" placeholder="请选择标准分类"></Cascader>
-                            <Select v-model="sentenceData.type"  style="width: 20%;float: left;">
-                                <Option v-for="item in types" :value="item.id" :key="item.id" placeholder="请选择类型">{{ item.name
-                                    }}
-                                </Option>
-                            </Select>
-                            <span style="margin:5px 10px;font-size: 12px">是否KP点</span>
-                            <i-switch v-model="sentenceData.import" @on-change="change" >
-                                <span slot="open">是</span>
-                                <span slot="close">否</span>
-                            </i-switch>
+                        <Col span="24" class="margin-top-8" style="margin-bottom: 12px">
+                            <span  style="float: left;margin:0 10px;font-size: 12px">知识点分类:</span>
+                            <span  style="float: left;margin:0 10px;font-size: 12px;width: 20%">{{ sentenceData.knowledge}}</span>
+
+                            <span  style="float: left;margin:0 10px;font-size: 12px">标准分类：</span>
+                            <span  style="float: left;margin:0 10px;font-size: 12px;width: 20%">{{ sentenceData.model}}</span>
+
+                            <span  style="float: left;margin:0 10px;font-size: 12px">类型：</span>
+                            <span  style="float: left;margin:0 10px;font-size: 12px;width: 10%">{{ sentenceData.type}}</span>
+
+                            <span  style="float: left;margin:0 10px;font-size: 12px">KP：</span>
+                            <span  style="float: left;margin:0 10px;font-size: 12px;width: 10%">{{sentenceData.import?'是':'否'}}</span>
                         </Col>
                         <Col span="24" class="margin-top-8" style="margin-left: 12px;margin-bottom: 12px">
 
@@ -273,17 +232,10 @@
                 loading: false,
                 createModel: false,
                 sentenceDatas: [
-                    {
-                        sentence: '',
-                        knowledge: [],
-                        model: [],
-                        tags: [],
-                        type: [],
-                        import: 0,
-                    },
+
                 ],
                 sourceOrListShow: true,
-
+                category:[],
                 types: {},
 
             }
@@ -471,7 +423,6 @@
             detail(id) {
                 this.JAjax.postJson('title/content', {id: id}, (res) => {
                     this.content = res.data.detail ? res.data.detail.content : '';
-                    tinymce.activeEditor.setContent(this.content)
                     this.title_id = res.data.id
                 });
                 this.JAjax.postJson('title/sentences', {id: id}, (res) => {
@@ -483,13 +434,22 @@
 
                         this.$set(this.sentenceDatas, index, {})
                         // console.log(t.page_id.join(","))
-                        let model = t.model_id.split(",")
-                        let page = t.page_id.split(",")
                         t.import = t.import ? true : false
+
+                        let pages = t.page_id.split(',')
+                        pages = pages.map(v=>this.category[v])
+                        t.page = pages.join(' / ')
+
+                        let models = t.model_id.split(',')
+                        models = models.map(i=>this.category[i])
+                        t.model = models.join(' / ')
+
+
+
                         this.$set(this.sentenceDatas[index], 'sentence', t.sentence)
-                        this.$set(this.sentenceDatas[index], 'type', Number(t.type))
-                        this.$set(this.sentenceDatas[index], 'model', model.map(t => Number(t)))
-                        this.$set(this.sentenceDatas[index], 'knowledge', page.map(t => Number(t)))
+                        this.$set(this.sentenceDatas[index], 'type', this.types[t.type])
+                        this.$set(this.sentenceDatas[index], 'model', t.model)
+                        this.$set(this.sentenceDatas[index], 'knowledge', t.page)
                         this.$set(this.sentenceDatas[index], 'tags', t.tags.map(t => t.tag))
                         this.$set(this.sentenceDatas[index], 'import', t.import)
 
@@ -503,34 +463,14 @@
                     this.dataList = res.data || [];
                 });
             },
-            getKnowledges() {
-                this.JAjax.postJson('categories/pages', {}, (res) => {
-                    this.knowledges = res.data || [];
-                    this._kownForm(this.knowledges)
+            getCategories() {
+                this.JAjax.postJson('categories', {}, (res) => {
+                    this.category = res.data || [];
+
                 });
             },
-            getModel() {
-                this.JAjax.postJson('categories/models', {}, (res) => {
-                    this.models = res.data || [];
-                    this._modelForm(this.models)
-                });
-            },
-            _modelForm(data) {
-                data.forEach(t => {
-                    t.children = t.model_child || []
-                    t.value = t.id || ''
-                    t.label = t.title || ''
-                    this._modelForm(t.children)
-                })
-            },
-            _kownForm(data) {
-                data.forEach(t => {
-                    t.children = t.page_child || []
-                    t.value = t.id || ''
-                    t.label = t.title || ''
-                    this._kownForm(t.children)
-                })
-            },
+
+
             getSourceList() {
                 let postdata = {};
                 postdata.page = this.page;
@@ -561,7 +501,7 @@
                 });
             },
             getType() {
-                this.JAjax.postJson('kptypes', {}, (res) => {
+                this.JAjax.postJson('kptypes/index/list', {}, (res) => {
                     this.types = res.data
                 });
             },
@@ -581,37 +521,12 @@
             this.getType();
             this.getSource();
             this.getSourceList();
-            this.getModel();
-            this.getKnowledges();
+            this.getCategories();
 
-            tinymce.init({
-                selector: '#articleEditor',
-                branding: false,
-                elementpath: false,
-                height: 200,
-                language: 'zh_CN.GB2312',
-                menubar: 'edit insert view format table tools',
-                theme: 'modern',
-                plugins: [
-                    // 'advlist autolink lists link image charmap print preview hr anchor pagebreak imagetools',
-                    // 'searchreplace visualblocks visualchars code fullscreen fullpage',
-                    'insertdatetime media nonbreaking save table contextmenu directionality',
-                    // 'emoticons paste textcolor colorpicker textpattern imagetools codesample'
-                ],
-                // toolbar1: '  forecolor backcolor bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image emoticons media codesample',
-                toolbar1:'',
-                autosave_interval: '20s',
-                image_advtab: true,
-                table_default_styles: {
-                    width: '100%',
-                    borderCollapse: 'collapse'
-                }
-            });
+
 
         },
-        destroyed () {
-            tinymce.get('articleEditor').destroy();
-        }
+
     };
 </script>
 <style>
