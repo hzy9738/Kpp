@@ -120,3 +120,13 @@ Route::prefix('excel')->group(function () {
 //    Route::any('export/keyword','ExcelController@excelKeywordExport');
 
 });
+
+
+
+//标签
+Route::prefix('upload')->group(function () {
+//    Route::any('/','KptypeController@getLists');
+    Route::any('image','UploadController@image');
+//    Route::any('export/keyword','ExcelController@excelKeywordExport');
+
+});

@@ -288,7 +288,7 @@
                 sourceOrListShow: true,
 
                 types: {},
-
+               globalcounter :1
             }
         },
         methods: {
@@ -597,7 +597,84 @@
             },
             dataListNode() {
                 this.dataList = []
-            }
+            },
+            editInit(){
+                let that = this
+                tinymce.init({
+                    selector: '#articleEditor',
+                    branding: false,
+                    elementpath: false,
+                    height: 200,
+                    // invalid_elements : 'img',
+                    language: 'zh_CN.GB2312',
+                    menubar:false,
+                    theme: 'modern',
+                    plugins: [
+                        // 'advlist autolink lists link image charmap print preview hr anchor pagebreak imagetools',
+                        // 'searchreplace visualblocks visualchars code fullscreen fullpage',
+                        'insertdatetime media nonbreaking save table contextmenu directionality',
+                        // 'emoticons paste textcolor colorpicker textpattern imagetools codesample'
+                        'code paste',
+                    ],
+                    // toolbar1: '  forecolor backcolor bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image emoticons media codesample',
+                    // toolbar:'code',
+                    autosave_interval: '20s',
+                    // image_advtab: true,
+                    paste_data_images: true,
+
+                    paste_preprocess: function(plugin, args) {
+                        args.content = args.content.replace("<img", "<img id=\"pasted_image_" + parseInt(that.globalcounter) + "\"");
+                        // console.log(args.content)
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function(){
+                            if (this.readyState == 4 && this.status == 200){
+                                console.log(this)
+                                upload( this.response);
+                            }
+                        };
+
+                        xhr.open('GET', args.content.split('"')[3]);
+                        xhr.responseType = 'blob';
+                        xhr.send();
+
+                        function upload(BlobFile){
+                            // console.log( BlobFile);
+                            var x = new XMLHttpRequest();
+                            x.onreadystatechange = function(){
+                                if( this.readyState == 4 && this.status == 200 ){
+
+                                    let data = this.responseText;
+
+                                    console.log( data);
+                                    let id = parseInt(that.globalcounter++);
+
+                                    // function setimg(id, data){
+                                    //     if( document.getElementById("pasted_image_" + id)  == null){
+                                    //         setTimeout( setimg , 5000);
+                                    //     }else{
+                                    //         document.getElementById("pasted_image_" + id).setAttribute("src", data);
+                                    //     }
+                                    // }
+                                    document.getElementById("articleEditor_ifr").contentWindow.document.getElementById("pasted_image_" + id).setAttribute("src", data);
+                                }
+                            };
+                            const formData = new FormData()
+                            formData.append('file', BlobFile)
+                            x.open('POST', '/api/upload/image');
+                            x.send(formData);
+                        }
+
+                    },
+                    table_default_styles: {
+                        width: '100%',
+                        borderCollapse: 'collapse',
+                        border:'1px solid #333'
+                    },
+                    table_default_attributes:{
+                        border: '1'
+                    },
+                });
+            },
         },
         mounted() {
             // this.getlist();
@@ -607,36 +684,18 @@
             this.getModel();
             this.getKnowledges();
 
-            tinymce.init({
-                selector: '#articleEditor',
-                branding: false,
-                elementpath: false,
-                height: 200,
-                invalid_elements : 'img',
-                language: 'zh_CN.GB2312',
-                menubar: 'edit insert view format table tools',
-                theme: 'modern',
-                plugins: [
-                    // 'advlist autolink lists link image charmap print preview hr anchor pagebreak imagetools',
-                    // 'searchreplace visualblocks visualchars code fullscreen fullpage',
-                    'insertdatetime media nonbreaking save table contextmenu directionality',
-                    // 'emoticons paste textcolor colorpicker textpattern imagetools codesample'
-                ],
-                // toolbar1: '  forecolor backcolor bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image emoticons media codesample',
-                toolbar1:'',
-                autosave_interval: '20s',
-                image_advtab: true,
-                table_default_styles: {
-                    width: '100%',
-                    borderCollapse: 'collapse',
-                    border:'1px solid #333'
-                },
-                table_default_attributes:{
-                    border: '1'
-                },
-            });
+
+
+            this.editInit()
+
+
 
         },
+
+
+
+
+
         destroyed () {
             tinymce.get('articleEditor').destroy();
         }
