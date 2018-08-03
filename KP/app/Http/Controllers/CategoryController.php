@@ -64,6 +64,30 @@ class CategoryController extends Controller
 
 
     /**
+     * @Name 简洁标准分类
+     * @Description 标准分类接口
+     *
+     * @Response 通用格式:{"code":响应码,"message":"错误描述","data":{}}
+     *   data{
+     *     "code":1,
+     *      data{
+     *           title: "标准分类名称"
+     *           model_child: : [
+     *                {
+     *                   title: "标准分类名称"
+     *                   model_child: : []
+     *              }
+     *           ]
+     *      }
+     * }
+     */
+    public function modelsClear(){
+        $data = Category::models();
+        $list = Category::clearList($data['data']);
+        return ddJson($list);
+    }
+
+    /**
      * @Name 知识点分类
      * @Description 知识点分类接口
      *
@@ -94,6 +118,31 @@ class CategoryController extends Controller
         $data = Category::pages();
         return responseJson($data);
     }
+
+    /**
+     * @Name 简洁知识点分类
+     * @Description 标准分类接口
+     *
+     * @Response 通用格式:{"code":响应码,"message":"错误描述","data":{}}
+     *   data{
+     *     "code":1,
+     *      data{
+     *           title: "标准分类名称"
+     *           model_child: : [
+     *                {
+     *                   title: "标准分类名称"
+     *                   model_child: : []
+     *              }
+     *           ]
+     *      }
+     * }
+     */
+    public function pagesClear(){
+        $data = Category::pages();
+        $list = Category::clearList($data['data']);
+        return ddJson($list);
+    }
+
 
 
     /**
@@ -168,12 +217,34 @@ class CategoryController extends Controller
      */
     public function deleteCategory(Request $request)
     {
-        $id = $request->input('id',0);
+        $id = $request->input('id', 0);
         $result = CategoryValidate::validateDelete($id);
         if ($result['msg'] === config('code.success')) {
             $category = Category::find($id);
             $result = Category::deleteCategory($category);
         }
         return responseJson($result);
+    }
+
+
+    public function fromTo(Request $request)
+    {
+        $type = $request->input('type', 'page');
+        $from = $request->input('form', []);
+        $to = $request->input('to', []);
+        $from = implode(',', $from);
+        $to = implode(',', $to);
+
+
+        if ($type == 'page') {
+            $data = validateData(
+                Sentence::where('page_id', $from)->update(['page_id' => $to])
+            );
+        } else {
+            $data = validateData(
+                Sentence::where('model_id', $from)->update(['model_id' => $to])
+            );
+        }
+        return responseJson($data);
     }
 }

@@ -33,9 +33,8 @@ class Title extends Model
 
 
 
-    public static function lists($request){
-        $id = $request->input('id');
-        if(isset($id)){
+    public static function lists($id){
+        if($id !== -1){
             $data = validateData(
                 self::orderBy('id')->where('standard_id',$id)->where('pid',0)->with('children')->get()
             );
@@ -45,6 +44,26 @@ class Title extends Model
             );
         }
         return $data;
+    }
+
+
+    public static function pdf($id){
+        if($id !== -1){
+            $data = validateData(
+                self::orderBy('id')->where('standard_id',$id)->where('pid',0)->with('child.detail')->get()
+            );
+        }else{
+            $data = validateData(
+                self::orderBy('id')->where('pid',0)->with('children')->get()
+            );
+        }
+        return $data;
+    }
+
+    public function child()
+    {
+        return $this->hasMany(Title::class, 'pid', 'id')
+            ->with('child','detail');
     }
 
 

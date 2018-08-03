@@ -59,6 +59,7 @@
             columnsList: Array,
             value: Array,
             url: String,
+            keyword: String,
             category:{}
         },
         data () {
@@ -89,8 +90,13 @@
 
                     item.content = (item.content)
 
-                    let tags = item.tags.map(item=>item.tag)
-                    item.tag = tags.join(',')
+
+                    if(item.tags){
+                        let tags = item.tags.map(item=>item.tag)
+                        item.tag = tags.join(',')
+                    }else {
+                        item.tag =this.keyword
+                    }
 
                     item.typeId = 23
                 });

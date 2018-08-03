@@ -41,16 +41,29 @@
                 show: false,
                 loading: true,
                 data: {},
-                children: {}
+                children: {},
+                lights:[]
             };
         },
 
         methods: {
+            light(root, node, data){
+                this.lights = []
+                this.$set(this.lights,data.id,true)
+            },
             renderContent(h, {root, node, data}) {
                 return h('span', {
                     style: {
                         display: 'inline-block',
-                        width: '100%'
+                        width: '100%',
+                        padding:'2px  0 2px 2px ',
+                        borderRadius:'5px',
+                        border:'1px solid #999'
+                    },
+                    on: {
+                        click: () => {
+                            this.light(root, node, data)
+                        }
                     }
                 }, [
                     h('span', [
@@ -74,7 +87,8 @@
                         h('Button', {
                             props: Object.assign({}, this.buttonProps, {
                                 icon: 'ios-plus-empty',
-                                type: 'success',
+                                // type: 'success',
+                                type: this.lights[data.id] ? 'success' :'default',
                             }),
                             style: {
                                 marginRight: '8px'
@@ -88,7 +102,9 @@
                         h('Button', {
                             props: Object.assign({}, this.buttonProps, {
                                 icon: 'ios-minus-empty',
-                                type: 'error',
+                                // type: 'error',
+                                type: this.lights[data.id] ? 'error' :'default',
+
                                 // disabled: data.pid === 0 ? true: false
                             }),
 

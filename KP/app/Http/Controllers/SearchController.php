@@ -31,6 +31,7 @@ class SearchController extends Controller
     {
         $keyword = $request->input('keyword');
         $pageSize = $request->input('pageSize', 10);
+
         $data = validateData(
 
 
@@ -39,9 +40,15 @@ class SearchController extends Controller
             ->leftJoin('content', 'sentence.content_id', 'content.id')
             ->leftJoin('title', 'content.title_id', 'title.id')
             ->leftJoin('standard', 'title.standard_id', 'standard.id')
-            ->with(['tags'=>function($query) use($keyword){
+//            ->with(['tags'=>function($query) use($keyword){
+//                $query->where('tag', 'like', "%{$keyword}%")
+//
+//                ;
+//            }])
+            ->whereHas('tags', function($query) use($keyword)
+            {
                 $query->where('tag', 'like', "%{$keyword}%");
-            }])
+            })
             ->select('sentence.id', 'sentence', 'content', 'standard.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
             ->whereNotNull('sentence.sentence')
             ->where('sentence.import',1)
@@ -153,6 +160,8 @@ class SearchController extends Controller
      * }
      */
     public function result(Request $request){
+        $today = strtotime(date('Y-m-d'));
+        Export::where('createtime','<',$today)->delete();
         $name = $request->input('name');
         $pageSize = $request->input('pageSize', 10);
         $data = validateData(
@@ -164,6 +173,7 @@ class SearchController extends Controller
                 ->paginate($pageSize)
         );
         return responseJson($data);
+
     }
 
 

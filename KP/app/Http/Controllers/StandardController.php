@@ -168,9 +168,17 @@ class StandardController extends Controller
     public function watchStandard(Request $request)
     {
         $id = $request->input('id');
+        $standard = Standard::find($id);
+        $name = '';
+        if(!is_null($standard)){
+            $name = $standard->name;
+        }
         $result = validateData(
-            Standard::watchStandard($id)
+            Standard::watchStandard($name,$id)
         );
+        $pdfName = $name;
+
+//        return ddJson($result);
 
         if($result['msg'] == 1){
             $data = $result['data'];
@@ -178,13 +186,16 @@ class StandardController extends Controller
             // 设置文档信息
             $pdf->SetCreator('Hello world');
             $pdf->SetAuthor('dyk');
-            $pdf->SetTitle('TCPDF示例');
-            $pdf->SetSubject('TCPDF示例');
-            $pdf->SetKeywords('TCPDF, PDF, PHP');
-
+            $pdf->SetTitle($name);
+            $pdf->SetSubject($name);
+            $pdf->SetKeywords('BIM');
+            
             // 设置页眉和页脚信息
-            $pdf->SetHeaderData('', 0, 'www.Bimeng.com', '彼盟科技！', [0, 64, 255], [0, 64, 128]);
+            $pdf->SetHeaderData('', 0, 'www.bmjzkj.com', '彼盟科技！', [0, 64, 255], [0, 64, 128]);
             $pdf->setFooterData([0, 64, 0], [0, 64, 128]);
+
+
+
 
             // 设置页眉和页脚字体
             $pdf->setHeaderFont(['stsongstdlight', '', '10']);
@@ -221,7 +232,7 @@ class StandardController extends Controller
             $html =  $data;
 
             $pdf->writeHTML($html, true, false, true, false, '');
-            $pdf->Output('t.pdf', 'I');//I输出、D下载
+            $pdf->Output($pdfName.'.pdf', 'I');//I输出、D下载
 
         }
         return responseJson($result);

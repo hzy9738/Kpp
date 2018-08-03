@@ -22,9 +22,13 @@ Route::prefix('categories')->group(function () {
     Route::post('/','CategoryController@lists');
     Route::post('models','CategoryController@models');
     Route::post('pages','CategoryController@pages');
+
+    Route::any('models/clear','CategoryController@modelsClear');
+    Route::any('pages/clear','CategoryController@pagesClear');
     Route::post('add/model','CategoryController@addModel');
     Route::post('add/page','CategoryController@addPage');
     Route::post('delete/category','CategoryController@deleteCategory');
+    Route::post('from/to','CategoryController@fromTo');
 });
 
 //类型

@@ -22,10 +22,12 @@ class TitleController extends Controller
      *     "message":"success"
      * }
      */
-    public function createTitle(Request $request){
+    public function createTitle(Request $request)
+    {
         $data = Title::createTitle($request);
         return responseJson($data);
     }
+
     /**
      * @Name 章节列表
      * @Description 章节列表
@@ -41,9 +43,14 @@ class TitleController extends Controller
      */
     public function getLists(Request $request)
     {
-        $data = Title::lists($request);
+        $id = $request->input('id');
+
+        $id = isset($id) ? $id : -1;
+
+        $data = Title::lists($id);
         return responseJson($data);
     }
+
     /**
      * @Name 添加子章节
      * @Description 章节列表
@@ -63,11 +70,12 @@ class TitleController extends Controller
     public function addTitle(Request $request)
     {
         $result = TitleValidate::validate($request);
-        if($result['msg'] === config('code.success')){
+        if ($result['msg'] === config('code.success')) {
             $result = Title::addTitle($request);
         }
         return responseJson($result);
     }
+
     /**
      * @Name 修改章节
      * @Description 修改章节接口
@@ -82,9 +90,10 @@ class TitleController extends Controller
      *     "message":"success"
      * }
      */
-    public function updateTitle(Request $request){
+    public function updateTitle(Request $request)
+    {
         $result = TitleValidate::update($request);
-        if($result['msg'] === config('code.success')){
+        if ($result['msg'] === config('code.success')) {
             $result = Title::updateTitle($request);
         }
         return responseJson($result);
@@ -103,11 +112,13 @@ class TitleController extends Controller
      *     "message":"success"
      * }
      */
-    public function deleteTitle(Request $request){
-        $id = $request->input('id',0);
+    public function deleteTitle(Request $request)
+    {
+        $id = $request->input('id', 0);
         $result = Title::deleteTitle($id);
         return responseJson($result);
     }
+
     /**
      * @Name 章节详情内容
      * @Description 章节详情内容
@@ -121,14 +132,16 @@ class TitleController extends Controller
      *     "message":"success"
      * }
      */
-    public function getContent(Request $request){
-        $id = $request->input('id',0);
+    public function getContent(Request $request)
+    {
+        $id = $request->input('id', 0);
         $title = Title::find($id);
         $data = validateData(
             $title->load('detail')
         );
         return responseJson($data);
     }
+
     /**
      * @Name 章节Tag
      * @Description 获取相关的章节Tag
@@ -142,14 +155,16 @@ class TitleController extends Controller
      *     "message":"success"
      * }
      */
-    public function getTags(Request $request){
-        $id = $request->input('id',0);
+    public function getTags(Request $request)
+    {
+        $id = $request->input('id', 0);
         $title = Title::find($id);
         $data = validateData(
             $title->load('tags')
         );
         return responseJson($data);
     }
+
     /**
      * @Name 章节简述
      * @Description 获取相关的章节简述
@@ -163,8 +178,9 @@ class TitleController extends Controller
      *     "message":"success"
      * }
      */
-    public function getSentences(Request $request){
-        $id = $request->input('id',0);
+    public function getSentences(Request $request)
+    {
+        $id = $request->input('id', 0);
         $title = Title::find($id);
         $data = Title::getSentences($title);
         return responseJson($data);

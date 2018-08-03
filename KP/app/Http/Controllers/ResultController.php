@@ -11,9 +11,6 @@ class ResultController extends Controller
     {
 
         $requests = $request->all();
-        $createtime = time();
-
-        Export::where('createtime','<=',$createtime-86400)->delete();
          $data = validateData(
              Export::insert($requests)
          );

@@ -136,11 +136,12 @@
                             <Button type="primary" shape="circle" size="small" @click="getWordBySentence(index)"
                                     style="float: left;margin:4px 10px 0 30px">分词
                             </Button>
-
+                        </Col>
+                        <Col span="24" class="margin-top-8" style="margin-left: 17px;margin-bottom: 12px">
                             <div :class="'tag'+index">
                                 <Tag v-for="(item,key) in sentenceData.tags"  type="border" closable color="yellow"  @on-close="handleClose2(index, item)" checkable  style="margin:5px 5px">{{ item }}</Tag>
+                                <Button icon="ios-plus-empty" type="dashed" size="small" @click="handleAdd(index)" v-if="sentenceData.tags && sentenceData.tags.length<=10">添加标签</Button>
                             </div>
-
                         </Col>
                         <Col span="24" class="margin-top-8" style="margin-left: 12px;margin-bottom: 12px">
                             <Cascader :data="knowledges" v-model="sentenceData.knowledge" change-on-select
@@ -158,9 +159,7 @@
                                 <span slot="close">否</span>
                             </i-switch>
                         </Col>
-                        <Col span="24" class="margin-top-8" style="margin-left: 12px;margin-bottom: 12px">
 
-                        </Col>
                         <Col span="24">
                             <hr>
 
@@ -210,6 +209,10 @@
         let tags = $(className).find('.ivu-tag-checked>span').html()
 
         console.log(tags)
+    }
+
+    function tableAddBorder() {
+
     }
 
     export default {
@@ -289,6 +292,25 @@
             }
         },
         methods: {
+            handleAdd(index){
+                let key = this.sentenceDatas[index].tags.length
+                this.$Modal.confirm({
+                    render: (h) => {
+                        return h('Input', {
+                            props: {
+                                value: this.value,
+                                autofocus: true,
+                                placeholder: 'Please enter your name...'
+                            },
+                            on: {
+                                input: (val) => {
+                                    this.$set(this.sentenceDatas[index].tags,key,val)
+                                }
+                            }
+                        })
+                    }
+                })
+            },
             editArticlePath () {
                 this.editLink = !this.editLink;
                 this.editPathButtonType = this.editPathButtonType === 'ghost' ? 'success' : 'ghost';
@@ -440,8 +462,6 @@
             },
             saveContent() {
 
-
-
                 let a = false
                 this.sentenceDatas.forEach(t => {
                     if (t.sentence === '' || t.knowledge.length === 0 || t.model.length === 0 || t.type === "") {
@@ -453,6 +473,9 @@
                 }
 
                 this.content = tinymce.activeEditor.getContent();
+
+                tableAddBorder(this.content);
+
                 let formData = {
                     content: this.content,
                     title: this.title_id,
@@ -589,6 +612,7 @@
                 branding: false,
                 elementpath: false,
                 height: 200,
+                invalid_elements : 'img',
                 language: 'zh_CN.GB2312',
                 menubar: 'edit insert view format table tools',
                 theme: 'modern',
@@ -604,8 +628,12 @@
                 image_advtab: true,
                 table_default_styles: {
                     width: '100%',
-                    borderCollapse: 'collapse'
-                }
+                    borderCollapse: 'collapse',
+                    border:'1px solid #333'
+                },
+                table_default_attributes:{
+                    border: '1'
+                },
             });
 
         },

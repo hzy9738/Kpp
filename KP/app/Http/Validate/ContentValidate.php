@@ -20,17 +20,18 @@ class ContentValidate
         $validator = Validator::make($request->all(), [
             'content' => [
                 'required',
-                'max:2000',
+                'max:1000000',
             ],
-            'sentences' => 'required',
+            'sentences' => 'required|max:100',
             'sentences.*.knowledge' => 'required',
             'sentences.*.model' => 'required',
             'sentences.*.type' => 'required',
+            'sentences.*.tags' => 'required',
             'title' => 'required',
         ], [
             'required' => ':attribute为必填',
             'unique'=>':attribute已存在,不可重复',
-            'max'=>':attribute最多2000个字',
+            'max'=>':attribute最多:max个字',
         ], [
             'content' => '章节内容',
             'tags' => '标签',
@@ -38,12 +39,14 @@ class ContentValidate
             'sentences.*.knowledge' => '简述内容',
             'sentences.*.model' => '简述内容',
             'sentences.*.type' => '类型',
+            'sentences.*.tags' => '标签',
         ]);
 
         if ($validator->fails()) {
             return [
                 'msg' => config('code.error'),
-                'data' => $validator->errors()->first()
+                'data' => $validator->errors()->first(),
+                'message'=>$validator->errors()->first(),
             ];
         }
 
@@ -61,14 +64,15 @@ class ContentValidate
         $validator = Validator::make($request->all(), [
             'content' => [
                 'required',
-                'max:5000',
+                'max:1000000',
                  Rule::unique('content')->ignore($request->id),
             ],
             'level' => 'required',
             'standard' => 'required',
         ], [
             'required' => ':attribute为必填',
-            'unique'=>':attribute已存在,不可重复'
+            'unique'=>':attribute已存在,不可重复',
+            'max'=>':attribute最多:max个字',
         ], [
             'name' => '知识点来源',
             'level' => '上级目录',

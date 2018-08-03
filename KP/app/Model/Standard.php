@@ -18,7 +18,7 @@ class Standard extends Model
     {
         $data = [
             'name' => $request->input('name'),
-            'user' => $request->input('user',''),
+            'user' => $request->input('user', ''),
         ];
         $data = validateData(
             self::create($data)
@@ -32,7 +32,7 @@ class Standard extends Model
             'name' => $request->input('name'),
             'user' => $request->input('user'),
         ];
-        $model =  self::find(  $request->input('id') );
+        $model = self::find($request->input('id'));
 
         $data = validateData(
             $model->update($data)
@@ -41,40 +41,55 @@ class Standard extends Model
         return $data;
     }
 
-    public static function deleteStandard($id){
-       self::where('id',$id)->delete();
-       Title::deleteTitlesByStandard($id);
+    public static function deleteStandard($id)
+    {
+        self::where('id', $id)->delete();
+        Title::deleteTitlesByStandard($id);
     }
 
-    public function titles(){
+    public function titles()
+    {
         return $this->hasMany(Title::class);
     }
 
-
-    public static function watchStandard($id){
-          $data = self::where('id',$id)->with('titles.detail')->get();
-           $html= "";
-          self::_formStyle($data,$html);
-          return $html;
+    public function pdf()
+    {
+        return $this->hasMany(Title::class);
     }
 
-    public static function _formStyle(&$data,&$html=''){
-            foreach ($data as $item){
-                $html .= "<h1 style='align-content: center'>".$item->name."</h1>";
-                self::_formData($item->titles,$html);
-            }
+    public static function watchStandard($name, $id)
+    {
+        $data = Title::pdf($id);
+        $data = $data['data'];
+        $html = "";
+        self::_formStyle($data, $html,$name);
+        return $html;
     }
-    public static function _formData(&$data,&$html=''){
-        foreach ($data as $item){
 
-            $html .= "<h4 style='align-content: left;color: black'><strong>".$item->title."</strong></h4>";
-            if(isset($item->detail->content)){
-                $html .= "<p>".$item->detail->content."</p>";
+    public static function _formStyle(&$data, &$html = '', $name)
+    {
+
+
+        $html .= "<h1 style='align-content: center'>" . $name . "</h1>";
+        self::_formData($data, $html);
+
+    }
+
+    public static function _formData(&$data, &$html = '')
+    {
+
+        foreach ($data as $item) {
+//
+
+            $html .= "<h4 style='align-letf: left;color: black'><strong>" . $item->title . "</strong></h4>";
+            if (isset($item->detail->content)) {
+                $html .= $item->detail->content;
             }
-            if(isset($item->titles)){
-                self::_formData($item->titles,$html);
+            if (isset($item->child)) {
+                self::_formData($item->child, $html);
             }
         }
+
 
     }
 }

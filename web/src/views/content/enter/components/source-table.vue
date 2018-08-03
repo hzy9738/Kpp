@@ -176,7 +176,7 @@
                             btns.push(updateButton(this, h, currentRowData, param.index));
                             btns.push(editButton(this, h, currentRowData, param.index));
                             btns.push(lookButton(this, h, currentRowData, param.index));
-                            btns.push(deleteButton(this, h, currentRowData, param.index));
+                            // btns.push(deleteButton(this, h, currentRowData, param.index));
 
                             return h('div', btns);
                         };

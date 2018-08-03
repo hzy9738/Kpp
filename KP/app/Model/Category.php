@@ -41,6 +41,21 @@ class Category extends Model
         return $data;
     }
 
+    public static function clearList($data,&$lists= []){
+
+        foreach ($data as $item){
+            $lists[] = $item->title;
+            if(count($item->modelChild)){
+                self::clearList($item->modelChild,$lists);
+            }
+            if(count($item->pageChild)){
+                self::clearList($item->pageChild,$lists);
+            }
+        }
+        return $lists;
+    }
+
+
     public static function pages()
     {
         $data = validateData(

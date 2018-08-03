@@ -69,6 +69,7 @@
                                 v-model="dataList"
                                 :columns-list="columns1"
                                 :category="category"
+                                :keyword="search.keyword"
                                 @spliceExport="spliceExport"
                                 @afresh_list="afresh_list"
                                 class="margin-bottom-10">
