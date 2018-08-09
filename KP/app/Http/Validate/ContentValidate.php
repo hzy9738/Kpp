@@ -19,14 +19,14 @@ class ContentValidate
         //验证
         $validator = Validator::make($request->all(), [
             'content' => [
-                'required',
+//                'required',
                 'max:1000000',
             ],
-            'sentences' => 'required|max:100',
-            'sentences.*.knowledge' => 'required',
-            'sentences.*.model' => 'required',
-            'sentences.*.type' => 'required',
-            'sentences.*.tags' => 'required',
+            'sentences.*.sentence' => 'max:250',
+//            'sentences.*.knowledge' => 'required',
+//            'sentences.*.model' => 'required',
+//            'sentences.*.type' => 'required',
+//            'sentences.*.tags' => 'required',
             'title' => 'required',
         ], [
             'required' => ':attribute为必填',
@@ -36,8 +36,9 @@ class ContentValidate
             'content' => '章节内容',
             'tags' => '标签',
             'title' => '章节',
-            'sentences.*.knowledge' => '简述内容',
-            'sentences.*.model' => '简述内容',
+            'sentences.*.sentence' => '简述',
+            'sentences.*.knowledge' => '知识点分类',
+            'sentences.*.model' => '标准分类',
             'sentences.*.type' => '类型',
             'sentences.*.tags' => '标签',
         ]);
@@ -63,7 +64,7 @@ class ContentValidate
         //验证
         $validator = Validator::make($request->all(), [
             'content' => [
-                'required',
+//                'required',
                 'max:1000000',
                  Rule::unique('content')->ignore($request->id),
             ],

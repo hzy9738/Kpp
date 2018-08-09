@@ -16,21 +16,21 @@ class Sentence extends Model
         $data = [];
         $tags = [];
         foreach ($sentences as $key => $sentence) {
-            $data[$key]['sentence'] = $sentence['sentence'];
+            $data[$key]['sentence'] = isset($sentence['sentence']) ? $sentence['sentence'] : '';
             $data[$key]['page_id'] = implode(',', $sentence['knowledge']);
             $data[$key]['model_id'] = implode(',', $sentence['model']);
             $data[$key]['content_id'] = $content_id;
             $data[$key]['title_id'] = $titleId;
             $data[$key]['import'] = isset($sentence['import']) ? (  $sentence['import'] ? 1 : 0  ): 0;
             $data[$key]['createtime'] = $time;
-            $data[$key]['type'] = $sentence['type'];
-            $tags[] = $sentence['tags'];
+            $data[$key]['type'] = isset( $sentence['type']) ?  $sentence['type'] : 0;
+            $tags[] = isset($sentence['tags']) ? $sentence['tags'] : [];
         }
         try {
             self::where('content_id', $content_id)->delete();
             if (self::insert($data)) {
                 $sentenceIds = self::where('content_id', $content_id)->orderBy('id', 'asc')->pluck('id');
-                if (count($sentenceIds) == count($tags)) {
+                if (count($sentenceIds) == count($tags) && count($tags) != 0) {
                     Tag::saveTags($time, $tags, $sentenceIds);
                 }
             }

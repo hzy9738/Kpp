@@ -25,6 +25,20 @@
                                 <DropdownItem name="E">结果集 E</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
+
+                        <Dropdown  style="top: 10px;position: absolute;left: 400px" @on-click="deleteName">
+                            <Button type="error" >
+                                删除结果集
+                                <Icon type="arrow-down-b"></Icon>
+                            </Button>
+                            <DropdownMenu slot="list"  >
+                                <DropdownItem name="A">结果集 A</DropdownItem>
+                                <DropdownItem name="B">结果集 B</DropdownItem>
+                                <DropdownItem name="C">结果集 C</DropdownItem>
+                                <DropdownItem name="D">结果集 D</DropdownItem>
+                                <DropdownItem name="E">结果集 E</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
                     </p>
 
                 </Card>
@@ -44,7 +58,7 @@
                                 <Icon type="ios-download-outline"></Icon>
                                 导出所有数据
                             </Button>
-                            <Page :total="total" show-total @on-change="changePage" :page-size="pageSize"
+                            <Page :total="total" show-total @on-change="changePage" :page-size="pageSize" :current="page"
                                   :page-size-opts="pageSizeOpts" show-sizer show-elevator style="margin-left: -200px"
                                   @on-page-size-change="changeSize"></Page>
                         </Row>
@@ -93,16 +107,24 @@
             }
         },
         methods: {
+            deleteName(name){
+                this.name = name
+                this.JAjax.postJson('search/result/delete', {name:name}, (res) => {
+                      this.$Message.success('删除成功')
+                });
+            },
             searchName(name){
                 this.name = name
-                this.JAjax.postJson('search/result', {name:name}, (res) => {
+                this.JAjax.postJson('search/result', {name:name,page:1}, (res) => {
                     // console.log(res.data.data)
                     this.dataList = res.data.data || [];
                     this.total = res.data.total;
                     this.pageSize = res.data.per_page;
+                    this.page = res.data.current_page;
                     this.dataList.forEach((t)=>{
                         t.index = index++
                     })
+
                 });
             },
 
@@ -127,12 +149,13 @@
                     postdata.pageSize = this.pageSize;
                     let index = 0
                     if (this.type === 'category') {
-                        postdata.keyword = this.search.data
-                        this.JAjax.postJson('search/category', postdata, (res) => {
+                        postdata.name = this.name
+                        this.JAjax.postJson('search/result', postdata, (res) => {
                             // console.log(res.data.data)
                             this.dataList = res.data.data || [];
                             this.total = res.data.total;
                             this.pageSize = res.data.per_page;
+                            this.page = res.data.current_page
                             this.dataList.forEach((t)=>{
                                 t.index = index++
                             })

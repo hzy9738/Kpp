@@ -40,12 +40,14 @@ class Tag extends Model
 
     public static function saveTags($time,$tags,$sentenceIds){
         $data = [];
-            foreach ($tags as $key => $tagArray){
-                foreach ($tagArray as $tag){
-                    $data['tag'] = $tag;
-                    $data['createtime'] = $time;
-                    $tag = self::updateOrCreate(['tag'=>$tag],$data);
-                    SentenceTag::saveTitleSentences($tag->id,$sentenceIds[$key]);
+            if(!empty($tags)){
+                foreach ($tags as $key => $tagArray){
+                    foreach ($tagArray as $tag){
+                        $data['tag'] = $tag;
+                        $data['createtime'] = $time;
+                        $tag = self::updateOrCreate(['tag'=>$tag],$data);
+                        SentenceTag::saveTitleSentences($tag->id,$sentenceIds[$key]);
+                    }
                 }
             }
 

@@ -149,6 +149,7 @@
                             <Cascader :data="models" v-model="sentenceData.model" change-on-select
                                       style="width: 30%;float: left;margin:0 10px" placeholder="请选择标准分类"></Cascader>
                             <Select v-model="sentenceData.type"  style="width: 20%;float: left;">
+                                <Option  value="" key="0" placeholder="请选择类型"> --   ----  ---  ---  --</Option>
                                 <Option v-for="item in types" :value="item.id" :key="item.id" placeholder="请选择类型">{{ item.name
                                     }}
                                 </Option>
@@ -288,7 +289,8 @@
                 sourceOrListShow: true,
 
                 types: {},
-               globalcounter :1
+               globalcounter :1,
+                standard:0
             }
         },
         methods: {
@@ -463,11 +465,13 @@
             saveContent() {
 
                 let a = false
-                this.sentenceDatas.forEach(t => {
-                    if (t.sentence === '' || t.knowledge.length === 0 || t.model.length === 0 || t.type === "") {
-                        a = true
-                    }
-                })
+                if(this.sentenceDatas.length > 1){
+                    this.sentenceDatas.forEach(t => {
+                        if (t.sentence === '' || t.knowledge.length === 0 || t.model.length === 0 || t.type === "" || t.tags.length === 0) {
+                            a = true
+                        }
+                    })
+                }
                 if (a) {
                     return this.$Message.error("简述未填写完整")
                 }
@@ -493,7 +497,7 @@
 
             detail(id) {
                 this.JAjax.postJson('title/content', {id: id}, (res) => {
-                    this.content = res.data.detail ? res.data.detail.content : '';
+                    this.content = res.data.detail  ? (res.data.detail.content === null ? '' : res.data.detail.content) : '';
                     tinymce.activeEditor.setContent(this.content)
                     this.title_id = res.data.id
                 });
@@ -581,6 +585,12 @@
                     this.dataList.forEach(t=>{
                         t.expand = true
                     })
+                    this.$router.push({
+                        name: 'enter-content',
+                        params: {
+                            standard:  data.id
+                        }
+                    });
                 });
             },
             getType() {
@@ -590,6 +600,12 @@
             },
             goBackList() {
                 this.sourceOrListShow = true
+                this.$router.push({
+                    name: 'enter-content',
+                    params: {
+                        standard: 0
+                    }
+                });
             },
             afresh_list() {
                 this.getlist();
@@ -607,7 +623,7 @@
                     height: 200,
                     // invalid_elements : 'img',
                     language: 'zh_CN.GB2312',
-                    menubar:false,
+                    menubar: 'edit insert view format table tools',
                     theme: 'modern',
                     plugins: [
                         // 'advlist autolink lists link image charmap print preview hr anchor pagebreak imagetools',
@@ -675,18 +691,37 @@
                     },
                 });
             },
+            routePush(){
+                this.standard = this.$route.params.standard ? this.$route.params.standard : this.standard
+                this.$router.push({
+                    name: 'enter-content',
+                    params: {
+                        standard: this.standard
+                    }
+                });
+                if(Number(this.standard) !== 0 ){
+                    this.JAjax.postJson('title/lists', {id: this.standard}, (res) => {
+                        this.dataList = res.data || [];
+                        this.source = this.standard
+                        this.sourceOrListShow = false
+                        this.dataList.forEach(t=>{
+                            t.expand = true
+                        })
+                    });
+                }
+            }
         },
         mounted() {
             // this.getlist();
+
+
             this.getType();
             this.getSource();
             this.getSourceList();
             this.getModel();
             this.getKnowledges();
-
-
-
             this.editInit()
+            this.routePush()
 
 
 

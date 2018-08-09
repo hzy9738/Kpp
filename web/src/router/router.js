@@ -130,7 +130,7 @@ export const appRouter = [
         component: Main,
         children: [
             {
-                path: 'enter',
+                path: 'enter/:standard',
                 icon: 'compose',
                 name: 'enter-content',
                 title: '内容',

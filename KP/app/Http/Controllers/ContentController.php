@@ -25,6 +25,7 @@ class ContentController extends Controller
      */
     public function saveContent(Request $request){
         $result =  ContentValidate::validate($request);
+        ddJson($request->all());
         if($result['msg'] === config('code.success')){
             $result = Content::saveContent($request);
         }

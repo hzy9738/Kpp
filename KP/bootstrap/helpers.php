@@ -23,7 +23,7 @@ function validateData($action)
         return [
             'msg' => config('code.error'),
             'data' => $e,
-            "message" => 'error'
+            "message" => $e
         ];
     }
 }

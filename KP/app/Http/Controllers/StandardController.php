@@ -183,6 +183,9 @@ class StandardController extends Controller
         if($result['msg'] == 1){
             $data = $result['data'];
             $pdf = new \TCPDF();
+
+
+
             // 设置文档信息
             $pdf->SetCreator('Hello world');
             $pdf->SetAuthor('dyk');
@@ -232,6 +235,9 @@ class StandardController extends Controller
             $html =  $data;
 
             $pdf->writeHTML($html, true, false, true, false, '');
+
+
+
             $pdf->Output($pdfName.'.pdf', 'I');//I输出、D下载
 
         }

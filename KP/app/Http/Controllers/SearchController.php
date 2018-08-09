@@ -176,6 +176,13 @@ class SearchController extends Controller
 
     }
 
+    public function resultDelete(Request $request){
+        $name = $request->input('name');
+        $data = validateData(
+            Export::where('name',$name)->delete()
+        );
+        return responseJson($data);
+    }
 
     public function savePageResult(Request $request){
         return 1;
