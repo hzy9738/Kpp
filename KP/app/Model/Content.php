@@ -3,9 +3,30 @@
 namespace App\Model;
 
 
+use Laravel\Scout\Searchable;
 
 class Content extends Model
 {
+    use Searchable;
+
+    public function searchableAs()
+    {
+        return 'content';
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'id'=> $this->id,
+            'content' => $this->content,
+            'title_id' => $this->title_id,
+//            'content' => $this->content()->content
+        ];
+    }
+
+
+
+
     protected $table = 'content';
 
 

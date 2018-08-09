@@ -102,7 +102,7 @@ Route::prefix('search')->group(function () {
     Route::post('result/delete','SearchController@resultDelete');
 
 
-//    Route::any('scout','SearchController@scout');
+    Route::any('scout','ScoutController@getScout');
 //    Route::any('mysql','SearchController@mysql');
 });
 

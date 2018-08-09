@@ -6,12 +6,39 @@ namespace App\Model;
 use App\Http\Validate\TitleValidate;
 use Illuminate\Support\Facades\Log;
 
+use Laravel\Scout\Searchable;
 
 class Title extends Model
 {
+    use Searchable;
+
+    public function searchableAs()
+    {
+        return 'title';
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+//            'id' => $this->id,
+            'level' => $this->level,
+            'pid' => $this->pid,
+            'standard_id' => $this->standard_id,
+            'title' => $this->title,
+//            'content' => $this->content()->content
+        ];
+    }
+
+
     protected $table = 'title';
 
-    public static function createTitle($request){
+    public function content()
+    {
+        return $this->hasOne(Content::class, 'id', 'title_id');
+    }
+
+    public static function createTitle($request)
+    {
         $data = [
             'level' => 0,
             'pid' => 0,
@@ -23,38 +50,40 @@ class Title extends Model
         );
     }
 
-    public static function updateTitle($request){
-         $title = self::find($request->input('id',0));
-         $title->title = $request->input('title','');
+    public static function updateTitle($request)
+    {
+        $title = self::find($request->input('id', 0));
+        $title->title = $request->input('title', '');
         return validateData(
             $title->save()
         );
     }
 
 
-
-    public static function lists($id){
-        if($id !== -1){
+    public static function lists($id)
+    {
+        if ($id !== -1) {
             $data = validateData(
-                self::orderBy('id')->where('standard_id',$id)->where('pid',0)->with('children')->get()
+                self::orderBy('id')->where('standard_id', $id)->where('pid', 0)->with('children')->get()
             );
-        }else{
+        } else {
             $data = validateData(
-                self::orderBy('id')->where('pid',0)->with('children')->get()
+                self::orderBy('id')->where('pid', 0)->with('children')->get()
             );
         }
         return $data;
     }
 
 
-    public static function pdf($id){
-        if($id !== -1){
+    public static function pdf($id)
+    {
+        if ($id !== -1) {
             $data = validateData(
-                self::orderBy('id')->where('standard_id',$id)->where('pid',0)->with('child.detail')->get()
+                self::orderBy('id')->where('standard_id', $id)->where('pid', 0)->with('child.detail')->get()
             );
-        }else{
+        } else {
             $data = validateData(
-                self::orderBy('id')->where('pid',0)->with('children')->get()
+                self::orderBy('id')->where('pid', 0)->with('children')->get()
             );
         }
         return $data;
@@ -63,11 +92,11 @@ class Title extends Model
     public function child()
     {
         return $this->hasMany(Title::class, 'pid', 'id')
-            ->with('child','detail');
+            ->with('child', 'detail');
     }
 
 
-    public static  function addTitle($request)
+    public static function addTitle($request)
     {
         $data = [
             'title' => $request->input('title'),
@@ -88,52 +117,53 @@ class Title extends Model
     }
 
 
-
     public function detail()
     {
-        return $this->belongsTo(Content::class,'id','title_id');
+        return $this->belongsTo(Content::class, 'id', 'title_id');
     }
-
 
 
     public function sentences()
     {
-        return $this->hasMany(Sentence::class,'title_id','id');
+        return $this->hasMany(Sentence::class, 'title_id', 'id');
     }
 
 
-
-    public static function deleteTitle($id){
+    public static function deleteTitle($id)
+    {
         $title = self::find($id);
         $ids = [];
         $ids[] = $id;
         $data = $title->load('children');
-        self::_getIds($data,$ids);
+        self::_getIds($data, $ids);
         $result = validateData(
-            Title::whereIn('id',$ids)->delete(),
-            Sentence::whereIn('title_id',$ids)->delete()
+            Title::whereIn('id', $ids)->delete(),
+            Sentence::whereIn('title_id', $ids)->delete()
         );
         return $result;
     }
 
-    public static function deleteTitlesByStandard($standardId){
-        $ids = Title::where('standard_id',$standardId)->pluck('id');
+    public static function deleteTitlesByStandard($standardId)
+    {
+        $ids = Title::where('standard_id', $standardId)->pluck('id');
         $result = validateData(
-            Title::where('standard_id',$standardId)->delete(),
-            Sentence::whereIn('title_id',$ids)->delete()
+            Title::where('standard_id', $standardId)->delete(),
+            Sentence::whereIn('title_id', $ids)->delete()
         );
         return $result;
     }
 
-    public static function _getIds($data,&$ids){
-        foreach ($data->children as $item){
+    public static function _getIds($data, &$ids)
+    {
+        foreach ($data->children as $item) {
             $ids[] = $item->id;
-            self::_getIds($item,$ids);
+            self::_getIds($item, $ids);
         }
         return $ids;
     }
 
-    public static  function getSentences($title){
+    public static function getSentences($title)
+    {
 
         $data = $title->load('sentences.tags');
 

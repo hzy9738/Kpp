@@ -58,7 +58,7 @@ return [
     |
     */
 
-    'driver' => env('SCOUT_DRIVER', 'algolia'),
+    'driver' => env('SCOUT_DRIVER', 'elasticsearch'),
 
     /*
     |--------------------------------------------------------------------------
@@ -129,6 +129,12 @@ return [
     'algolia' => [
         'id' => env('ALGOLIA_APP_ID', 'MXUM21Q55S'),
         'secret' => env('ALGOLIA_SECRET', 'caac1441aabaff0b99c5df09168c0421'),
+    ],
+    'elasticsearch' => [
+        'index' => env('ELASTICSEARCH_INDEX', 'kp'),
+        'hosts' => [
+            env('ELASTICSEARCH_HOST', 'http://192.168.1.125:9200'),
+        ],
     ],
 
 ];
