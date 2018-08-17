@@ -8,7 +8,7 @@ class UploadController extends Controller
 {
     public function image(Request $request){
         $file = $request->file('file');
-        $path =  self::save($file,'content');
+        $path =  self::save($file,'kp');
         $path = $path['path'];
         return $path;
     }

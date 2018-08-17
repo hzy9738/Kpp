@@ -20,7 +20,7 @@ class Category extends Model
     {
         $data = validateData(
             self::orderBy('id')
-                ->select('id', 'pid', 'type', "name as title", 'status')
+                ->select('id', 'pid', 'type', "name as title", 'status','level')
                 ->pluck('title','id')
         );
         return $data;
@@ -35,7 +35,7 @@ class Category extends Model
                 ->where('type', 'default')
                 ->where('status', 'normal')
                 ->where('pid', '0')
-                ->select('id', 'pid', 'type', "name as title", 'status')
+                ->select('id', 'pid', 'type', "name as title", 'status','level')
                 ->get()
         );
         return $data;
@@ -64,7 +64,7 @@ class Category extends Model
                 ->where('type', 'page')
                 ->where('status', 'normal')
                 ->where('pid', '0')
-                ->select('id', 'pid', 'type', "name as title", 'status')
+                ->select('id', 'pid', 'type', "name as title", 'status','level')
                 ->get()
         );
         return $data;
@@ -76,7 +76,7 @@ class Category extends Model
             ->where('status', 'normal')
             ->where('type', 'default')
             ->with('modelChild')
-            ->select('id', 'pid', 'type', 'name as title', 'status');
+            ->select('id', 'pid', 'type', 'name as title', 'status','level');
     }
 
     public function pageChild()
@@ -85,7 +85,7 @@ class Category extends Model
             ->with('pageChild')
             ->where('status', 'normal')
             ->where('type', 'page')
-            ->select('id', 'pid', 'type', 'name as title', 'status');
+            ->select('id', 'pid', 'type', 'name as title', 'status','level');
     }
 
     public function child()
@@ -93,7 +93,7 @@ class Category extends Model
         return $this->hasMany(Category::class, 'pid', 'id')
             ->where('status', 'normal')
             ->with('child')
-            ->select('id', 'pid', 'type', 'name as title', 'status');
+            ->select('id', 'pid', 'type', 'name as title', 'status','level');
     }
 
     public static function addModel($request)

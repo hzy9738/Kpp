@@ -22,6 +22,7 @@ class Sentence extends Model
             $data[$key]['content_id'] = $content_id;
             $data[$key]['title_id'] = $titleId;
             $data[$key]['import'] = isset($sentence['import']) ? (  $sentence['import'] ? 1 : 0  ): 0;
+            $data[$key]['level'] = count($sentence['model']);
             $data[$key]['createtime'] = $time;
             $data[$key]['type'] = isset( $sentence['type']) ?  $sentence['type'] : 0;
             $tags[] = isset($sentence['tags']) ? $sentence['tags'] : [];

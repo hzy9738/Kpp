@@ -14,7 +14,7 @@ export const columns1 = [
         width: 200,
     },
     {
-        type:'html',
+        // type:'html',
         key: 'content',
         title: '详细说明',
         ellipsis:true,

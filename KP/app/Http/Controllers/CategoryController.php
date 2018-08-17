@@ -81,7 +81,8 @@ class CategoryController extends Controller
      *      }
      * }
      */
-    public function modelsClear(){
+    public function modelsClear()
+    {
         $data = Category::models();
         $list = Category::clearList($data['data']);
         return ddJson($list);
@@ -137,12 +138,12 @@ class CategoryController extends Controller
      *      }
      * }
      */
-    public function pagesClear(){
+    public function pagesClear()
+    {
         $data = Category::pages();
         $list = Category::clearList($data['data']);
         return ddJson($list);
     }
-
 
 
     /**
@@ -246,5 +247,18 @@ class CategoryController extends Controller
             );
         }
         return responseJson($data);
+    }
+
+
+    public function getLevel()
+    {
+         $data = Sentence::all();
+
+         foreach ($data as $item){
+             $count = explode(',',$item->model_id);
+             $item->level = count($count);
+             $item->save();
+         }
+        return 1;
     }
 }

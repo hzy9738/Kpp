@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Excel;
 use App\Model\Category;
+use App\Model\Content;
 use App\Model\Export;
 use App\Model\Sentence;
 use App\Model\Tag;
@@ -35,7 +37,7 @@ class SearchController extends Controller
         $data = validateData(
 
 
-        Sentence::orderBy('sentence.id', 'desc')
+        Sentence::orderBy('sentence.level', 'desc')
             ->leftJoin('kptype', 'sentence.type', 'kptype.id')
             ->leftJoin('content', 'sentence.content_id', 'content.id')
             ->leftJoin('title', 'content.title_id', 'title.id')
@@ -80,7 +82,7 @@ class SearchController extends Controller
         $data = validateData(
 
 
-            Sentence::orderBy('sentence.id', 'desc')
+            Sentence::orderBy('sentence.level', 'desc')
                 ->leftJoin('kptype', 'sentence.type', 'kptype.id')
                 ->leftJoin('content', 'sentence.content_id', 'content.id')
                 ->leftJoin('title', 'content.title_id', 'title.id')
@@ -128,19 +130,60 @@ class SearchController extends Controller
     public function content(Request $request){
         $keyword = $request->input('keyword');
         $pageSize = $request->input('pageSize', 10);
-        $data = validateData(
-            Sentence::orderBy('sentence.id', 'desc')
-                ->leftJoin('kptype', 'sentence.type', 'kptype.id')
-                ->leftJoin('content', 'sentence.content_id', 'content.id')
-                ->leftJoin('title', 'content.title_id', 'title.id')
-                ->leftJoin('standard', 'title.standard_id', 'standard.id')
-                ->with(['tags'=>function($query) use($keyword){}])
-                ->select('sentence.id', 'sentence', 'content', 'standard.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
-                ->whereNotNull('sentence.sentence')
-                ->where('content.content', 'like', "%{$keyword}%")
-                ->where('sentence.import',1)
-                ->paginate($pageSize)
-        );
+        $content = [];
+        $titleId = [];
+        $contentId = [];
+        $isScout = true;
+        try{
+            $contents = Content::search($keyword)->get();
+
+            foreach ($contents as $item){
+                $contentId[] = $item->id;
+                $titleId[] = $item->title_id;
+                $content[$item->title_id] = $item->content;
+            }
+
+        }catch (\Exception $e) {
+            $isScout = false;
+        }
+
+
+
+        if($isScout){
+            $data = validateData(
+                Sentence::orderBy('sentence.level', 'desc')
+                    ->leftJoin('kptype', 'sentence.type', 'kptype.id')
+//                ->leftJoin('content', 'sentence.content_id', 'content.id')
+                    ->leftJoin('title', 'sentence.title_id', 'title.id')
+                    ->leftJoin('standard', 'title.standard_id', 'standard.id')
+                    ->with(['tags'=>function($query) use($keyword){}])
+                    ->select('sentence.id', 'sentence', 'standard.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard','sentence.title_id')
+                    ->whereNotNull('sentence.sentence')
+                    ->whereIn('title_id',$titleId)
+//                ->where('content.content', 'like', "%{$keyword}%")
+                    ->where('sentence.import',1)
+                    ->paginate($pageSize)
+            );
+            if($data['msg'] == 1){
+                foreach ($data['data'] as $item){
+                    $item->content =  isset($content[$item->title_id]) ? $content[$item->title_id] : '';
+                }
+            }
+        }else{
+            $data = validateData(
+                Sentence::orderBy('sentence.level', 'desc')
+                    ->leftJoin('kptype', 'sentence.type', 'kptype.id')
+                    ->leftJoin('content', 'sentence.content_id', 'content.id')
+                    ->leftJoin('title', 'content.title_id', 'title.id')
+                    ->leftJoin('standard', 'title.standard_id', 'standard.id')
+                    ->with(['tags'=>function($query) use($keyword){}])
+                    ->select('sentence.id', 'sentence', 'content','standard.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard','sentence.title_id')
+                    ->whereNotNull('sentence.sentence')
+                    ->where('content.content', 'like', "%{$keyword}%")
+                    ->where('sentence.import',1)
+                    ->paginate($pageSize)
+            );
+        }
         return responseJson($data);
     }
 
@@ -187,4 +230,47 @@ class SearchController extends Controller
     public function savePageResult(Request $request){
         return 1;
     }
+
+
+
+    public function searchImage(Request $request){
+//        $user = $request->input('user','张江腾');
+        $user = $request->user;
+        $keyword = '/content_';
+        $data = Content::where('content', 'like', "%{$keyword}%")
+            ->leftJoin('title', 'content.title_id', 'title.id')
+            ->leftJoin('standard', 'title.standard_id', 'standard.id')
+//            ->select('title.id','title as 标题','name as 规范','level as 层级','standard.user as 收集人')
+            ->select('title.id','title as 章节','name as 规范','level as 层级','standard.user as 收集人')
+            ->where('standard.user',$user)
+            ->get();
+
+        $width = [
+            'A' => 10,
+            'B' => 50,
+            'C' => 15,
+            'D' => 8,
+            'E' => 15,
+
+//            'I' => 10,
+//            'J' => 30,
+        ];
+        $exports = [];
+        foreach ($data as $k=>$item){
+            $exports[$k][1] = $k+1;
+            $exports[$k][2] = $item->规范;
+            $exports[$k][3] = $item->章节;
+            $exports[$k][4] = $item->层级;
+            $exports[$k][5] = $item->收集人;
+        }
+
+        $excelName = "kp-图片补充({$user})";
+        $row = ['序号', '规范', '标题', '层级', '收集人'];
+
+        $count = count($row);
+
+
+        Excel::export($excelName, $row, $exports, $width, $count);
+    }
+
 }

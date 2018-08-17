@@ -29,6 +29,8 @@ Route::prefix('categories')->group(function () {
     Route::post('add/page','CategoryController@addPage');
     Route::post('delete/category','CategoryController@deleteCategory');
     Route::post('from/to','CategoryController@fromTo');
+
+    Route::any('level','CategoryController@getLevel');
 });
 
 //类型
@@ -104,6 +106,7 @@ Route::prefix('search')->group(function () {
 
     Route::any('scout','ScoutController@getScout');
 //    Route::any('mysql','SearchController@mysql');
+    Route::any('image/{user?}','SearchController@searchImage');
 });
 
 //结果集
