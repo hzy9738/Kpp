@@ -98,6 +98,46 @@ class SearchController extends Controller
         return responseJson($data);
     }
 
+    /**
+     * @Name 标准分类搜索
+     * @Description 标准分类搜索接口
+     * @Param keyword:  标准分类
+     * @Param page:  页码（默认1）
+     * @Param pageSize:  每页条数（默认10）
+     * @Response 通用格式:{"code":响应码,"message":"错误描述","data":{}}
+     *  data{
+     *     "code":1,
+     *     "data":{
+     *          ...
+     *      },
+     *     "message":"success"
+     * }
+     */
+    public function system(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $pageSize = $request->input('pageSize', 10);
+        $array = self::keywordFormdata($keyword);
+        $data = validateData(
+
+
+            Sentence::orderBy('sentence.level', 'desc')
+                ->leftJoin('kptype', 'sentence.type', 'kptype.id')
+                ->leftJoin('content', 'sentence.content_id', 'content.id')
+                ->leftJoin('title', 'content.title_id', 'title.id')
+                ->leftJoin('standard', 'title.standard_id', 'standard.id')
+                ->with(['tags'=>function($query) use($keyword){}])
+                ->select('sentence.id', 'sentence', 'content', 'standard.user', 'page_id', 'model_id', 'kptype.name as type', 'standard.name as standard')
+                ->whereNotNull('sentence.sentence')
+                ->where('sentence.import',1)
+                ->whereIn('sentence.system_id', $array)
+                ->paginate($pageSize)
+
+        );
+        return responseJson($data);
+    }
+
+
     public static function keywordFormdata($keyword)
     {
         $array = [];

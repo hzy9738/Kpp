@@ -61,18 +61,7 @@ export const otherRouter = {
         { path: 'home', title: {i18n: 'home'}, name: 'home_index', component: () => import('@/views/home/home.vue') },
         { path: 'ownspace', title: '个人中心', name: 'ownspace_index', component: () => import('@/views/own-space/own-space.vue') },
 
-        { path: '/note/month/task', title: '按项目录入', name: 'note_task', component: () => import('@/views/note/month/task.vue') },
-        { path: '/note/month/task/update', title: '项目录入修改', name: 'update_task', component: () => import('@/views/note/month/update.vue') },
 
-        { path: '/note/month/staff', title: '按员工录入', name: 'note_staff', component: () => import('@/views/note/month/task.vue') },
-
-        { path: '/note/month/task/detail', title: '项目绩效详情页', name: 'note_task_detail', component: () => import('@/views/note/month/task_detail.vue') },
-        { path: '/note/month/staff/detail', title: '员工绩效详情页', name: 'note_staff_detail', component: () => import('@/views/note/month/staff_detail.vue') },
-
-        { path: '/note/month/task/check', title: '项目绩效审核页', name: 'note_task_check', component: () => import('@/views/note/month/task_check.vue') },
-
-
-        { path: '/system/role/permission', title: '权限分配', name: 'set_permission', component: () => import('@/views/system/role/permission.vue') }
     ],
 
 };
@@ -100,6 +89,14 @@ export const appRouter = [
                 // permission: 'note-responsible-watch',
                 title: '知识点',
                 component: () => import('@/views/category/control/kown.vue')
+            },
+            {
+                path: 'system',
+                icon: 'compose',
+                name: 'category-system',
+                // permission: 'note-responsible-watch',
+                title: '系统',
+                component: () => import('@/views/category/control/system.vue')
             },
         ]
     },

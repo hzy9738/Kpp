@@ -1,5 +1,0 @@
-{
-    "require": {
-        "tamayo/laravel-scout-elastic": "^3.0"
-    }
-}

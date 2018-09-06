@@ -41,6 +41,22 @@ class Category extends Model
         return $data;
     }
 
+
+
+    public static function systems()
+    {
+        $data = validateData(
+            self::orderBy('id')
+                ->with('systemChild')
+                ->where('type', 'system')
+                ->where('status', 'normal')
+                ->where('pid', '0')
+                ->select('id', 'pid', 'type', "name as title", 'status','level')
+                ->get()
+        );
+        return $data;
+    }
+
     public static function clearList($data,&$lists= []){
 
         foreach ($data as $item){
@@ -79,6 +95,15 @@ class Category extends Model
             ->select('id', 'pid', 'type', 'name as title', 'status','level');
     }
 
+    public function systemChild()
+    {
+        return $this->hasMany(Category::class, 'pid', 'id')
+            ->where('status', 'normal')
+            ->where('type', 'system')
+            ->with('systemChild')
+            ->select('id', 'pid', 'type', 'name as title', 'status','level');
+    }
+
     public function pageChild()
     {
         return $this->hasMany(Category::class, 'pid', 'id')
@@ -94,6 +119,23 @@ class Category extends Model
             ->where('status', 'normal')
             ->with('child')
             ->select('id', 'pid', 'type', 'name as title', 'status','level');
+    }
+
+
+    public static function addSystem($request)
+    {
+        $data = [
+            'pid' => $request->input('id'),
+            'name' => $request->input('name') ,
+            'type' => $request->input('type','system'),
+            'status' => 'normal',
+            'createtime' => time(),
+            'updatetime' =>  time(),
+        ];
+        $data = validateData(
+            self::create($data)
+        );
+        return $data;
     }
 
     public static function addModel($request)

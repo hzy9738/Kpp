@@ -39,6 +39,7 @@ class ContentValidate
             'sentences.*.sentence' => '简述',
             'sentences.*.knowledge' => '知识点分类',
             'sentences.*.model' => '标准分类',
+            'sentences.*.system' => '系统分类',
             'sentences.*.type' => '类型',
             'sentences.*.tags' => '标签',
         ]);

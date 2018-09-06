@@ -19,6 +19,7 @@ class Sentence extends Model
             $data[$key]['sentence'] = isset($sentence['sentence']) ? $sentence['sentence'] : '';
             $data[$key]['page_id'] = implode(',', $sentence['knowledge']);
             $data[$key]['model_id'] = implode(',', $sentence['model']);
+            $data[$key]['system_id'] = implode(',', $sentence['system']);
             $data[$key]['content_id'] = $content_id;
             $data[$key]['title_id'] = $titleId;
             $data[$key]['import'] = isset($sentence['import']) ? (  $sentence['import'] ? 1 : 0  ): 0;
@@ -49,21 +50,17 @@ class Sentence extends Model
     }
 
 
-    public static function getCategory()
+    public static function getCategory($searchId)
     {
-        $pages = self::orderBy('id')->pluck('page_id');
-        $model = self::orderBy('id')->pluck('model_id');
-        $categroy = [];
-        foreach ($pages as $item){
-            $array = explode(',',$item);
-            $categroy = array_merge($categroy,$array);
+        $data = self::orderBy('id','desc')
+            ->orWhereRaw("model_id  REGEXP '($searchId)'")
+            ->orWhereRaw("page_id  REGEXP '($searchId)'")
+            ->orWhereRaw("system_id  REGEXP '($searchId)'")
+            ->first();
+        if(is_null($data)){
+            return true;
         }
-        foreach ($model as $item){
-            $array = explode(',',$item);
-            $categroy = array_merge($categroy,$array);
-        }
-        $categroy = array_unique($categroy);
-        return $categroy;
+        return false;
     }
 
 

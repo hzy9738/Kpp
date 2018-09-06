@@ -17,6 +17,8 @@
                     <Row class="margin-top-8">
                         <Cascader :data="models" v-model="search.data" change-on-select v-if='type==="category"'
                                   style="width: 300px;float: left" placeholder="请选择标准分类"></Cascader>
+                        <Cascader :data="systems" v-model="search.data" change-on-select v-if='type==="system"'
+                                  style="width: 300px;float: left" placeholder="请选择系统分类"></Cascader>
                         <Input v-model="search.keyword" placeholder="请输入Tag关键词" style="width: 300px;float: left"
                                v-if='type==="keyword"' @on-enter="onSearch"></Input>
                         <Input v-model="search.content" placeholder="全文检索" v-if='type==="content"'
@@ -31,25 +33,25 @@
                         </Button>
 
 
-                        <Dropdown  style="float: right;width: 200px" @on-click="saveResult">
-                            <Button type="primary" >
-                                全部保存到临时结果集
-                                <Icon type="arrow-down-b"></Icon>
-                            </Button>
-                            <DropdownMenu slot="list"  >
-                                <DropdownItem name="A">结果集 A</DropdownItem>
-                                <DropdownItem name="B">结果集 B</DropdownItem>
-                                <DropdownItem name="C">结果集 C</DropdownItem>
-                                <DropdownItem name="D">结果集 D</DropdownItem>
-                                <DropdownItem name="E">结果集 E</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                        <Dropdown  style="float: right;width: 200px" @on-click="saveResult">
-                            <Button type="primary" >
+                        <!--<Dropdown style="float: right;width: 200px" @on-click="saveResult">-->
+                            <!--<Button type="primary">-->
+                                <!--全部保存到临时结果集-->
+                                <!--<Icon type="arrow-down-b"></Icon>-->
+                            <!--</Button>-->
+                            <!--<DropdownMenu slot="list">-->
+                                <!--<DropdownItem name="A">结果集 A</DropdownItem>-->
+                                <!--<DropdownItem name="B">结果集 B</DropdownItem>-->
+                                <!--<DropdownItem name="C">结果集 C</DropdownItem>-->
+                                <!--<DropdownItem name="D">结果集 D</DropdownItem>-->
+                                <!--<DropdownItem name="E">结果集 E</DropdownItem>-->
+                            <!--</DropdownMenu>-->
+                        <!--</Dropdown>-->
+                        <Dropdown style="float: right;width: 200px" @on-click="saveResult">
+                            <Button type="primary">
                                 当页保存到临时结果集
                                 <Icon type="arrow-down-b"></Icon>
                             </Button>
-                            <DropdownMenu slot="list"  >
+                            <DropdownMenu slot="list">
                                 <DropdownItem name="A">结果集 A</DropdownItem>
                                 <DropdownItem name="B">结果集 B</DropdownItem>
                                 <DropdownItem name="C">结果集 C</DropdownItem>
@@ -76,8 +78,8 @@
                         </can-edit-table>
                         <Row class="center">
                             <!--<Button type="primary" size="large" @click="exportExcel" style="float: left">-->
-                                <!--<Icon type="ios-download-outline"></Icon>-->
-                                <!--导出当页数据-->
+                            <!--<Icon type="ios-download-outline"></Icon>-->
+                            <!--导出当页数据-->
                             <!--</Button>-->
                             <Page :total="total" show-total @on-change="changePage" :page-size="pageSize"
                                   :page-size-opts="pageSizeOpts" show-sizer show-elevator style="margin-left: -200px"
@@ -106,6 +108,7 @@
             return {
                 types: {
                     category: '标准查询',
+                    system: '系统查询',
                     keyword: '关键字查询',
                     content: '全文检索',
                 },
@@ -122,34 +125,44 @@
                     keyword: ''
                 },
                 models: [],
+                systems: [],
                 splices: [],
-                category:[]
+                category: []
             }
         },
         methods: {
-            saveResult(name){
+            saveResult(name) {
                 let postData = {}
-                this.dataList.forEach((item,index)=>{
-                    this.$set(postData,index,{})
+
+                this.dataList.forEach((item, index) => {
+                    this.$set(postData, index, {})
 
                     let pages = item.page_id.split(',')
-                    pages = pages.map(t=>this.category[t])
+                    pages = pages.map(t => this.category[t])
                     let models = item.model_id.split(',')
-                    models = models.map(e=>this.category[e])
-                    let tags = item.tags.map(t=>t.tag)
-                    this.$set(postData[index],'user',item.user)
-                    this.$set(postData[index],'type',item.type)
-                    this.$set(postData[index],'standard',item.standard)
-                    this.$set(postData[index],'content',item.content)
-                    this.$set(postData[index],'sentence',item.sentence)
-                    this.$set(postData[index],'sentence_id',item.id)
-                    this.$set(postData[index],'page',pages.join(' / '))
-                    this.$set(postData[index],'model',models.join(' / '))
-                    this.$set(postData[index],'tag',tags.join(','))
-                    this.$set(postData[index],'name',name)
-                    this.$set(postData[index],'type_id',23)
-                    let  time =Math.round(new Date().getTime()/1000).toString()
-                    this.$set(postData[index],'createtime',time)
+                    models = models.map(e => this.category[e])
+
+
+                    this.$set(postData[index], 'user', item.user)
+                    this.$set(postData[index], 'type', item.type)
+                    this.$set(postData[index], 'standard', item.standard)
+                    this.$set(postData[index], 'content', item.content)
+                    this.$set(postData[index], 'sentence', item.sentence)
+                    this.$set(postData[index], 'sentence_id', item.id)
+                    this.$set(postData[index], 'page', pages.join(' / '))
+                    this.$set(postData[index], 'model', models.join(' / '))
+
+                    if(this.type == 'keyword' ||  this.type == 'content'){
+                        this.$set(postData[index], 'tag', this.search.keyword)
+                    }else {
+                        let tags = item.tags.map(t => t.tag)
+                        this.$set(postData[index], 'tag', tags.join(','))
+                    }
+
+                    this.$set(postData[index], 'name', name)
+                    this.$set(postData[index], 'type_id', 23)
+                    let time = Math.round(new Date().getTime() / 1000).toString()
+                    this.$set(postData[index], 'createtime', time)
 
 
                 })
@@ -172,7 +185,7 @@
                     } else {
                         param = this.search.content;
                     }
-                    window.open('/api/excel/export?keyword=' + param + '&pageSize=' + this.pageSize + '&type=' + this.type+ '&splices='+ this.splices)
+                    window.open('/api/excel/export?keyword=' + param + '&pageSize=' + this.pageSize + '&type=' + this.type + '&splices=' + this.splices)
                 }
             },
             onContent() {
@@ -192,7 +205,18 @@
                             this.dataList = res.data.data || [];
                             this.total = res.data.total;
                             this.pageSize = res.data.per_page;
-                            this.dataList.forEach((t)=>{
+                            this.dataList.forEach((t) => {
+                                t.index = index++
+                            })
+                        });
+                    }  else if (this.type === 'system') {
+                        postdata.keyword = this.search.data
+                        this.JAjax.postJson('search/system', postdata, (res) => {
+                            // console.log(res.data.data)
+                            this.dataList = res.data.data || [];
+                            this.total = res.data.total;
+                            this.pageSize = res.data.per_page;
+                            this.dataList.forEach((t) => {
                                 t.index = index++
                             })
                         });
@@ -203,7 +227,7 @@
                             this.dataList = res.data.data || [];
                             this.total = res.data.total;
                             this.pageSize = res.data.per_page;
-                            this.dataList.forEach((t)=>{
+                            this.dataList.forEach((t) => {
                                 t.index = index++
                             })
                         });
@@ -214,7 +238,7 @@
                             this.dataList = res.data.data || [];
                             this.total = res.data.total;
                             this.pageSize = res.data.per_page;
-                            this.dataList.forEach((t)=>{
+                            this.dataList.forEach((t) => {
                                 t.index = index++
                             })
                         });
@@ -230,12 +254,26 @@
                     this._modelForm(this.models)
                 });
             },
+            getSystem() {
+                this.JAjax.postJson('categories/systems', {}, (res) => {
+                    this.systems = res.data || [];
+                    this._systemForm(this.systems)
+                });
+            },
             _modelForm(data) {
                 data.forEach(t => {
                     t.children = t.model_child || []
                     t.value = t.id || ''
                     t.label = t.title || ''
                     this._modelForm(t.children)
+                })
+            },
+            _systemForm(data) {
+                data.forEach(t => {
+                    t.children = t.system_child || []
+                    t.value = t.id || ''
+                    t.label = t.title || ''
+                    this._systemForm(t.children)
                 })
             },
             changePage(page) {
@@ -251,6 +289,8 @@
             },
             changeType() {
                 if (this.type === 'category') {
+                    this.type = 'system'
+                } else if (this.type === 'system') {
                     this.type = 'keyword'
                 } else if (this.type === 'keyword') {
                     this.type = 'content'
@@ -276,6 +316,7 @@
         },
         mounted() {
             this.getModel()
+            this.getSystem()
             this.getCategorygetCategory()
             this.type = this.$route.params.type ? this.$route.params.type : this.type
             this.$router.push({

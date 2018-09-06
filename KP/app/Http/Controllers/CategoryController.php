@@ -121,6 +121,38 @@ class CategoryController extends Controller
     }
 
     /**
+     * @Name 系统分类
+     * @Description 系统分类接口
+     *
+     * @Response 通用格式:{"code":响应码,"message":"错误描述","data":{}}
+     *   data{
+     *     "code":1,
+     *      data{
+     *           id:"系统分类id",
+     *           pid:"父id",
+     *           title: "系统分类名称"
+     *           type: "分类类型"
+     *           status: "状态"
+     *           model_child: : [
+     *              {
+     *                   id:"系统分类id",
+     *                   pid:"父id",
+     *                   title: "系统分类名称"
+     *                   type: "分类类型"
+     *                   status: "状态"
+     *                   model_child: : []
+     *              }
+     *        ]
+     *      }
+     * }
+     */
+    public function systems()
+    {
+        $data = Category::systems();
+        return responseJson($data);
+    }
+
+    /**
      * @Name 简洁知识点分类
      * @Description 标准分类接口
      *
@@ -203,7 +235,34 @@ class CategoryController extends Controller
         }
         return responseJson($result);
     }
-
+    /**
+     * @Name 添加知识点分类
+     * @Description 添加知识点分类
+     * @Param name: 分类名称
+     * @Param id: 父级id
+     * @Response 通用格式:{"code":响应码,"message":"错误描述","data":{}}
+     *  data{
+     *     "code":1,
+     *     "data":{
+     *           "pid":"1",
+     *           "name":"文档",
+     *           "type":"page",
+     *           "status":"normal",
+     *           "createtime":1531634276,
+     *           "updatetime":1531634276,
+     *           "id":159
+     *     },
+     *    "message":"success"
+     * }
+     */
+    public function addSystem(Request $request)
+    {
+        $result = CategoryValidate::validate($request);
+        if ($result['msg'] === config('code.success')) {
+            $result = Category::addSystem($request);
+        }
+        return responseJson($result);
+    }
 
     /**
      * @Name 删除分类
@@ -218,8 +277,10 @@ class CategoryController extends Controller
      */
     public function deleteCategory(Request $request)
     {
+
         $id = $request->input('id', 0);
         $result = CategoryValidate::validateDelete($id);
+
         if ($result['msg'] === config('code.success')) {
             $category = Category::find($id);
             $result = Category::deleteCategory($category);

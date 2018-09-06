@@ -133,7 +133,8 @@ return [
     'elasticsearch' => [
         'index' => env('ELASTICSEARCH_INDEX', 'kp'),
         'hosts' => [
-            env('ELASTICSEARCH_HOST', 'http://127.0.0.1:9200'),
+//            env('ELASTICSEARCH_HOST', 'http://127.0.0.1:9200'),
+            env('ELASTICSEARCH_HOST', 'http://192.168.1.125:9200'),
         ],
     ],
 

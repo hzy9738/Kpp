@@ -45,8 +45,9 @@ class CategoryValidate
     }
 
     public static function validateDelete($id){
-        $ids = Sentence::getCategory();
-        if (in_array($id,$ids)) {
+        $ids = Sentence::getCategory($id);
+
+        if (!$ids) {
             return [
                 'msg' => config('code.error'),
                 'data' => '',

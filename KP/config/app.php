@@ -184,7 +184,8 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
         ScoutEngines\Elasticsearch\ElasticsearchProvider::class,
-        Apidoc\ApiDocServiceProvider::class
+        Apidoc\ApiDocServiceProvider::class,
+        Spatie\Backup\BackupServiceProvider::class,
     ],
 
     /*

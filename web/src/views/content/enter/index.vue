@@ -145,10 +145,12 @@
                         </Col>
                         <Col span="24" class="margin-top-8" style="margin-left: 12px;margin-bottom: 12px">
                             <Cascader :data="knowledges" v-model="sentenceData.knowledge" change-on-select
-                                      style="width: 30%;float: left;margin:0 10px" placeholder="请选择知识点分类"></Cascader>
+                                      style="width: 22%;float: left;margin:0 10px" placeholder="请选择知识点分类"></Cascader>
                             <Cascader :data="models" v-model="sentenceData.model" change-on-select
-                                      style="width: 30%;float: left;margin:0 10px" placeholder="请选择标准分类"></Cascader>
-                            <Select v-model="sentenceData.type"  style="width: 20%;float: left;">
+                                      style="width: 22%;float: left;margin:0 10px" placeholder="请选择标准分类"></Cascader>
+                            <Cascader :data="systems" v-model="sentenceData.system" change-on-select
+                                      style="width: 22%;float: left;margin:0 10px" placeholder="请选择系统分类"></Cascader>
+                            <Select v-model="sentenceData.type"  style="width: 15%;float: left;">
                                 <Option  value="" key="0" placeholder="请选择类型"> --   ----  ---  ---  --</Option>
                                 <Option v-for="item in types" :value="item.id" :key="item.id" placeholder="请选择类型">{{ item.name
                                     }}
@@ -206,11 +208,7 @@
     import $  from 'jquery';
     import tinymce from 'tinymce';
 
-    function checkTagJqery(vm,className) {
-        let tags = $(className).find('.ivu-tag-checked>span').html()
 
-        console.log(tags)
-    }
 
     function tableAddBorder() {
 
@@ -266,6 +264,7 @@
                 standardPost:true,
                 knowledges: [],
                 models: [],
+                systems: [],
                 dataList: [],
                 content: '',
                 tags: [],
@@ -280,6 +279,7 @@
                     {
                         sentence: '',
                         knowledge: [],
+                        system: [],
                         model: [],
                         tags: [],
                         type: [],
@@ -432,7 +432,7 @@
                     setTimeout(() => {
                         this.loading1 = false;
                         const list = this.list.map(item => {
-                            // console.log(item.name.toLowerCase())
+
                             return {
                                 value: Number(item.id),
                                 label: item.name,
@@ -467,7 +467,7 @@
                 let a = false
                 if(this.sentenceDatas.length > 1){
                     this.sentenceDatas.forEach(t => {
-                        if (t.sentence === '' || t.knowledge.length === 0 || t.model.length === 0 || t.type === "" || t.tags.length === 0) {
+                        if (t.sentence === '' || t.knowledge.length === 0 ||  t.system.length === 0 || t.model.length === 0 || t.type === "" || t.tags.length === 0) {
                             a = true
                         }
                     })
@@ -509,14 +509,16 @@
                     data.sentences.forEach((t, index) => {
 
                         this.$set(this.sentenceDatas, index, {})
-                        // console.log(t.page_id.join(","))
+
                         let model = t.model_id.split(",")
                         let page = t.page_id.split(",")
+                        let system = t.system_id.split(",")
                         t.import = t.import ? true : false
                         this.$set(this.sentenceDatas[index], 'sentence', t.sentence)
                         this.$set(this.sentenceDatas[index], 'type', Number(t.type))
                         this.$set(this.sentenceDatas[index], 'model', model.map(t => Number(t)))
                         this.$set(this.sentenceDatas[index], 'knowledge', page.map(t => Number(t)))
+                        this.$set(this.sentenceDatas[index], 'system', system.map(t => Number(t)))
                         this.$set(this.sentenceDatas[index], 'tags', t.tags.map(t => t.tag))
                         this.$set(this.sentenceDatas[index], 'import', t.import)
 
@@ -542,6 +544,12 @@
                     this._modelForm(this.models)
                 });
             },
+            getSystem() {
+                this.JAjax.postJson('categories/systems', {}, (res) => {
+                    this.systems = res.data || [];
+                    this._systemForm(this.systems)
+                });
+            },
             _modelForm(data) {
                 data.forEach(t => {
                     t.children = t.model_child || []
@@ -556,6 +564,14 @@
                     t.value = t.id || ''
                     t.label = t.title || ''
                     this._kownForm(t.children)
+                })
+            },
+            _systemForm(data) {
+                data.forEach(t => {
+                    t.children = t.system_child || []
+                    t.value = t.id || ''
+                    t.label = t.title || ''
+                    this._systemForm(t.children)
                 })
             },
             getSourceList() {
@@ -640,11 +656,11 @@
 
                     paste_preprocess: function(plugin, args) {
                         args.content = args.content.replace("<img", "<img id=\"pasted_image_" + parseInt(that.globalcounter) + "\"");
-                        // console.log(args.content)
+
                         var xhr = new XMLHttpRequest();
                         xhr.onreadystatechange = function(){
                             if (this.readyState == 4 && this.status == 200){
-                                console.log(this)
+
                                 upload( this.response);
                             }
                         };
@@ -654,14 +670,13 @@
                         xhr.send();
 
                         function upload(BlobFile){
-                            // console.log( BlobFile);
+
                             var x = new XMLHttpRequest();
                             x.onreadystatechange = function(){
                                 if( this.readyState == 4 && this.status == 200 ){
 
                                     let data = this.responseText;
 
-                                    console.log( data);
                                     let id = parseInt(that.globalcounter++);
 
                                     // function setimg(id, data){
@@ -713,12 +728,13 @@
         },
         mounted() {
             // this.getlist();
-
+            console.log(1111111);
 
             this.getType();
             this.getSource();
             this.getSourceList();
             this.getModel();
+            this.getSystem();
             this.getKnowledges();
             this.editInit()
             this.routePush()
